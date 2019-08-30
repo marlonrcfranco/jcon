@@ -55,7 +55,7 @@ public class Main {
         /**
          * Leitura de arquivo local sem autenticação
          */
-        response = smb.read("localhost/Users/marlon.franco/Documents/teste.xml","","");
+        //response = smb.read("localhost/Users/marlon.franco/Documents/teste.xml","","");
 
         System.out.println(response);
 

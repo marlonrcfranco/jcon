@@ -14,8 +14,7 @@ public class JconSMB1 implements IJcon{
                         "│     .:: JconSMB1 ::.     │\n" +
                         "└──────────────────────────┘\n" +
                         "    jCIFS supports SMB1.\n" +
-                        "  For SMB2/3 use JconSMBJ.\n" +
-                        "   https://www.jcifs.org/\n");
+                        "  For SMB2/3 use JconSMB23.");
     }
 
     @Override
@@ -25,7 +24,7 @@ public class JconSMB1 implements IJcon{
 
         NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);
         // "smb://IP/filePath";
-        String path="smb://"+filePath;
+        String path="smb://"+IP+"/"+filePath;
         SmbFile smbFile = null;
         SmbFileInputStream smbfin = null;
         try {
@@ -40,15 +39,18 @@ public class JconSMB1 implements IJcon{
             output="Erro: Não foi possível ler o arquivo \""+path+"\"";
         }
         finally {
-            smbfin.close();
+            if (smbfin != null){
+                smbfin.close();
+            }
         }
         return output;
     }
 
     @Override
-    public String write (String IP, String user, String pass, String filePath, String content) throws IOException {
+    public String write (String IP, String filePath, String user, String pass, String content) throws IOException {
         String output="";
         NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);
+
         String path="smb://"+IP+"/"+filePath;
         SmbFile smbFile=null;
         SmbFileOutputStream smbfos=null;
@@ -65,7 +67,9 @@ public class JconSMB1 implements IJcon{
             output="Erro: Não foi possível ler o arquivo \""+path+"\"";
         }
         finally {
-            smbfos.close();
+            if (smbfos != null){
+                smbfos.close();
+            }
         }
         return output;
     }
