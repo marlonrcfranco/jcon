@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
-public class JconSMB1{
+public class JconSMB1 implements IJcon{
 
     public JconSMB1() {
         System.out.println(
@@ -18,12 +18,8 @@ public class JconSMB1{
                         "   https://www.jcifs.org/\n");
     }
 
-    /**
-     * *************************************************
-     *  Read
-     * *************************************************
-     */
-    public String read(String filePath, String user, String pass) {
+    @Override
+    public String read(String IP, String filePath, String user, String pass) throws IOException {
         String output="";
         filePath=filePath.replace("\\", "/");
 
@@ -31,11 +27,11 @@ public class JconSMB1{
         // "smb://IP/filePath";
         String path="smb://"+filePath;
         SmbFile smbFile = null;
+        SmbFileInputStream smbfin = null;
         try {
             smbFile = new SmbFile(path,auth);
-            SmbFileInputStream smbfin = new SmbFileInputStream(smbFile);
+            smbfin = new SmbFileInputStream(smbFile);
             output = new String(smbfin.readAllBytes());
-            smbfin.close();
         } catch (MalformedURLException | UnknownHostException e) {
             output="Erro: Nao foi possivel localizar o arquivo \""+path+"\"";
         } catch (SmbException e) {
@@ -43,30 +39,23 @@ public class JconSMB1{
         } catch (IOException e) {
             output="Erro: Não foi possível ler o arquivo \""+path+"\"";
         }
+        finally {
+            smbfin.close();
+        }
         return output;
     }
 
-    private String readLocal(String filePath) {
-        String output="";
-
-        return output;
-    }
-
-    /**
-     * *************************************************
-     *  Write
-     * *************************************************
-     */
-
-    public String write (String IP, String user, String pass, String filePath, String content) {
+    @Override
+    public String write (String IP, String user, String pass, String filePath, String content) throws IOException {
         String output="";
         NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);
         String path="smb://"+IP+"/"+filePath;
+        SmbFile smbFile=null;
+        SmbFileOutputStream smbfos=null;
         try {
-            SmbFile smbFile = new SmbFile(path,auth);
-            SmbFileOutputStream smbfos = new SmbFileOutputStream(smbFile);
+            smbFile = new SmbFile(path,auth);
+            smbfos = new SmbFileOutputStream(smbFile);
             smbfos.write(content.getBytes());
-            smbfos.close();
             output="Escrita concluída com sucesso";
         } catch (MalformedURLException | UnknownHostException e) {
             output = "Erro: Nao foi possivel localizar o caminho \"" + path + "\"";
@@ -75,21 +64,21 @@ public class JconSMB1{
         } catch (IOException e) {
             output="Erro: Não foi possível ler o arquivo \""+path+"\"";
         }
+        finally {
+            smbfos.close();
+        }
         return output;
     }
 
-    /**
-     * *************************************************
-     *  Copy to
-     * *************************************************
-     */
-    public String copyTo(String sourcePath, String destinationPath, String user, String pass) {
+    @Override
+    public String copyFileTo(String sourceIP, String sourceFilePath, String destIP, String destFilePath, String user, String pass) throws IOException {
         String output="";
-        //destinationPath = "smb://destinationlocation.net";
-        //sourcePath = "smb://sourcelocation.net";
+        String sourcePath = "smb://"+sourceIP+"/"+sourceFilePath;
+        String destinationPath = "smb://"+destIP+"/"+destFilePath;
 
         NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user,pass);
-        SmbFile sFile=null,dFile=null;
+        SmbFile sFile=null;
+        SmbFile dFile=null;
         try {
             sFile = new SmbFile(sourcePath, auth);
         } catch (MalformedURLException e) {
@@ -102,29 +91,15 @@ public class JconSMB1{
         }
         try {
             sFile.copyTo(dFile);
+            output="Arquivo copiado com sucesso";
         } catch (SmbException e) {
             output = "Erro: Nao foi possivel copiar o arquivo de \"" + sourcePath + "\" para \"" + destinationPath + "\"";
         }
+        finally {
+            sFile=null;
+            dFile=null;
+        }
         return output;
-    }
-
-    /**
-     * *************************************************
-     *  validate Parameters
-     * *************************************************
-     */
-    private String validateParameters(String filePath, String User, String Pass) {
-        String error="";
-        if("".equalsIgnoreCase(filePath)) {
-            error+= "Caminho para Arquivo não informado;\n";
-        }
-        if("".equalsIgnoreCase(User)) {
-            error+= "Username não informado;\n";
-        }
-        if("".equalsIgnoreCase(Pass)) {
-            error+= "Senha não informada;\n";
-        }
-        return error;
     }
 
 }

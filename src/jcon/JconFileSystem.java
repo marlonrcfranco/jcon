@@ -81,7 +81,7 @@ public class JconFileSystem implements IJcon{
             while ((length = inputStream.read(buffer)) > 0) {
                 outputStream.write(buffer, 0, length);
             }
-            output="Arquivo copiado com sucesso.";
+            output="Arquivo copiado com sucesso";
         } catch (FileNotFoundException e) {
             output+= "Erro: Nao foi possivel localizar o caminho de destino \"" + destFilePath + "\";";
         } catch (IOException e) {
