@@ -1,4 +1,4 @@
-package jcon;
+package main.java.jcon;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

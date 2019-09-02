@@ -1,4 +1,4 @@
-package jcon;
+package main.java.jcon;
 
 public class JconSMB23 {
 
