@@ -1,4 +1,4 @@
-package main.java.jcon;
+package jcon;
 
 import jcifs.smb.*;
 

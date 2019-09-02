@@ -1,6 +1,8 @@
-package main.java.jcon;
+package jcon;
 
-public class JconSMB23 {
+import java.io.IOException;
+
+public class JconSMB23 implements IJcon{
 
     public JconSMB23() {
         System.out.println(
@@ -11,5 +13,21 @@ public class JconSMB23 {
                         "  https://github.com/hierynomus/smbj\n");
     }
 
+    @Override
+    public String read(String IP, String filePath, String user, String pass) throws IOException {
 
+        return null;
+    }
+
+    @Override
+    public String write(String IP, String filePath, String user, String pass, String content) throws IOException {
+
+        return null;
+    }
+
+    @Override
+    public String copyFileTo(String sourceIP, String sourceFilePath, String destIP, String destFilePath, String user, String pass) throws IOException {
+
+        return null;
+    }
 }
