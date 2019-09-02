@@ -34,14 +34,12 @@ public class JconSMB1 implements IJcon{
         } catch (MalformedURLException | UnknownHostException e) {
             output="Erro: Nao foi possivel localizar o arquivo \""+path+"\"";
         } catch (SmbException e) {
-            output = "Erro: Verifique se o usuário e senha estão corretos, e se possui permissão de leitura para acessar o caminho \"" + path + "\"";
+            output="Erro: Nao foi possivel localizar o arquivo \""+path+"\". Verifique se o caminho, usuário e senha estão corretos, e se possui permissão de leitura.";
         } catch (IOException e) {
             output="Erro: Não foi possível ler o arquivo \""+path+"\"";
         }
         finally {
-            if (smbfin != null){
-                smbfin.close();
-            }
+            if (smbfin != null) smbfin.close();
         }
         return output;
     }
@@ -67,9 +65,7 @@ public class JconSMB1 implements IJcon{
             output="Erro: Não foi possível ler o arquivo \""+path+"\"";
         }
         finally {
-            if (smbfos != null){
-                smbfos.close();
-            }
+            if (smbfos != null) smbfos.close();
         }
         return output;
     }
@@ -77,6 +73,10 @@ public class JconSMB1 implements IJcon{
     @Override
     public String copyFileTo(String sourceIP, String sourceFilePath, String destIP, String destFilePath, String user, String pass) throws IOException {
         String output="";
+        boolean bContinue=true;
+        sourceFilePath=sourceFilePath.replace("\\", "/");
+        destFilePath=destFilePath.replace("\\", "/");
+
         String sourcePath = "smb://"+sourceIP+"/"+sourceFilePath;
         String destinationPath = "smb://"+destIP+"/"+destFilePath;
 
@@ -84,22 +84,27 @@ public class JconSMB1 implements IJcon{
         SmbFile sFile=null;
         SmbFile dFile=null;
         try {
-            sFile = new SmbFile(sourcePath, auth);
-        } catch (MalformedURLException e) {
-            output = "Erro: Nao foi possivel localizar o caminho de origem \"" + sourcePath + "\"";
-        }
-        try {
-            dFile = new SmbFile(destinationPath, auth);
-        } catch (MalformedURLException e) {
-            output = "Erro: Nao foi possivel localizar o caminho de destino \"" + destinationPath + "\"";
-        }
-        try {
-            sFile.copyTo(dFile);
-            output="Arquivo copiado com sucesso";
+            try {
+                sFile = new SmbFile(sourcePath, auth);
+            } catch (MalformedURLException e) {
+                output = "Erro: Nao foi possivel localizar o caminho de origem \"" + sourcePath + "\"";
+                bContinue=false;
+            }
+            try {
+                if (bContinue) dFile = new SmbFile(destinationPath, auth);
+            } catch (MalformedURLException e) {
+                output = "Erro: Nao foi possivel localizar o caminho de destino \"" + destinationPath + "\"";
+                bContinue=false;
+            }
+            if (bContinue) {
+                sFile.copyTo(dFile);
+                output = "Arquivo copiado com sucesso";
+            }
+        } catch (SmbAuthException e) {
+            output = "Erro: Usuário desconhecido ou senha incorreta ";
         } catch (SmbException e) {
             output = "Erro: Nao foi possivel copiar o arquivo de \"" + sourcePath + "\" para \"" + destinationPath + "\"";
-        }
-        finally {
+        } finally {
             sFile=null;
             dFile=null;
         }
