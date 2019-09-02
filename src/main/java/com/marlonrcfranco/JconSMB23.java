@@ -29,7 +29,10 @@ public class JconSMB23 implements IJcon{
 
     @Override
     public String read(String IP, String filePath, String user, String pass) throws IOException {
-        return null;
+        filePath=filePath.replace("\\", "/");
+        String sharedFolder = extractSharedPathFromPath(filePath);
+        filePath = filePath.substring(sharedFolder.length());
+        return read(IP,sharedFolder,filePath,user,pass);
     }
 
     public String read(String IP, String sharedFolder, String filePath, String user, String pass) {
@@ -104,6 +107,15 @@ public class JconSMB23 implements IJcon{
             path = path.substring(1);
         }
         return path;
+    }
+
+    private String extractSharedPathFromPath(String path) {
+        try {
+            path=path.replace("\\", "/");
+            return path.split("/")[0];
+        }catch (Exception e) {
+            return "";
+        }
     }
 
 }

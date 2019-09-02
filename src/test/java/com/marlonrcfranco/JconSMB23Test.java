@@ -3,6 +3,8 @@ package com.marlonrcfranco;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
+
 class JconSMB23Test {
 
     JconSMB23 jSMBJ;
@@ -26,9 +28,19 @@ class JconSMB23Test {
 
     @Test
     void read() {
-        response = jSMBJ.read(IP,sharedFolder,"Teste/Teste777.txt",user,pass);
+        response = jSMBJ.read(IP,"Marlon","Teste/Teste777.txt",user,pass);
         System.out.println(response);
         assert !response.contains("Erro");
+
+        try {
+            response = jSMBJ.read(IP,"Marlon/Marlon/Teste/Teste777.txt",user,pass);
+            System.out.println(response);
+            assert !response.contains("Erro");
+        } catch (IOException e) {
+            e.printStackTrace();
+            assert false;
+        }
+
     }
 
     @Test
