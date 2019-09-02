@@ -17,7 +17,9 @@ import com.hierynomus.smbj.share.File;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.HashSet;
 
 public class JconSMB23 implements IJcon{
 
@@ -38,17 +40,17 @@ public class JconSMB23 implements IJcon{
     @Override
     public String read(String IP, String filePath, String user, String pass) throws IOException {
         extractSharedPathFromPath(filePath.replace("\\", "/"));
-        return read(IP,sharedFolder,sFilePath,user,pass);
+        return read(IP,sharedFolder,sFilePath,user,pass,null);
     }
 
-    public String read(String IP, String sharedFolder, String filePath, String user, String pass) {
+    public String read(String IP, String sharedFolder, String filePath, String user, String pass, String domain) {
         //AccessMask = FILE_READ_DATA
         String output="";
         sharedFolder = parsePath(sharedFolder);
         filePath = parsePath(filePath);
         SMBClient client = new SMBClient();
         try (Connection connection = client.connect(IP)) {
-            AuthenticationContext ac = new AuthenticationContext(user, pass.toCharArray(),"");
+            AuthenticationContext ac = new AuthenticationContext(user, pass.toCharArray(),domain);
             Session session = connection.authenticate(ac);
             // Connect to Share
             try (DiskShare share = (DiskShare) session.connectShare(sharedFolder)) {
@@ -77,7 +79,7 @@ public class JconSMB23 implements IJcon{
         return null;
     }
 
-    public String write(String IP, String sharedFolder, String filePath, String user, String pass, String content) {
+    public String write(String IP, String sharedFolder, String filePath, String user, String pass, String content, String domain) {
         //AccessMask = FILE_READ_DATA
         String output="";
         sharedFolder = parsePath(sharedFolder);
@@ -85,22 +87,44 @@ public class JconSMB23 implements IJcon{
         File remoteFile=null;
         SMBClient client = new SMBClient();
         try (Connection connection = client.connect(IP)) {
-            AuthenticationContext ac = new AuthenticationContext(user, pass.toCharArray(),"");
+            AuthenticationContext ac = new AuthenticationContext(user, pass.toCharArray(),domain);
             Session session = connection.authenticate(ac);
             // Connect to Share
             try (DiskShare share = (DiskShare) session.connectShare(sharedFolder)) {
-                remoteFile = share.openFile(filePath,
-                        EnumSet.of(AccessMask.FILE_WRITE_DATA),
-                        null,
-                        EnumSet.of(SMB2ShareAccess.FILE_SHARE_WRITE),
-                        SMB2CreateDisposition.FILE_OVERWRITE_IF,
-                        null);
-                remoteFile.getOutputStream().write(content.getBytes());
-                if (read(IP,sharedFolder,filePath,user,pass).equalsIgnoreCase(content)) {
-                    output="Escrita concluída com sucesso";
-                }else {
-                    output="Erro: Nao foi possivel escrever o conteudo no arquivo "+sharedFolder+"/"+filePath;
+                String path = filePath;
+                int idx=1;
+                // if file is in folder(s), create them first
+                while(idx > 0) {
+                    idx = path.lastIndexOf("/");
+                    path=path.substring(idx);
+                    String folder = filePath.substring(0, idx);
+                    try {
+                        if(!share.folderExists(folder)) share.mkdir(folder);
+                    } catch (SMBApiException ex) {
+                        throw new IOException(ex);
+                    }
                 }
+                if(!share.fileExists(filePath)){
+                    remoteFile = share.openFile(filePath,
+                            new HashSet<>(Arrays.asList(AccessMask.GENERIC_ALL)),
+                            new HashSet<>(Arrays.asList(FileAttributes.FILE_ATTRIBUTE_NORMAL)),
+                            SMB2ShareAccess.ALL,
+                            SMB2CreateDisposition.FILE_CREATE,
+                            new HashSet<>(Arrays.asList(SMB2CreateOptions.FILE_DIRECTORY_FILE))
+                    );
+                }else {
+                    remoteFile = share.openFile(filePath,
+                            new HashSet<>(Arrays.asList(AccessMask.GENERIC_ALL)),
+                            new HashSet<>(Arrays.asList(FileAttributes.FILE_ATTRIBUTE_NORMAL)),
+                            SMB2ShareAccess.ALL,
+                            SMB2CreateDisposition.FILE_OVERWRITE_IF,
+                            new HashSet<>(Arrays.asList(SMB2CreateOptions.FILE_DIRECTORY_FILE))
+                    );
+                }
+                OutputStream os = remoteFile.getOutputStream();
+                os.write(content.getBytes());
+                os.close();
+                output="Escrita concluída com sucesso";
             } catch (SMBApiException e) {
                 output="Erro: Nao foi possivel escrever no arquivo "+sharedFolder+"/"+filePath;
             } catch (IOException e) {
