@@ -1,10 +1,8 @@
-package jcon;
+package com.marlonrcfranco;
 
 import org.junit.jupiter.api.BeforeEach;
 
 import java.io.IOException;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class JconFileSystemTest {
 

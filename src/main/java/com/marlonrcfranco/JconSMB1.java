@@ -1,4 +1,4 @@
-package jcon;
+package com.marlonrcfranco;
 
 import jcifs.smb.*;
 
@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
-public class JconSMB1 implements IJcon{
+public class JconSMB1 implements IJcon {
 
     public JconSMB1() {
         System.out.println(
