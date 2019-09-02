@@ -75,8 +75,8 @@ public class JconSMB23 implements IJcon{
 
     @Override
     public String write(String IP, String filePath, String user, String pass, String content) throws IOException {
-
-        return null;
+        extractSharedPathFromPath(filePath.replace("\\", "/"));
+        return write(IP,sharedFolder,sFilePath,user,pass,content,null);
     }
 
     public String write(String IP, String sharedFolder, String filePath, String user, String pass, String content, String domain) {

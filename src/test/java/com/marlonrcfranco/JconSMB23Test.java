@@ -41,13 +41,13 @@ class JconSMB23Test {
             System.out.println(response);
             assert !response.contains("Erro");
 
+            response = jSMBJ.read(IP,"Marlon//Teste2/Teste777.txt",user,pass);
+            System.out.println(response);
+            assert !response.contains("Erro");
+
             /**
              * Error response
              */
-            response = jSMBJ.read(IP,"Marlon//Teste2/Teste777.txt",user,pass);
-            System.out.println(response);
-            assert response.contains("Erro");
-
             response = jSMBJ.read(IP,"Teste777.txt",user,pass);
             System.out.println(response);
             assert response.contains("Erro");
@@ -64,28 +64,28 @@ class JconSMB23Test {
         System.out.println(response);
         assert !response.contains("Erro");
 
-//        try {
-//            response = jSMBJ.read(IP, "Marlon/Marlon/Teste2/Teste777.txt", user, pass);
-//            System.out.println(response);
-//            assert !response.contains("Erro");
-//
-//            response = jSMBJ.read(IP, "//Marlon/Marlon/Teste2/Teste777.txt", user, pass);
-//            System.out.println(response);
-//            assert !response.contains("Erro");
-//
-//            /**
-//             * Error response
-//             */
-//            response = jSMBJ.read(IP, "Marlon//Teste2/Teste777.txt", user, pass);
-//            System.out.println(response);
-//            assert response.contains("Erro");
-//
-//            response = jSMBJ.read(IP, "Teste777.txt", user, pass);
-//            System.out.println(response);
-//            assert response.contains("Erro");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            response = jSMBJ.write(IP, "Marlon/Marlon/Teste2/Teste777.txt", user, pass,"Teste Content 1237");
+            System.out.println(response);
+            assert !response.contains("Erro");
+
+            response = jSMBJ.write(IP, "//Marlon/Marlon/Teste2/Teste7778.txt", user, pass,"Teste Content 12378");
+            System.out.println(response);
+            assert !response.contains("Erro");
+
+            response = jSMBJ.write(IP, "Marlon//Teste2/Teste777.txt", user, pass, "Teste content 12357 Teste2/Teste777.txt");
+            System.out.println(response);
+            assert !response.contains("Erro");
+
+            /**
+             * Error response
+             */
+            response = jSMBJ.write(IP, "Teste777.txt", user, pass,"Teste2 content 12357");
+            System.out.println(response);
+            assert response.contains("Erro");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
         @Test
