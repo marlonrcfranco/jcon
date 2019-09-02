@@ -1,4 +1,4 @@
-package jcon;
+package com.marlonrcfranco;
 
 import jcifs.smb.*;
 
