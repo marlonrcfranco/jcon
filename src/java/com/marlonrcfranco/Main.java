@@ -1,6 +1,4 @@
-package main;
-
-import jcon.JconSMB1;
+package com.marlonrcfranco;
 
 public class Main {
 
