@@ -1,10 +1,24 @@
 package com.marlonrcfranco;
 
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
 
     public static void main(String[] args) {
+        /**
+         * Examples:
+         *
+         *  w filesystem C:\Users\marlon.franco\Documents\teste7.xml,Teste conteudo 123 [FileSystem]
+         *  r filesystem C:\Users\marlon.franco\Documents\teste7.xml
+         *
+         *  w smb1 Marlon\Teste\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017,Teste conteudo 1234 [SMB1]
+         *  r smb1 Marlon\Teste\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017
+         *
+         *  w smb23 Marlon\Teste\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017,Teste conteudo 12345 [SMB23]
+         *  r smb23 Marlon\Teste\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017
+         *
+         */
         String input="";
         String info = "\n" +
                 "\n═════════════════════════════════════════════════\n" +
@@ -30,15 +44,15 @@ public class Main {
                 " ║───────────────┼────────────────────────────────────────┼────────────────────────────────────║\n" +
                 " ║ smb1          │ Access files in remote filesystem      │ basePath,ip,username,password      ║\n" +
                 " ║               │ using SMB 1 protocol.                  │                                    ║\n" +
-                " ║               │ (works for versions before Windows 10) │                                    ║\n" +
+                " ║               │ (works for versions before Windows 10) │(basePath is a remote shared folder)║\n" +
                 " ║───────────────┼────────────────────────────────────────┼────────────────────────────────────║\n" +
                 " ║ smb23         │ Access files in remote filesystem      │ basePath,ip,username,password      ║\n" +
                 " ║               │ using SMB 2 or SMB 3 protocols.        │                                    ║\n" +
-                " ║               │ (works for versions after Windows 10)  │                                    ║\n" +
+                " ║               │ (works for versions after Windows 10)  │(basePath is a remote shared folder)║\n" +
                 " ║───────────────┼────────────────────────────────────────┼────────────────────────────────────║\n" +
                 " ║ nfs           │ Access files in remote filesystem      │ basePath,ip,username,password      ║\n" +
                 " ║               │ using NFS protocol. [NOT IMPLEMENTED]  │                                    ║\n" +
-                " ║               │ (Linux, Unix based OS)                 │                                    ║\n" +
+                " ║               │ (Linux, Unix based OS)                 │(basePath is a remote shared folder)║\n" +
                 " ╚═════════════════════════════════════════════════════════════════════════════════════════════╝\n" +
                 " \n";
         String help ="" +
@@ -60,6 +74,7 @@ public class Main {
             System.out.print("> ");
             Scanner scanner = new Scanner(System.in);
             input = scanner.nextLine();
+            input = input.trim();
             switch (input) {
                 case "h":
                 case "help":
@@ -88,63 +103,94 @@ public class Main {
 
     private static String read(String input) {
         String output="";
-        String[] lInput = verifyInput(input,"read");
-        String error = lInput[0];
-        String cmd = lInput[1];
-        String type = lInput[2];
-        String params = lInput[3];
-        if (!"".equalsIgnoreCase(error)) return error;
-
-        return output;
+        HashMap<String,String> aInput = verifyInput(input,"read");
+        if (!"".equalsIgnoreCase(aInput.get("error"))) return aInput.get("error");
+        JconAccessFiles jconAccessFiles = new JconAccessFiles(aInput.get("type"));
+        try {
+            return jconAccessFiles.read(aInput.get("IP"), aInput.get("basePath"),aInput.get("username"),aInput.get("password"));
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     private static String write(String input) {
         String output="";
-        String[] lInput = verifyInput(input,"write");
-        String error = lInput[0];
-        String cmd = lInput[1];
-        String type = lInput[2];
-        String params = lInput[3];
-        if (!"".equalsIgnoreCase(error)) return error;
-        String[] lParam=params.split(",");
-        String IP=params.split(",")[0];
-        return output;
+        HashMap<String,String> aInput = verifyInput(input,"write");
+        if (!"".equalsIgnoreCase(aInput.get("error"))) return aInput.get("error");
+        JconAccessFiles jconAccessFiles = new JconAccessFiles(aInput.get("type"));
+        try {
+            return jconAccessFiles.write(aInput.get("IP"), aInput.get("basePath"),aInput.get("username"),aInput.get("password"),aInput.get("content"));
+        } catch (Exception e) {
+            return "";
+        }
     }
 
-    private static String[] verifyInput(String input,String operation) {
-        String[] response = new String[4];
-        response[0]="";
+    private static HashMap<String,String> verifyInput(String input, String operation) {
+        HashMap<String,String> response = new HashMap<>();
+        response.put("error", "");
+        response.put("cmd", "");
+        response.put("type", "");
+        response.put("basePath", "");
+        response.put("IP", "");
+        response.put("username", "");
+        response.put("password", "");
+        response.put("content", ""); // only for "write" operation
         String oper=operation.substring(0,1);
         String cmd,type;
         String[] params;
-        String[] args = input.split(" ");
-        if (args.length != 3) {
-            response[0]="Invalid syntax for "+operation+".\n  Expected 3 arguments separated by whitespace.\n    Type: "+operation+"["+oper+"] <type> <p1,p2,...>";
+        String[] args = input.split(" ",3);
+        if (args.length < 3) {
+            response.put("error","Invalid syntax for "+operation+".\n  Expected 3 arguments separated by whitespace.\n    Type: "+operation+"["+oper+"] <type> <p1,p2,...>");
             return response;
         }
         cmd=args[0].trim();
         type=args[1].trim();
         params=args[2].trim().split(",");
         if ("".equalsIgnoreCase(cmd) || (!operation.equalsIgnoreCase(cmd) && !oper.equalsIgnoreCase(cmd))) {
-            response[0]="Invalid syntax for "+operation+".\n  Expected 1st argument to be \""+operation+"\" or \""+oper+"\".\n    Type: "+operation+"["+oper+"] <type> <p1,p2,...>";
+            response.put("error","Invalid syntax for "+operation+".\n  Expected 1st argument to be \""+operation+"\" or \""+oper+"\".\n    Type: "+operation+"["+oper+"] <type> <p1,p2,...>");
             return response;
         }
         try {
             IJcon.types.valueOf(type.toUpperCase().trim());
         } catch (Exception e) {
-            response[0]="Invalid syntax for "+operation+".\n  Not regognized type \""+type+"\".\n    Type \"con\" for more info about available connectors.";
+            response.put("error","Invalid syntax for "+operation+".\n  Not regognized type \""+type+"\".\n    Type \"con\" for more info about available connectors.");
             return response;
         }
-        response[1]=cmd;
-        response[2]=type;
-        if (IJcon.types.FILESYSTEM.equals(type) && params.length < 1) {
-            response[0]="Invalid syntax for "+operation+".\n  Type \""+type+"\" expects at least 1 parameter (filePath).\n    Type \"con\" for more info about available connectors.";
-            return response;
+        response.put("cmd",cmd);
+        response.put("type", type);
+        if (type.equalsIgnoreCase(IJcon.types.FILESYSTEM.toString())) {
+            if (params.length < 1) {
+                response.put("error","Invalid syntax for " + operation + ".\n  Type \"" + type + "\" expects at least 1 parameter (basePath) separated by commas.\n    Type \"con\" for more info about available connectors.");
+                return response;
+            }
+            response.put("basePath", params[0]); // filePath
+            response.put("IP","");
+            response.put("username","");
+            response.put("password","");
+            if (operation.equalsIgnoreCase("write")) {
+                if (params.length <2) {
+                    response.put("error","Invalid syntax for " + operation + ".\n  Type \"" + type + "\" expects at least 2 parameters (basePath,content) separated by commas.\n    Type \"con\" for more info about available connectors.");
+                    return response;
+                }
+                response.put("content",params[1]);
+            }
+        }else {
+            if (params.length < 4) {
+                response.put("error","Invalid syntax for " + operation + ".\n  Type \"" + type + "\" expects at least 4 parameters (basePath,ip,username,password) separated by commas.\n    Type \"con\" for more info about available connectors.");
+                return response;
+            }
+            response.put("basePath", params[0]); // basePath (remote shared folder)
+            response.put("IP",params[1]); // IP
+            response.put("username",params[2]); // username
+            response.put("password",params[3]); // password
+            if (operation.equalsIgnoreCase("write")) {
+                if (params.length <5) {
+                    response.put("error","Invalid syntax for " + operation + ".\n  Type \"" + type + "\" expects at least 5 parameters (basePath,ip,username,password,content) separated by commas.\n    Type \"con\" for more info about available connectors.");
+                    return response;
+                }
+                response.put("content",params[4]);
+            }
         }
-        if (params.length > 0) {
-            response[3]=
-        }
-
         return response;
     }
 
