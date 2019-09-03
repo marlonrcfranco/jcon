@@ -56,6 +56,7 @@ public class JconSMB1 implements IJcon {
     @Override
     public byte[] writeBytes(String IP, String filePath, String user, String pass, byte[] content) throws IOException {
         byte[] output="".getBytes();
+        filePath=filePath.replace("\\", "/");
         NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);
         String path="smb://"+IP+"/"+filePath;
         SmbFile smbFile=null;
