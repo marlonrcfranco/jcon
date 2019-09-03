@@ -1,9 +1,6 @@
 package com.marlonrcfranco;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 public class JconFileSystem implements IJcon{
 
@@ -21,16 +18,21 @@ public class JconFileSystem implements IJcon{
 
     @Override
     public String read(String IP, String filePath, String user, String pass) throws IOException {
-        String output="";
+        return new String(readBytes(IP,filePath,user,pass));
+    }
+
+    @Override
+    public byte[] readBytes(String IP, String filePath, String user, String pass) throws IOException {
+        byte[] output="".getBytes();
         filePath = filePath.replace("\\", "/");
         FileInputStream file = null;
         try {
             file = new FileInputStream(filePath);
-            output=new String(file.readAllBytes());
+            output=file.readAllBytes();
         } catch (FileNotFoundException e) {
-            output= "Erro: Não foi possível localizar o arquivo \""+filePath+"\"";
+            output= ("Erro: Não foi possível localizar o arquivo \""+filePath+"\"").getBytes();
         } catch (IOException e) {
-            output= "Erro: Não foi possível ler o arquivo \""+filePath+"\"";
+            output= ("Erro: Não foi possível ler o arquivo \""+filePath+"\"").getBytes();
         }
         finally {
             if (file != null) file.close();
@@ -44,17 +46,22 @@ public class JconFileSystem implements IJcon{
 
     @Override
     public String write(String IP, String filePath, String user, String pass, String content) throws IOException{
-        String output="";
+        return new String(writeBytes(IP,filePath,user,pass,content.getBytes()));
+    }
+
+    @Override
+    public byte[] writeBytes(String IP, String filePath, String user, String pass, byte[] content) throws IOException {
+        byte[] output="".getBytes();
         filePath = filePath.replace("\\", "/");
         FileOutputStream file = null;
         try {
             file = new FileOutputStream(filePath);
-            file.write(content.getBytes());
-            output="Escrita concluída com sucesso";
+            file.write(content);
+            output=("Escrita concluída com sucesso").getBytes();
         } catch (FileNotFoundException e) {
-            output= "Erro: Não foi possível localizar o caminho \""+filePath+"\"";
+            output=("Erro: Não foi possível localizar o caminho \""+filePath+"\"").getBytes();
         } catch (IOException e) {
-            output= "Erro: Não foi possível ler o arquivo \""+filePath+"\"";
+            output=("Erro: Não foi possível ler o arquivo \""+filePath+"\"").getBytes();
         }
         finally {
             if (file != null) file.close();

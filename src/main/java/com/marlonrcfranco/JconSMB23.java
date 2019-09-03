@@ -39,13 +39,18 @@ public class JconSMB23 implements IJcon{
 
     @Override
     public String read(String IP, String filePath, String user, String pass) throws IOException {
-        extractSharedPathFromPath(filePath.replace("\\", "/"));
-        return read(IP,sharedFolder,sFilePath,user,pass,null);
+        return new String(readBytes(IP, filePath, user, pass));
     }
 
-    public String read(String IP, String sharedFolder, String filePath, String user, String pass, String domain) {
+    @Override
+    public byte[] readBytes(String IP, String filePath, String user, String pass) throws IOException {
+        extractSharedPathFromPath(filePath.replace("\\", "/"));
+        return readBytes(IP,sharedFolder,sFilePath,user,pass,null);
+    }
+
+    public byte[] readBytes(String IP, String sharedFolder, String filePath, String user, String pass, String domain) throws IOException {
+        byte[] output="".getBytes();
         //AccessMask = FILE_READ_DATA
-        String output="";
         sharedFolder = parsePath(sharedFolder);
         filePath = parsePath(filePath);
         SMBClient client = new SMBClient();
@@ -60,28 +65,33 @@ public class JconSMB23 implements IJcon{
                         EnumSet.of(SMB2ShareAccess.FILE_SHARE_READ),
                         SMB2CreateDisposition.FILE_OPEN,
                         null);
-                output=new String(remoteFile.getInputStream().readAllBytes());
+                output=remoteFile.getInputStream().readAllBytes();
                 remoteFile.close();
             } catch (SMBApiException e) {
-                output="Erro: Nao foi possivel localizar o caminho "+sharedFolder+"/"+filePath;
+                output=("Erro: Nao foi possivel localizar o caminho "+sharedFolder+"/"+filePath).getBytes();
             } catch (IOException e) {
-                output="Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath;
+                output=("Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath).getBytes();
             }
         } catch (IOException e) {
-            output="Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath;
+            output=("Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath).getBytes();
         }
         return output;
     }
 
     @Override
     public String write(String IP, String filePath, String user, String pass, String content) throws IOException {
-        extractSharedPathFromPath(filePath.replace("\\", "/"));
-        return write(IP,sharedFolder,sFilePath,user,pass,content,null);
+        return new String(writeBytes(IP,filePath,user,pass,content.getBytes()));
     }
 
-    public String write(String IP, String sharedFolder, String filePath, String user, String pass, String content, String domain) {
+    @Override
+    public byte[] writeBytes(String IP, String filePath, String user, String pass, byte[] content) throws IOException {
+        extractSharedPathFromPath(filePath.replace("\\", "/"));
+        return writeBytes(IP, sharedFolder, sFilePath, user, pass, content, null);
+    }
+
+    public byte[] writeBytes(String IP, String sharedFolder, String filePath, String user, String pass, byte[] content, String domain) {
         //AccessMask = FILE_READ_DATA
-        String output="";
+        byte[] output="".getBytes();
         sharedFolder = parsePath(sharedFolder);
         filePath = parsePath(filePath);
         File remoteFile=null;
@@ -122,16 +132,16 @@ public class JconSMB23 implements IJcon{
                     );
                 }
                 OutputStream os = remoteFile.getOutputStream();
-                os.write(content.getBytes());
+                os.write(content);
                 os.close();
-                output="Escrita concluída com sucesso";
+                output=("Escrita concluída com sucesso").getBytes();
             } catch (SMBApiException e) {
-                output="Erro: Nao foi possivel escrever no arquivo "+sharedFolder+"/"+filePath;
+                output=("Erro: Nao foi possivel escrever no arquivo "+sharedFolder+"/"+filePath).getBytes();
             } catch (IOException e) {
-                output="Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath;
+                output=("Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath).getBytes();
             }
         } catch (IOException e) {
-            output="Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath;
+            output=("Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath).getBytes();
         }
         return output;
     }

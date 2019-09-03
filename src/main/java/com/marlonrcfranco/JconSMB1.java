@@ -19,9 +19,13 @@ public class JconSMB1 implements IJcon {
 
     @Override
     public String read(String IP, String filePath, String user, String pass) throws IOException {
-        String output="";
-        filePath=filePath.replace("\\", "/");
+        return new String(readBytes(IP,filePath,user,pass));
+    }
 
+    @Override
+    public byte[] readBytes(String IP, String filePath, String user, String pass) throws IOException {
+        byte[] output="".getBytes();
+        filePath=filePath.replace("\\", "/");
         NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);
         // "smb://IP/filePath";
         String path="smb://"+IP+"/"+filePath;
@@ -30,13 +34,13 @@ public class JconSMB1 implements IJcon {
         try {
             smbFile = new SmbFile(path,auth);
             smbfin = new SmbFileInputStream(smbFile);
-            output = new String(smbfin.readAllBytes());
+            output = smbfin.readAllBytes();
         } catch (MalformedURLException | UnknownHostException e) {
-            output="Erro: Nao foi possivel localizar o arquivo \""+path+"\"";
+            output=("Erro: Nao foi possivel localizar o arquivo \""+path+"\"").getBytes();
         } catch (SmbException e) {
-            output="Erro: Nao foi possivel localizar o arquivo \""+path+"\". Verifique se o caminho, usuário e senha estão corretos, e se possui permissão de leitura.";
+            output=("Erro: Nao foi possivel localizar o arquivo \""+path+"\". Verifique se o caminho, usuário e senha estão corretos, e se possui permissão de leitura.").getBytes();
         } catch (IOException e) {
-            output="Erro: Não foi possível ler o arquivo \""+path+"\"";
+            output=("Erro: Não foi possível ler o arquivo \""+path+"\"").getBytes();
         }
         finally {
             if (smbfin != null) smbfin.close();
@@ -46,23 +50,27 @@ public class JconSMB1 implements IJcon {
 
     @Override
     public String write (String IP, String filePath, String user, String pass, String content) throws IOException {
-        String output="";
-        NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);
+        return new String(writeBytes(IP,filePath,user,pass,content.getBytes()));
+    }
 
+    @Override
+    public byte[] writeBytes(String IP, String filePath, String user, String pass, byte[] content) throws IOException {
+        byte[] output="".getBytes();
+        NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);
         String path="smb://"+IP+"/"+filePath;
         SmbFile smbFile=null;
         SmbFileOutputStream smbfos=null;
         try {
             smbFile = new SmbFile(path,auth);
             smbfos = new SmbFileOutputStream(smbFile);
-            smbfos.write(content.getBytes());
-            output="Escrita concluída com sucesso";
+            smbfos.write(content);
+            output=("Escrita concluída com sucesso").getBytes();
         } catch (MalformedURLException | UnknownHostException e) {
-            output = "Erro: Nao foi possivel localizar o caminho \"" + path + "\"";
+            output=("Erro: Nao foi possivel localizar o caminho \"" + path + "\"").getBytes();
         }catch (SmbException e) {
-            output = "Erro: Verifique se o usuário e senha estão corretos, e se possui permissão de escrita para acessar o caminho \"" + path + "\"";
+            output=("Erro: Verifique se o usuário e senha estão corretos, e se possui permissão de escrita para acessar o caminho \"" + path + "\"").getBytes();
         } catch (IOException e) {
-            output="Erro: Não foi possível ler o arquivo \""+path+"\"";
+            output=("Erro: Não foi possível ler o arquivo \""+path+"\"").getBytes();
         }
         finally {
             if (smbfos != null) smbfos.close();

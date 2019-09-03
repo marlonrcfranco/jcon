@@ -28,11 +28,11 @@ class JconSMB23Test {
 
     @Test
     void read() {
-        response = jSMBJ.read(IP,"Marlon","Teste/Teste7777.txt",user,pass,null);
-        System.out.println(response);
-        assert !response.contains("Erro");
-
         try {
+            response = jSMBJ.readBytes(IP,"Marlon","Teste/Teste7777.txt",user,pass,null).toString();
+            System.out.println(response);
+            assert !response.contains("Erro");
+
             response = jSMBJ.read(IP,"Marlon/Marlon/Teste2/Teste777.txt",user,pass);
             System.out.println(response);
             assert !response.contains("Erro");
@@ -60,11 +60,11 @@ class JconSMB23Test {
 
     @Test
     void write() {
-        response = jSMBJ.write(IP,"Marlon","/Teste/Teste7777.txt",user,pass,"Novo conteudo teste da JconSMB23.......\n\n\n\n\n\n\n7", null);
-        System.out.println(response);
-        assert !response.contains("Erro");
-
         try {
+            response = jSMBJ.writeBytes(IP,"Marlon","/Teste/Teste7777.txt",user,pass,"Novo conteudo teste da JconSMB23.......\n\n\n\n\n\n\n7".getBytes(), null).toString();
+            System.out.println(response);
+            assert !response.contains("Erro");
+
             response = jSMBJ.write(IP, "Marlon/Marlon/Teste2/Teste777.txt", user, pass,"Teste Content 1237");
             System.out.println(response);
             assert !response.contains("Erro");
