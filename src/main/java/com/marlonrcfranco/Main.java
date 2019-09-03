@@ -59,9 +59,23 @@ public class Main {
                 "\n help[h]                     - Show this help" +
                 "\n info[i]                     - Show initial info" +
                 "\n connectors[c][con]          - Show info about different connectors" +
+                "\n examples[e]                 - Show examples of read and write operations" +
                 "\n read[r] <type> <p1,p2,...>  - Read method (see connectors for more info)" +
                 "\n write[w] <type> <p1,p2,...> - Write method (see connectors for more info)" +
                 "\n ";
+        String examples = "" +
+                "Examples:\n" +
+                "\n" +
+                "  w filesystem C:\\Users\\marlon.franco\\Documents\\teste7.xml,Teste conteudo 123 [FileSystem]\n" +
+                "  r filesystem C:\\Users\\marlon.franco\\Documents\\teste7.xml\n" +
+                "\n" +
+                "  w smb1 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017,Teste conteudo 1234 [SMB1]\n" +
+                "  r smb1 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017\n" +
+                "\n" +
+                "  w smb23 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017,Teste conteudo 12345 [SMB23]\n" +
+                "  r smb23 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017\n" +
+                "";
+
         /**
          * Compartilhamento
          * \\192.168.35.17
@@ -89,6 +103,10 @@ public class Main {
                 case "con":
                 case "connectors":
                     System.out.println(connectors);
+                    break;
+                case "e":
+                case "examples":
+                    System.out.println(examples);
                     break;
                 default:break;
             }
