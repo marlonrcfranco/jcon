@@ -22,30 +22,31 @@ public class Main {
                 "Type \"help\" or \"h\" for help.";
         String connectors =
         "*  Connectors\n" +
-                " ╔═══════════════╦═══════════════════════════════════════╦════════════════════════════════════╗\n" +
-                " ║ type          ║ Description                           ║ Parameters needed                  ║\n" +
-                " ╠═══════════════╩═══════════════════════════════════════╩════════════════════════════════════╣\n" +
-                " ║ filesystem    │ Access the local filesystem without   │ basePath                           ║\n" +
-                " ║               │ informing the IP address.             │                                    ║\n" +
-                " ║───────────────┼───────────────────────────────────────┼────────────────────────────────────║\n" +
-                " ║ smb1          │ Acesso a arquivos remotos utilizando  │ basePath,ip,username,password      ║\n" +
-                " ║               │ o protocolo SMB 1                     │                                    ║\n" +
-                " ║               │ até Windows 10).                      │                                    ║\n" +
-                " ║───────────────┼───────────────────────────────────────┼────────────────────────────────────║\n" +
-                " ║ smb23         │ Acesso a arquivos remotos utilziando  │ basePath,ip,username,password      ║\n" +
-                " ║               │ o protocolo SMB 2 ou SMB 3            │                                    ║\n" +
-                " ║               │ (após Windows 10).                    │                                    ║\n" +
-                " ║───────────────┼───────────────────────────────────────┼────────────────────────────────────║\n" +
-                " ║ nfs           │ Acesso a arquivos remotos utilizando  │ basePath,ip,username,password      ║\n" +
-                " ║               │ o protocolo NFS (Linux, Unix based OS)│                                    ║\n" +
-                " ╚════════════════════════════════════════════════════════════════════════════════════════════╝\n" +
+                " ╔═══════════════╦════════════════════════════════════════╦════════════════════════════════════╗\n" +
+                " ║ type          ║ Description                            ║ Parameters needed                  ║\n" +
+                " ╠═══════════════╩════════════════════════════════════════╩════════════════════════════════════╣\n" +
+                " ║ filesystem    │ Access the local filesystem without    │ basePath                           ║\n" +
+                " ║               │ informing the IP address.              │                                    ║\n" +
+                " ║───────────────┼────────────────────────────────────────┼────────────────────────────────────║\n" +
+                " ║ smb1          │ Access files in remote filesystem      │ basePath,ip,username,password      ║\n" +
+                " ║               │ using SMB 1 protocol.                  │                                    ║\n" +
+                " ║               │ (works for versions before Windows 10) │                                    ║\n" +
+                " ║───────────────┼────────────────────────────────────────┼────────────────────────────────────║\n" +
+                " ║ smb23         │ Access files in remote filesystem      │ basePath,ip,username,password      ║\n" +
+                " ║               │ using SMB 2 or SMB 3 protocols.        │                                    ║\n" +
+                " ║               │ (works for versions after Windows 10)  │                                    ║\n" +
+                " ║───────────────┼────────────────────────────────────────┼────────────────────────────────────║\n" +
+                " ║ nfs           │ Access files in remote filesystem      │ basePath,ip,username,password      ║\n" +
+                " ║               │ using NFS protocol. [NOT IMPLEMENTED]  │                                    ║\n" +
+                " ║               │ (Linux, Unix based OS)                 │                                    ║\n" +
+                " ╚═════════════════════════════════════════════════════════════════════════════════════════════╝\n" +
                 " \n";
         String help ="" +
                 "\n help[h]                     - Show this help" +
                 "\n info[i]                     - Show initial info" +
                 "\n connectors[c][con]          - Show info about different connectors" +
-                "\n read[r] <type> <params...>  - Read method (see connectors for more info)" +
-                "\n write[w] <type> <params...> - Write method (see connectors for more info)" +
+                "\n read[r] <type> <p1,p2,...>  - Read method (see connectors for more info)" +
+                "\n write[w] <type> <p1,p2,...> - Write method (see connectors for more info)" +
                 "\n ";
         /**
          * Compartilhamento
@@ -105,7 +106,8 @@ public class Main {
         String type = lInput[2];
         String params = lInput[3];
         if (!"".equalsIgnoreCase(error)) return error;
-
+        String[] lParam=params.split(",");
+        String IP=params.split(",")[0];
         return output;
     }
 
@@ -113,24 +115,34 @@ public class Main {
         String[] response = new String[4];
         response[0]="";
         String oper=operation.substring(0,1);
-        String cmd,type,params;
+        String cmd,type;
+        String[] params;
         String[] args = input.split(" ");
         if (args.length != 3) {
-            response[0]="Invalid syntax for "+operation+".\n  Expected 3 arguments separated by whitespace.\n    Type: "+operation+"["+oper+"] <type> <params...>";
+            response[0]="Invalid syntax for "+operation+".\n  Expected 3 arguments separated by whitespace.\n    Type: "+operation+"["+oper+"] <type> <p1,p2,...>";
             return response;
         }
         cmd=args[0].trim();
         type=args[1].trim();
-        params=args[2].trim();
+        params=args[2].trim().split(",");
         if ("".equalsIgnoreCase(cmd) || (!operation.equalsIgnoreCase(cmd) && !oper.equalsIgnoreCase(cmd))) {
-            response[0]="Invalid syntax for "+operation+".\n  Expected 1st argument to be \""+operation+"\" or \""+oper+"\".\n    Type: "+operation+"["+oper+"] <type> <params...>";
+            response[0]="Invalid syntax for "+operation+".\n  Expected 1st argument to be \""+operation+"\" or \""+oper+"\".\n    Type: "+operation+"["+oper+"] <type> <p1,p2,...>";
             return response;
         }
         try {
             IJcon.types.valueOf(type.toUpperCase().trim());
         } catch (Exception e) {
-            response[0]="Invalid syntax for "+operation+".\n  Not regognized type \""+type+"\".\n    Type \"con\" for more info of available connectors.";
+            response[0]="Invalid syntax for "+operation+".\n  Not regognized type \""+type+"\".\n    Type \"con\" for more info about available connectors.";
             return response;
+        }
+        response[1]=cmd;
+        response[2]=type;
+        if (IJcon.types.FILESYSTEM.equals(type) && params.length < 1) {
+            response[0]="Invalid syntax for "+operation+".\n  Type \""+type+"\" expects at least 1 parameter (filePath).\n    Type \"con\" for more info about available connectors.";
+            return response;
+        }
+        if (params.length > 0) {
+            response[3]=
         }
 
         return response;
