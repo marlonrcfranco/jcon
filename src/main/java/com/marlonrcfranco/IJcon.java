@@ -4,6 +4,10 @@ import java.io.IOException;
 
 public interface IJcon {
 
+    enum types {
+        FILESYSTEM,SMB1,SMB23,NFS
+    }
+
     /**
      * public String read(String IP, String filePath, String user, String pass)
      *
@@ -23,6 +27,7 @@ public interface IJcon {
      * @throws IOException
      */
     public String read(String IP, String filePath, String user, String pass) throws IOException;
+    public byte[] readBytes(String IP, String filePath, String user, String pass) throws IOException;
 
     /**
      * public String write(String IP, String filePath, String user, String pass, String content)
@@ -43,6 +48,7 @@ public interface IJcon {
      * @throws IOException
      */
     public String write(String IP, String filePath, String user, String pass, String content) throws IOException;
+    public byte[] writeBytes(String IP, String filePath, String user, String pass, byte[] content) throws IOException;
 
     /**
      * public String copyFileTo(String sourceIP, String sourceFilePath, String destIP, String destFilePath, String user, String pass)
@@ -67,6 +73,5 @@ public interface IJcon {
      * @throws IOException
      */
     public String copyFileTo(String sourceIP, String sourceFilePath, String destIP, String destFilePath, String user, String pass) throws IOException;
-
 
 }
