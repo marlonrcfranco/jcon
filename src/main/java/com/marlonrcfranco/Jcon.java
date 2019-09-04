@@ -44,6 +44,10 @@ public class Jcon {
         }
     }
 
+    public byte[] readBytes(String IP, String filePath, String user, String pass) throws IOException {
+        return this.jcon.readBytes(IP,filePath,user,pass);
+    }
+
     public String write(String IP, String filePath, String user, String pass, String content) throws Exception{
         String path = "";
         try {
@@ -59,6 +63,10 @@ public class Jcon {
         } catch (IOException e) {
             return "{\"status\":\"500\",\"message\":\"Ocorreu um erro na execução.\",\"rows\":[]}";
         }
+    }
+
+    public byte[] writeBytes(String IP, String filePath, String user, String pass, byte[] content) throws IOException {
+	    return this.jcon.writeBytes(IP,filePath,user,pass,content);
     }
 
 }
