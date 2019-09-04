@@ -21,19 +21,22 @@ public class Main {
          */
         String input="";
         String info = "\n" +
-                "\n═════════════════════════════════════════════════\n" +
-                "     ╔═╗       ╔═╗  ╔╗\n" +
-                "     ║ ╠═══╦═══╣ ╚╗ ║║\n" +
-                " ╔═╗ ║ ║ ╔═╣╔═╗║╔╗╚╗║║\n" +
-                " ║ ╚═╝ ║ ╚═╣╚═╝║║╚╗╚╝║\n" +
-                " ╚═════╩═══╩═══╩╝ ╚══╝ v0.1\n" +
-                "\n@marlonrcfranco" +
-                "\nhttps://github.com/marlonrcfranco/jcon" +
-                "\n\nBased on the projects:" +
-                "\n  jCIFS: https://www.jcifs.org/ (for SMB1)" +
-                "\n  smbj : https://github.com/hierynomus/smbj (for SMB2/3)" +
-                "\n═════════════════════════════════════════════════\n" +
-                "Type \"help\" or \"h\" for help.";
+                "\n╔════════════════════════════════════════════════╗" +
+                "\n║                ╔═╗       ╔═╗  ╔╗               ║" +
+                "\n║                ║ ╠═══╦═══╣ ╚╗ ║║               ║" +
+                "\n║            ╔═╗ ║ ║ ╔═╣╔═╗║╔╗╚╗║║               ║" +
+                "\n║            ║ ╚═╝ ║ ╚═╣╚═╝║║╚╗╚╝║               ║" +
+                "\n║            ╚═════╩═══╩═══╩╝ ╚══╝ v0.1          ║" +
+                "\n║               @marlonrcfranco                  ║" +
+                "\n║     https://github.com/marlonrcfranco/jcon     ║" +
+                "\n║                                                ║" +
+                "\n║ Based on the projects:                         ║" +
+                "\n║     jCIFS: https://www.jcifs.org/              ║" +
+                "\n║            (for SMB1)                          ║" +
+                "\n║      smbj: https://github.com/hierynomus/smbj  ║" +
+                "\n║            (for SMB2/3)                        ║" +
+                "\n╚════════════════════════════════════════════════╝\n" +
+                "    Type \"help\" or \"h\" for help.";
         String connectors =
         "*  Connectors\n" +
                 " ╔═══════════════╦════════════════════════════════════════╦════════════════════════════════════╗\n" +
@@ -123,7 +126,7 @@ public class Main {
         String output="";
         HashMap<String,String> aInput = verifyInput(input,"read");
         if (!"".equalsIgnoreCase(aInput.get("error"))) return aInput.get("error");
-        JconAccessFiles jconAccessFiles = new JconAccessFiles(aInput.get("type"));
+        Jcon jconAccessFiles = new Jcon(IJcon.types.valueOf(aInput.get("type")));
         try {
             return jconAccessFiles.read(aInput.get("IP"), aInput.get("basePath"),aInput.get("username"),aInput.get("password"));
         } catch (Exception e) {
@@ -135,7 +138,7 @@ public class Main {
         String output="";
         HashMap<String,String> aInput = verifyInput(input,"write");
         if (!"".equalsIgnoreCase(aInput.get("error"))) return aInput.get("error");
-        JconAccessFiles jconAccessFiles = new JconAccessFiles(aInput.get("type"));
+        Jcon jconAccessFiles = new Jcon(IJcon.types.valueOf(aInput.get("type")));
         try {
             return jconAccessFiles.write(aInput.get("IP"), aInput.get("basePath"),aInput.get("username"),aInput.get("password"),aInput.get("content"));
         } catch (Exception e) {
@@ -175,7 +178,7 @@ public class Main {
             return response;
         }
         response.put("cmd",cmd);
-        response.put("type", type);
+        response.put("type", type.toUpperCase().trim());
         if (type.equalsIgnoreCase(IJcon.types.FILESYSTEM.toString())) {
             if (params.length < 1) {
                 response.put("error","Invalid syntax for " + operation + ".\n  Type \"" + type + "\" expects at least 1 parameter (basePath) separated by commas.\n    Type \"con\" for more info about available connectors.");
