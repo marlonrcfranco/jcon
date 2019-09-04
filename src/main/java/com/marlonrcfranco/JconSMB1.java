@@ -80,7 +80,7 @@ public class JconSMB1 implements IJcon {
     }
 
     @Override
-    public String delete(String IP, String filePath, String user, String pass) {
+    public String delete(String IP, String filePath, String user, String pass) throws IOException {
         String output="";
         filePath=filePath.replace("\\", "/");
         NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);

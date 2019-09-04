@@ -148,12 +148,12 @@ public class JconSMB23 implements IJcon{
     }
 
     @Override
-    public String delete(String IP, String filePath, String user, String pass) {
+    public String delete(String IP, String filePath, String user, String pass) throws IOException {
         extractSharedPathFromPath(filePath.replace("\\", "/"));
         return delete(IP, sharedFolder, sFilePath, user, pass, null);
     }
 
-    public String delete(String IP, String sharedFolder, String filePath, String user, String pass, String domain) {
+    public String delete(String IP, String sharedFolder, String filePath, String user, String pass, String domain) throws IOException {
         String output="";
         sharedFolder = parsePath(sharedFolder);
         filePath = parsePath(filePath);

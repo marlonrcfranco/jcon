@@ -148,12 +148,12 @@ class JconSMB1Test {
         try {
             jSMB1.write(IP,"/Marlon/Teste/fileTest123.xml",user,pass,"Test File 123 XML to be deleted.\n^\n^\n^\n7");
             assert !response.contains("Erro");
+            response = jSMB1.delete(IP,"/Marlon/Teste/fileTest123.xml",user,pass);
+            assert !response.contains("Erro");
+            System.out.println(response);
         } catch (IOException e) {
             assert false;
         }
-        response = jSMB1.delete(IP,"/Marlon/Teste/fileTest123.xml",user,pass);
-        assert !response.contains("Erro");
-        System.out.println(response);
     }
 
     private void showMessage() {

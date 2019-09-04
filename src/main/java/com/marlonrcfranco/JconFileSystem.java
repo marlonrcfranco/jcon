@@ -69,12 +69,12 @@ public class JconFileSystem implements IJcon{
         return output;
     }
 
-    public String delete(String filePath) {
+    public String delete(String filePath) throws IOException {
         return delete("",filePath,"","");
     }
 
     @Override
-    public String delete(String IP, String filePath, String user, String pass) {
+    public String delete(String IP, String filePath, String user, String pass) throws IOException {
         String output="";
         filePath = filePath.replace("\\", "/");
         File file = null;

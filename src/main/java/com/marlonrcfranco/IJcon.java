@@ -65,7 +65,7 @@ public interface IJcon {
      * @param pass String password
      * @return
      */
-    public String delete(String IP, String filePath, String user, String pass);
+    public String delete(String IP, String filePath, String user, String pass) throws IOException;
 
     /**
      * public String copyFileTo(String sourceIP, String sourceFilePath, String destIP, String destFilePath, String user, String pass)

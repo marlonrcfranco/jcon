@@ -95,12 +95,12 @@ class JconSMB23Test {
         try {
             jSMBJ.write(IP,"/Marlon/Teste/fileTest123.xml",user,pass,"Test File 123 XML to be deleted.\n^\n^\n^\n7");
             assert !response.contains("Erro");
+            response = jSMBJ.delete(IP,"/Marlon/Teste/fileTest123.xml",user,pass);
+            assert !response.contains("Erro");
+            System.out.println(response);
         } catch (IOException e) {
             assert false;
         }
-        response = jSMBJ.delete(IP,"/Marlon/Teste/fileTest123.xml",user,pass);
-        assert !response.contains("Erro");
-        System.out.println(response);
     }
 
     @Test

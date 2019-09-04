@@ -137,12 +137,12 @@ class JconFileSystemTest {
         try {
             jconFS.write("C:\\Users\\marlon.franco\\Documents\\teste10.xml","teste123.content.end ");
             assert !response.contains("Erro");
+            response = jconFS.delete( "C:\\Users\\marlon.franco\\Documents\\teste10.xml");
+            assert !response.contains("Erro");
+            System.out.println(response);
         } catch (IOException e) {
             assert false;
         }
-        response = jconFS.delete( "C:\\Users\\marlon.franco\\Documents\\teste10.xml");
-        assert !response.contains("Erro");
-        System.out.println(response);
     }
 
     private void showMessage() {
