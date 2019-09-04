@@ -11,12 +11,15 @@ public class Main {
          *
          *  w filesystem C:\Users\marlon.franco\Documents\teste7.xml,Teste conteudo 123 [FileSystem]
          *  r filesystem C:\Users\marlon.franco\Documents\teste7.xml
+         *  d filesystem C:\Users\marlon.franco\Documents\teste7.xml
          *
          *  w smb1 Marlon\Teste\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017,Teste conteudo 1234 [SMB1]
          *  r smb1 Marlon\Teste\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017
+         *  d smb1 Marlon\Teste\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017
          *
          *  w smb23 Marlon\Teste\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017,Teste conteudo 12345 [SMB23]
          *  r smb23 Marlon\Teste\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017
+         *  d smb23 Marlon\Teste\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017
          *
          */
         String input="";
@@ -59,33 +62,30 @@ public class Main {
                 " ╚═════════════════════════════════════════════════════════════════════════════════════════════╝\n" +
                 " \n";
         String help ="" +
-                "\n help[h]                     - Show this help" +
-                "\n info[i]                     - Show initial info" +
-                "\n connectors[c][con]          - Show info about different connectors" +
-                "\n examples[e]                 - Show examples of read and write operations" +
-                "\n read[r] <type> <p1,p2,...>  - Read method (see connectors for more info)" +
-                "\n write[w] <type> <p1,p2,...> - Write method (see connectors for more info)" +
+                "\n connectors[c][con]           - Show info about different connectors" +
+                "\n delete[d] <type> <p1,p2,...> - Delete a file " +
+                "\n examples[e]                  - Show examples of read and write operations" +
+                "\n exit[quit][bye]              - Close the execution" +
+                "\n help[h]                      - Show this help" +
+                "\n info[i]                      - Show initial info" +
+                "\n read[r] <type> <p1,p2,...>   - Read method (see connectors for more info)" +
+                "\n write[w] <type> <p1,p2,...>  - Write method (see connectors for more info)" +
                 "\n ";
         String examples = "" +
                 "Examples:\n" +
                 "\n" +
                 "  w filesystem C:\\Users\\marlon.franco\\Documents\\teste7.xml,Teste conteudo 123 [FileSystem]\n" +
                 "  r filesystem C:\\Users\\marlon.franco\\Documents\\teste7.xml\n" +
+                "  d filesystem C:\\Users\\marlon.franco\\Documents\\teste7.xml\n" +
                 "\n" +
                 "  w smb1 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017,Teste conteudo 1234 [SMB1]\n" +
                 "  r smb1 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017\n" +
+                "  d smb1 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017\n" +
                 "\n" +
                 "  w smb23 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017,Teste conteudo 12345 [SMB23]\n" +
                 "  r smb23 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017\n" +
+                "  d smb23 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017\n" +
                 "";
-
-        /**
-         * Compartilhamento
-         * \\192.168.35.17
-         * user: Adapcon
-         * pass: 1nfr4#2017
-         */
-
         System.out.println(info);
         while((!"exit".equalsIgnoreCase(input) && !"quit".equalsIgnoreCase(input) && !"bye".equalsIgnoreCase(input)) || "".equalsIgnoreCase(input)) {
             System.out.print("> ");
@@ -119,6 +119,9 @@ public class Main {
             if (input.startsWith("write ") || input.startsWith("w ")) {
                 System.out.println("\n"+write(input)+"\n");
             }
+            if (input.startsWith("delete ") || input.startsWith("d ")) {
+                System.out.println("\n"+delete(input)+"\n");
+            }
         }
     }
 
@@ -126,9 +129,9 @@ public class Main {
         String output="";
         HashMap<String,String> aInput = verifyInput(input,"read");
         if (!"".equalsIgnoreCase(aInput.get("error"))) return aInput.get("error");
-        Jcon jconAccessFiles = new Jcon(IJcon.types.valueOf(aInput.get("type")));
+        Jcon jcon = new Jcon(IJcon.types.valueOf(aInput.get("type")));
         try {
-            return jconAccessFiles.read(aInput.get("IP"), aInput.get("basePath"),aInput.get("username"),aInput.get("password"));
+            return jcon.read(aInput.get("IP"), aInput.get("basePath"),aInput.get("username"),aInput.get("password"));
         } catch (Exception e) {
             return "";
         }
@@ -138,9 +141,21 @@ public class Main {
         String output="";
         HashMap<String,String> aInput = verifyInput(input,"write");
         if (!"".equalsIgnoreCase(aInput.get("error"))) return aInput.get("error");
-        Jcon jconAccessFiles = new Jcon(IJcon.types.valueOf(aInput.get("type")));
+        Jcon jcon = new Jcon(IJcon.types.valueOf(aInput.get("type")));
         try {
-            return jconAccessFiles.write(aInput.get("IP"), aInput.get("basePath"),aInput.get("username"),aInput.get("password"),aInput.get("content"));
+            return jcon.write(aInput.get("IP"), aInput.get("basePath"),aInput.get("username"),aInput.get("password"),aInput.get("content"));
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    private static String delete(String input) {
+        String output="";
+        HashMap<String,String> aInput = verifyInput(input,"delete");
+        if (!"".equalsIgnoreCase(aInput.get("error"))) return aInput.get("error");
+        Jcon jcon = new Jcon(IJcon.types.valueOf(aInput.get("type")));
+        try {
+            return jcon.delete(aInput.get("IP"), aInput.get("basePath"),aInput.get("username"),aInput.get("password"));
         } catch (Exception e) {
             return "";
         }

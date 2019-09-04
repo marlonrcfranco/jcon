@@ -38,7 +38,6 @@ public class Jcon {
 
             String json = "{\"status\":\""+jjStatus+"\",\"rows\":["+jjRows+"]}";
             return json;
-
         } catch (IOException e) {
             return "{\"status\":\"500\",\"message\":\"Ocorreu um erro na execução.\",\"rows\":[]}";
         }
@@ -59,7 +58,6 @@ public class Jcon {
 
             String json = "{\"status\":\""+jjStatus+"\",\"rows\":["+jjRows+"]}";
             return json;
-
         } catch (IOException e) {
             return "{\"status\":\"500\",\"message\":\"Ocorreu um erro na execução.\",\"rows\":[]}";
         }
@@ -67,6 +65,22 @@ public class Jcon {
 
     public byte[] writeBytes(String IP, String filePath, String user, String pass, byte[] content) throws IOException {
 	    return this.jcon.writeBytes(IP,filePath,user,pass,content);
+    }
+
+    public String delete(String IP, String filePath, String user, String pass) throws IOException {
+        String path = "";
+        try {
+            path = filePath;
+            this.response = this.jcon.delete(IP,path,user,pass);
+
+            String jjRows = "\""+this.response+"\"";
+            String jjStatus = this.response.contains("Erro")? "500": "200";
+
+            String json = "{\"status\":\""+jjStatus+"\",\"rows\":["+jjRows+"]}";
+            return json;
+        } catch (Exception e) {
+            return "{\"status\":\"500\",\"message\":\"Ocorreu um erro na execução.\",\"rows\":[]}";
+        }
     }
 
 }

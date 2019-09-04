@@ -63,26 +63,26 @@ class JconSMB23Test {
     void write() {
         try {
             response = jSMBJ.writeBytes(IP,"Marlon","/Teste/Teste7777.txt",user,pass,"Novo conteudo teste da JconSMB23.......\n\n\n\n\n\n\n7".getBytes(), null).toString();
-            System.out.println(response);
+            System.out.println("Response: {"+response+"}");
             assert !response.contains("Erro");
 
             response = jSMBJ.write(IP, "Marlon/Marlon/Teste2/Teste777.txt", user, pass,"Teste Content 1237");
-            System.out.println(response);
+            System.out.println("Response: {"+response+"}");
             assert !response.contains("Erro");
 
             response = jSMBJ.write(IP, "//Marlon/Marlon/Teste2/Teste7778.txt", user, pass,"Teste Content 12378");
-            System.out.println(response);
+            System.out.println("Response: {"+response+"}");
             assert !response.contains("Erro");
 
             response = jSMBJ.write(IP, "Marlon//Teste2/Teste777.txt", user, pass, "Teste content 12357 Teste2/Teste777.txt");
-            System.out.println(response);
+            System.out.println("Response: {"+response+"}");
             assert !response.contains("Erro");
 
             /**
              * Error response
              */
             response = jSMBJ.write(IP, "Teste777.txt", user, pass,"Teste2 content 12357");
-            System.out.println(response);
+            System.out.println("Response: {"+response+"}");
             assert response.contains("Erro");
         } catch (IOException e) {
             e.printStackTrace();
