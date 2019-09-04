@@ -66,7 +66,7 @@ public class JconSMB23 implements IJcon{
                         EnumSet.of(SMB2ShareAccess.FILE_SHARE_READ),
                         SMB2CreateDisposition.FILE_OPEN,
                         null);
-                remoteFile.getInputStream().read(output);
+                output = Util.toByteArray(remoteFile.getInputStream());
                 remoteFile.close();
             } catch (SMBApiException e) {
                 output=("Erro: Nao foi possivel localizar o caminho "+sharedFolder+"/"+filePath).getBytes();

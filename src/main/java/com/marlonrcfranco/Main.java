@@ -111,10 +111,10 @@ public class Main {
                 default:break;
             }
             if (input.startsWith("read ") || input.startsWith("r ")) {
-                System.out.println(read(input));
+                System.out.println("\n"+read(input)+"\n");
             }
             if (input.startsWith("write ") || input.startsWith("w ")) {
-                System.out.println(write(input));
+                System.out.println("\n"+write(input)+"\n");
             }
         }
     }

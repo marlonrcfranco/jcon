@@ -23,12 +23,12 @@ public class JconFileSystem implements IJcon{
 
     @Override
     public byte[] readBytes(String IP, String filePath, String user, String pass) throws IOException {
-        byte[] output="".getBytes();
+        byte[] output = "".getBytes(); //2^17
         filePath = filePath.replace("\\", "/");
         FileInputStream file = null;
         try {
             file = new FileInputStream(filePath);
-            file.read(output);
+            output = Util.toByteArray(file);
         } catch (FileNotFoundException e) {
             output= ("Erro: Não foi possível localizar o arquivo \""+filePath+"\"").getBytes();
         } catch (IOException e) {
@@ -108,5 +108,7 @@ public class JconFileSystem implements IJcon{
         }
         return output;
     }
+
+
 
 }
