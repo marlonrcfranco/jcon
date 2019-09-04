@@ -23,6 +23,9 @@ class JconFileSystemTest {
     void read() {
         System.out.println("*******\nRead\n*******\n");
         try {
+            response = jconFS.write( "C:\\Users\\marlon.franco\\Documents\\teste.xml","TEste.123.#$#%#%#% texto de conteúdo.\n.\n-\n^\n| teste.");
+            assert !response.contains("Erro");
+
             response = jconFS.read( "C:\\Users\\marlon.franco\\Documents\\teste.xml");
             assert !response.contains("Erro");
 
@@ -93,6 +96,9 @@ class JconFileSystemTest {
     void copyFileTo() {
         System.out.println("*******\nCopyFileTo\n*******\n");
         try {
+            response = jconFS.write( "C:\\Users\\marlon.franco\\Documents\\teste.xml","TEste.123.#$#%#%#% texto de conteúdo.\n.\n-\n^\n| teste.");
+            assert !response.contains("Erro");
+
             response = jconFS.copyFileTo( "C:\\Users\\marlon.franco\\Documents\\teste.xml","C:\\Users\\marlon.franco\\Documents\\testeCopia.xml");
             assert !response.contains("Erro");
 
