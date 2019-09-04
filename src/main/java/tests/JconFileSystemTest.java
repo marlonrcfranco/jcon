@@ -2,6 +2,7 @@ package tests;
 
 import com.marlonrcfranco.JconFileSystem;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
@@ -128,6 +129,20 @@ class JconFileSystemTest {
             assert false;
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void delete() {
+        System.out.println("*******\nDelete\n*******\n");
+        try {
+            jconFS.write("C:\\Users\\marlon.franco\\Documents\\teste10.xml","teste123.content.end ");
+            assert !response.contains("Erro");
+        } catch (IOException e) {
+            assert false;
+        }
+        response = jconFS.delete( "C:\\Users\\marlon.franco\\Documents\\teste10.xml");
+        assert !response.contains("Erro");
+        System.out.println(response);
     }
 
     private void showMessage() {

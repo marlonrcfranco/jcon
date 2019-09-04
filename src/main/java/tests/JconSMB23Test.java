@@ -90,6 +90,20 @@ class JconSMB23Test {
     }
 
     @Test
+    public void delete() {
+        System.out.println("*******\nDelete\n*******\n");
+        try {
+            jSMBJ.write(IP,"/Marlon/Teste/fileTest123.xml",user,pass,"Test File 123 XML to be deleted.\n^\n^\n^\n7");
+            assert !response.contains("Erro");
+        } catch (IOException e) {
+            assert false;
+        }
+        response = jSMBJ.delete(IP,"/Marlon/Teste/fileTest123.xml",user,pass);
+        assert !response.contains("Erro");
+        System.out.println(response);
+    }
+
+    @Test
     void copyFileTo() {
     }
 
@@ -114,7 +128,5 @@ class JconSMB23Test {
         response = jSMBJ.listFiles(IP,sharedFolder,"\\Teste\\SubFolderTeste",user,pass);
         System.out.println(response);
         assert !response.contains("Erro");
-
-
     }
 }

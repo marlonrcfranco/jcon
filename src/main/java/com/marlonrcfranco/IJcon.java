@@ -32,7 +32,7 @@ public interface IJcon {
     /**
      * public String write(String IP, String filePath, String user, String pass, String content)
      *
-     * Returns a String with the content of the file specified in "filePath".
+     * Returns a String with a success or error message after write the "content" in the file specified in "filePath".
      * If the file is in a remote directory, it's necessary to inform the
      * username (user) and password (pass) with Write privileges.
      *
@@ -49,6 +49,23 @@ public interface IJcon {
      */
     public String write(String IP, String filePath, String user, String pass, String content) throws IOException;
     public byte[] writeBytes(String IP, String filePath, String user, String pass, byte[] content) throws IOException;
+
+    /**
+     * public String delete(String IP, String filePath, String user, String pass)
+     *
+     * Returns a String with a success or error message after deleting the file specified in "filePath".
+     * If the file is in a remote directory, it's necessary to inform the
+     * username (user) and password (pass) with Write privileges.
+     *
+     * @param IP String IP adress or literal (e.g. "localhost")
+     * @param filePath String like:
+     *                 Remote: "/Marlon/teste.xml"
+     *                 Local: "C:\Users\marlon.franco\Documents\teste.xml"
+     * @param user String username
+     * @param pass String password
+     * @return
+     */
+    public String delete(String IP, String filePath, String user, String pass);
 
     /**
      * public String copyFileTo(String sourceIP, String sourceFilePath, String destIP, String destFilePath, String user, String pass)

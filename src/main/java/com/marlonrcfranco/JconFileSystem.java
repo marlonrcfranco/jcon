@@ -69,6 +69,25 @@ public class JconFileSystem implements IJcon{
         return output;
     }
 
+    public String delete(String filePath) {
+        return delete("",filePath,"","");
+    }
+
+    @Override
+    public String delete(String IP, String filePath, String user, String pass) {
+        String output="";
+        filePath = filePath.replace("\\", "/");
+        File file = null;
+        file = new File(filePath);
+        if (file.exists()) {
+            file.delete();
+            output = "File \""+file.getName()+"\" deleted successfully.";
+        }else {
+            output = "Error: File \""+file.getName()+"\" not found.";
+        }
+        return output;
+    }
+
     public String copyFileTo(String sourceFilePath, String destFilePath) throws IOException{
         return copyFileTo("",sourceFilePath,"",destFilePath,"","");
     }

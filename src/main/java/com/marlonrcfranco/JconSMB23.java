@@ -137,12 +137,59 @@ public class JconSMB23 implements IJcon{
                 os.close();
                 output=("Escrita concluída com sucesso").getBytes();
             } catch (SMBApiException e) {
-                output=("Erro: Nao foi possivel escrever no arquivo "+sharedFolder+"/"+filePath).getBytes();
+                output=("Erro: Verifique se o usuário e senha estão corretos, e se possui permissão de escrita para acessar o caminho \"" + sharedFolder+"/"+filePath + "\"").getBytes();
             } catch (IOException e) {
                 output=("Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath).getBytes();
             }
         } catch (IOException e) {
             output=("Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath).getBytes();
+        }
+        return output;
+    }
+
+    @Override
+    public String delete(String IP, String filePath, String user, String pass) {
+        extractSharedPathFromPath(filePath.replace("\\", "/"));
+        return delete(IP, sharedFolder, sFilePath, user, pass, null);
+    }
+
+    public String delete(String IP, String sharedFolder, String filePath, String user, String pass, String domain) {
+        String output="";
+        sharedFolder = parsePath(sharedFolder);
+        filePath = parsePath(filePath);
+        File remoteFile=null;
+        SMBClient client = new SMBClient();
+        try (Connection connection = client.connect(IP)) {
+            AuthenticationContext ac = new AuthenticationContext(user, pass.toCharArray(),domain);
+            Session session = connection.authenticate(ac);
+            // Connect to Share
+            try (DiskShare share = (DiskShare) session.connectShare(sharedFolder)) {
+                String path = filePath;
+                int idx=1;
+                // if file is in folder(s), create them first
+                while(idx > 0) {
+                    idx = path.lastIndexOf("/");
+                    path=path.substring(idx);
+                    String folder = filePath.substring(0, idx);
+                    try {
+                        if(!share.folderExists(folder)) share.mkdir(folder);
+                    } catch (SMBApiException ex) {
+                        throw new IOException(ex);
+                    }
+                }
+                if(share.fileExists(filePath)){
+                    share.rm(filePath);
+                    output = "File \""+sharedFolder+"/"+filePath+"\" deleted successfully.";
+                }else {
+                    output = "Error: File \""+sharedFolder+"/"+filePath+"\" not found.";
+                }
+            } catch (SMBApiException e) {
+                output="Erro: Verifique se o usuário e senha estão corretos, e se possui permissão de escrita para acessar o caminho \"" + sharedFolder+"/"+filePath + "\"";
+            } catch (IOException e) {
+                output="Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath;
+            }
+        } catch (IOException e) {
+            output="Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath;
         }
         return output;
     }
