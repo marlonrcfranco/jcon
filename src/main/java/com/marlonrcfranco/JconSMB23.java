@@ -16,6 +16,7 @@ import com.hierynomus.smbj.share.DiskShare;
 import com.hierynomus.smbj.share.File;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -65,7 +66,7 @@ public class JconSMB23 implements IJcon{
                         EnumSet.of(SMB2ShareAccess.FILE_SHARE_READ),
                         SMB2CreateDisposition.FILE_OPEN,
                         null);
-                output=remoteFile.getInputStream().readAllBytes();
+                remoteFile.getInputStream().read(output);
                 remoteFile.close();
             } catch (SMBApiException e) {
                 output=("Erro: Nao foi possivel localizar o caminho "+sharedFolder+"/"+filePath).getBytes();

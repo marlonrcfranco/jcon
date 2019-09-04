@@ -34,7 +34,7 @@ public class JconSMB1 implements IJcon {
         try {
             smbFile = new SmbFile(path,auth);
             smbfin = new SmbFileInputStream(smbFile);
-            output = smbfin.readAllBytes();
+            smbfin.read(output);
         } catch (MalformedURLException | UnknownHostException e) {
             output=("Erro: Nao foi possivel localizar o arquivo \""+path+"\"").getBytes();
         } catch (SmbException e) {

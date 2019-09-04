@@ -28,7 +28,7 @@ public class JconFileSystem implements IJcon{
         FileInputStream file = null;
         try {
             file = new FileInputStream(filePath);
-            output=file.readAllBytes();
+            file.read(output);
         } catch (FileNotFoundException e) {
             output= ("Erro: Não foi possível localizar o arquivo \""+filePath+"\"").getBytes();
         } catch (IOException e) {
