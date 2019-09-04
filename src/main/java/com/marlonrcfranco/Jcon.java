@@ -5,13 +5,12 @@ import java.io.IOException;
 public class Jcon implements IJcon{
 	private IJcon jcon;
 	private IJcon.types type;
-	private String response;
 
 	public Jcon(String type) {
 	    try {
             this.type = IJcon.types.valueOf(type.toUpperCase().trim());
         }catch (Exception e) {
-            System.out.println("Invalid type \""+type+"\". Type \"filesystem\" was chosen for default.");
+            System.out.println("Invalid type \""+type+"\". Type \"filesystem\" was chosen by default.");
             this.type = types.FILESYSTEM;
         }
         Initialize();
@@ -43,19 +42,7 @@ public class Jcon implements IJcon{
 
     @Override
     public String read(String IP, String filePath, String user, String pass) throws IOException{
-        String path = "";
-        try {
-            path = filePath;
-            this.response = this.jcon.read(IP,path,user,pass);
-
-            String jjRows = "\""+this.response+"\"";
-            String jjStatus = this.response.contains("Erro")? "500": "200";
-
-            String json = "{\"status\":\""+jjStatus+"\",\"rows\":["+jjRows+"]}";
-            return json;
-        } catch (IOException e) {
-            return "{\"status\":\"500\",\"message\":\"Ocorreu um erro na execução.\",\"rows\":[]}";
-        }
+       return this.jcon.read(IP,filePath,user,pass);
     }
 
     @Override
@@ -65,19 +52,7 @@ public class Jcon implements IJcon{
 
     @Override
     public String write(String IP, String filePath, String user, String pass, String content) throws IOException{
-        String path = "";
-        try {
-            path = filePath;
-            this.response = this.jcon.write(IP,path,user,pass,content);
-
-            String jjRows = "\""+this.response+"\"";
-            String jjStatus = this.response.contains("Erro")? "500": "200";
-
-            String json = "{\"status\":\""+jjStatus+"\",\"rows\":["+jjRows+"]}";
-            return json;
-        } catch (IOException e) {
-            return "{\"status\":\"500\",\"message\":\"Ocorreu um erro na execução.\",\"rows\":[]}";
-        }
+        return this.jcon.write(IP,filePath,user,pass,content);
     }
 
     @Override
@@ -87,19 +62,7 @@ public class Jcon implements IJcon{
 
     @Override
     public String delete(String IP, String filePath, String user, String pass) throws IOException {
-        String path = "";
-        try {
-            path = filePath;
-            this.response = this.jcon.delete(IP,path,user,pass);
-
-            String jjRows = "\""+this.response+"\"";
-            String jjStatus = this.response.contains("Erro")? "500": "200";
-
-            String json = "{\"status\":\""+jjStatus+"\",\"rows\":["+jjRows+"]}";
-            return json;
-        } catch (Exception e) {
-            return "{\"status\":\"500\",\"message\":\"Ocorreu um erro na execução.\",\"rows\":[]}";
-        }
+       return this.jcon.delete(IP,filePath,user,pass);
     }
 
     @Override
