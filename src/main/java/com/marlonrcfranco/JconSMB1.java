@@ -74,9 +74,14 @@ public class JconSMB1 implements IJcon {
                 if(!smbFile.exists() && !"".equalsIgnoreCase(smbFile.getName().trim())) smbFile.mkdir();
             }
             smbFile = new SmbFile(path,auth);
-            smbfos = new SmbFileOutputStream(smbFile);
-            smbfos.write(content);
-            output=("Escrita concluída com sucesso").getBytes();
+            if (smbFile.isDirectory()) {
+                smbFile.mkdir();
+                output=("Diretório criado com sucesso").getBytes();
+            }else {
+                smbfos = new SmbFileOutputStream(smbFile);
+                smbfos.write(content);
+                output=("Escrita concluída com sucesso").getBytes();
+            }
         } catch (MalformedURLException | UnknownHostException e) {
             output=("Erro: Nao foi possivel localizar o caminho \"" + path + "\"").getBytes();
         }catch (SmbException e) {
