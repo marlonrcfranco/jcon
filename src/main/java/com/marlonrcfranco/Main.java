@@ -64,7 +64,7 @@ public class Main {
         String help ="" +
                 "\n connectors[c][con]           - Show info about different connectors" +
                 "\n delete[d] <type> <p1,p2,...> - Delete a file " +
-                "\n examples[e]                  - Show examples of read and write operations" +
+                "\n examples[e]                  - Show examples of possible operations" +
                 "\n exit[quit][bye]              - Close the execution" +
                 "\n help[h]                      - Show this help" +
                 "\n info[i]                      - Show initial info" +
