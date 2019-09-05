@@ -80,6 +80,51 @@ public class JconSMB1 implements IJcon {
     }
 
     @Override
+    public String delete(String IP, String filePath, String user, String pass) throws IOException {
+        String output="";
+        filePath=filePath.replace("\\", "/");
+        NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);
+        String path="smb://"+IP+"/"+filePath;
+        SmbFile smbFile=null;
+        try {
+            smbFile = new SmbFile(path,auth);
+            if (smbFile.exists()) {
+                smbFile.delete();
+                output = "File \""+smbFile.getName()+"\" deleted successfully.";
+            }else {
+                output = "Error: File \""+smbFile.getName()+"\" not found.";
+            }
+        } catch (MalformedURLException e) {
+            output="Erro: Nao foi possivel localizar o caminho \"" + path + "\"";
+        }catch (SmbException e) {
+            output="Erro: Verifique se o usuário e senha estão corretos, e se possui permissão de escrita para acessar o caminho \"" + path + "\"";
+        }
+        return output;
+    }
+
+    @Override
+    public String listFiles(String IP, String filePath, String user, String pass) throws IOException {
+        String output="";
+        filePath=filePath.replace("\\", "/");
+        if (!filePath.endsWith("/")) filePath+="/";
+        NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);
+        String path="smb://"+IP+"/"+filePath;
+        SmbFile smbFile=null;
+        try {
+            smbFile = new SmbFile(path,auth);
+            SmbFile[] aSmbFiles = smbFile.listFiles();
+            for (SmbFile smbF : aSmbFiles) {
+                output+=smbF.getName()+"\n";
+            }
+        } catch (MalformedURLException e) {
+            output="Erro: Nao foi possivel localizar o caminho \"" + path + "\"";
+        }catch (SmbException e) {
+            output="Erro: Verifique se o usuário e senha estão corretos, e se possui permissão de escrita para acessar o caminho \"" + path + "\"";
+        }
+        return output;
+    }
+
+    @Override
     public String copyFileTo(String sourceIP, String sourceFilePath, String destIP, String destFilePath, String user, String pass) throws IOException {
         String output="";
         boolean bContinue=true;

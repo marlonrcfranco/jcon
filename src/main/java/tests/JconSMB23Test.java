@@ -63,26 +63,26 @@ class JconSMB23Test {
     void write() {
         try {
             response = jSMBJ.writeBytes(IP,"Marlon","/Teste/Teste7777.txt",user,pass,"Novo conteudo teste da JconSMB23.......\n\n\n\n\n\n\n7".getBytes(), null).toString();
-            System.out.println(response);
+            System.out.println("Response: {"+response+"}");
             assert !response.contains("Erro");
 
             response = jSMBJ.write(IP, "Marlon/Marlon/Teste2/Teste777.txt", user, pass,"Teste Content 1237");
-            System.out.println(response);
+            System.out.println("Response: {"+response+"}");
             assert !response.contains("Erro");
 
             response = jSMBJ.write(IP, "//Marlon/Marlon/Teste2/Teste7778.txt", user, pass,"Teste Content 12378");
-            System.out.println(response);
+            System.out.println("Response: {"+response+"}");
             assert !response.contains("Erro");
 
             response = jSMBJ.write(IP, "Marlon//Teste2/Teste777.txt", user, pass, "Teste content 12357 Teste2/Teste777.txt");
-            System.out.println(response);
+            System.out.println("Response: {"+response+"}");
             assert !response.contains("Erro");
 
             /**
              * Error response
              */
             response = jSMBJ.write(IP, "Teste777.txt", user, pass,"Teste2 content 12357");
-            System.out.println(response);
+            System.out.println("Response: {"+response+"}");
             assert response.contains("Erro");
         } catch (IOException e) {
             e.printStackTrace();
@@ -90,31 +90,54 @@ class JconSMB23Test {
     }
 
     @Test
-    void copyFileTo() {
+    public void delete() {
+        System.out.println("*******\nDelete\n*******\n");
+        try {
+            jSMBJ.write(IP,"/Marlon/Teste/fileTest123.xml",user,pass,"Test File 123 XML to be deleted.\n^\n^\n^\n7");
+            assert !response.contains("Erro");
+            response = jSMBJ.delete(IP,"/Marlon/Teste/fileTest123.xml",user,pass);
+            System.out.println(response);
+            assert !response.contains("Erro");
+        } catch (IOException e) {
+            assert false;
+        }
     }
 
     @Test
-    void listFiles() {
-        response = jSMBJ.listFiles(IP,sharedFolder,"Teste/SubFolderTeste",user,pass);
-        System.out.println(response);
-        assert !response.contains("Erro");
+    public void listFiles() {
+        System.out.println("*******\nlistFiles\n*******\n");
+        try {
+            jSMBJ.write(IP,"/Marlon/Teste/fileTest123.xml",user,pass,"Test File 123 XML to be deleted.\n^\n^\n^\n7");
+            assert !response.contains("Erro");
+            jSMBJ.write(IP,"/Marlon/fileTest123.xml",user,pass,"Test File 123 XML to be deleted.\n^\n^\n^\n7");
+            assert !response.contains("Erro");
 
-        response = jSMBJ.listFiles(IP,sharedFolder,"/Teste/SubFolderTeste",user,pass);
-        System.out.println(response);
-        assert !response.contains("Erro");
+            response = jSMBJ.listFiles(IP,"/Marlon/Teste/",user,pass);
+            assert response.contains("fileTest123.xml");
+            response = jSMBJ.listFiles(IP,"/Marlon/Teste",user,pass);
+            assert response.contains("fileTest123.xml");
+            response = jSMBJ.listFiles(IP,"/Marlon/",user,pass);
+            assert response.contains("fileTest123.xml");
+            response = jSMBJ.listFiles(IP,"/Marlon",user,pass);
+            assert response.contains("fileTest123.xml");
+            response = jSMBJ.listFiles(IP,"Marlon/",user,pass);
+            assert response.contains("fileTest123.xml");
+            response = jSMBJ.listFiles(IP,"Marlon",user,pass);
+            assert response.contains("fileTest123.xml");
 
-        response = jSMBJ.listFiles(IP,sharedFolder,"////Teste/SubFolderTeste",user,pass);
-        System.out.println(response);
-        assert !response.contains("Erro");
-
-        response = jSMBJ.listFiles(IP,sharedFolder,"////",user,pass);
-        System.out.println(response);
-        assert !response.contains("Erro");
-
-        response = jSMBJ.listFiles(IP,sharedFolder,"\\Teste\\SubFolderTeste",user,pass);
-        System.out.println(response);
-        assert !response.contains("Erro");
-
-
+            response = jSMBJ.delete(IP,"/Marlon/Teste/fileTest123.xml",user,pass);
+            System.out.println(response);
+            assert !response.contains("Erro");
+            response = jSMBJ.delete(IP,"/Marlon/fileTest123.xml",user,pass);
+            System.out.println(response);
+            assert !response.contains("Erro");
+        } catch (IOException e) {
+            assert false;
+        }
     }
+
+    @Test
+    void copyFileTo() {
+    }
+
 }

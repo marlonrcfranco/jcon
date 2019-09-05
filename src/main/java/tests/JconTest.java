@@ -37,6 +37,7 @@ class JconTest {
     }
     @Test
     void read() {
+
     }
 
     @Test
@@ -67,6 +68,32 @@ class JconTest {
             // read to check if it was written correctly
             byte[] ImageContent2 = (new Jcon(IJcon.types.SMB23).readBytes(ip,basePath+"/Teste/imageCopy.png",user,password));
             assert Arrays.equals(ImageContent, ImageContent2);
+
+            /** ******* Initialize with type String ******* */
+            /** Test with txt file*/
+            TextContent = new Jcon("filesystem").readBytes("",localBasePath+"Documents\\teste.txt","","");
+            this.response = new String(new Jcon(IJcon.types.SMB23).writeBytes(ip,basePath+"/Teste/text.txt",user,password,TextContent));
+            System.out.println(response);
+            // read to check if it was written correctly
+            TextContent2 = (new Jcon("smb23").readBytes(ip,basePath+"/Teste/text.txt",user,password));
+            assert Arrays.equals(TextContent, TextContent2);
+
+            /** Test with PDF file*/
+            PDFcontent = new Jcon("filesystem").readBytes("",localBasePath+"Documents\\DOUX - Agosto.pdf","","");
+            this.response = new String(new Jcon(IJcon.types.SMB23).writeBytes(ip,basePath+"/Teste/arquivo.pdf",user,password,PDFcontent));
+            System.out.println(response);
+            // read to check if it was written correctly
+            PDFcontent2 = (new Jcon("smb23").readBytes(ip,basePath+"/Teste/arquivo.pdf",user,password));
+            assert Arrays.equals(PDFcontent, PDFcontent2);
+
+            /** Test with png file*/
+            ImageContent = new Jcon("filesystem").readBytes("",localBasePath+"Documents\\images.png","","");
+            this.response = new String(new Jcon(IJcon.types.SMB23).writeBytes(ip,basePath+"/Teste/imageCopy.png",user,password,ImageContent));
+            System.out.println(response);
+            // read to check if it was written correctly
+            ImageContent2 = (new Jcon("smb23").readBytes(ip,basePath+"/Teste/imageCopy.png",user,password));
+            assert Arrays.equals(ImageContent, ImageContent2);
+            
         } catch (Exception e) {
             e.printStackTrace();
         }

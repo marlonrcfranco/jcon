@@ -16,7 +16,6 @@ import com.hierynomus.smbj.share.DiskShare;
 import com.hierynomus.smbj.share.File;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -107,6 +106,7 @@ public class JconSMB23 implements IJcon{
                 // if file is in folder(s), create them first
                 while(idx > 0) {
                     idx = path.lastIndexOf("/");
+                    idx = idx<0? 0 : idx;
                     path=path.substring(idx);
                     String folder = filePath.substring(0, idx);
                     try {
@@ -137,7 +137,7 @@ public class JconSMB23 implements IJcon{
                 os.close();
                 output=("Escrita concluída com sucesso").getBytes();
             } catch (SMBApiException e) {
-                output=("Erro: Nao foi possivel escrever no arquivo "+sharedFolder+"/"+filePath).getBytes();
+                output=("Erro: Verifique se o usuário e senha estão corretos, e se possui permissão de escrita para acessar o caminho \"" + sharedFolder+"/"+filePath + "\"").getBytes();
             } catch (IOException e) {
                 output=("Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath).getBytes();
             }
@@ -148,28 +148,68 @@ public class JconSMB23 implements IJcon{
     }
 
     @Override
+    public String delete(String IP, String filePath, String user, String pass) throws IOException {
+        extractSharedPathFromPath(filePath.replace("\\", "/"));
+        return delete(IP, sharedFolder, sFilePath, user, pass, null);
+    }
+
+    public String delete(String IP, String sharedFolder, String filePath, String user, String pass, String domain) throws IOException {
+        String output="";
+        sharedFolder = parsePath(sharedFolder);
+        filePath = parsePath(filePath);
+        File remoteFile=null;
+        SMBClient client = new SMBClient();
+        try (Connection connection = client.connect(IP)) {
+            AuthenticationContext ac = new AuthenticationContext(user, pass.toCharArray(),domain);
+            Session session = connection.authenticate(ac);
+            // Connect to Share
+            try (DiskShare share = (DiskShare) session.connectShare(sharedFolder)) {
+                if(share.fileExists(filePath)){
+                    share.rm(filePath);
+                    output = "File \""+sharedFolder+"/"+filePath+"\" deleted successfully.";
+                }else {
+                    output = "Error: File \""+sharedFolder+"/"+filePath+"\" not found.";
+                }
+            } catch (SMBApiException e) {
+                output="Erro: Verifique se o usuário e senha estão corretos, e se possui permissão de escrita para acessar o caminho \"" + sharedFolder+"/"+filePath + "\"";
+            } catch (IOException e) {
+                output="Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath;
+            }
+        } catch (IOException e) {
+            output="Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath;
+        }
+        return output;
+    }
+
+    @Override
     public String copyFileTo(String sourceIP, String sourceFilePath, String destIP, String destFilePath, String user, String pass) throws IOException {
 
         return null;
     }
 
-    public String listFiles(String IP, String sharedFolder, String path, String user, String pass) {
+    public String listFiles(String IP, String filePath, String user, String pass) throws IOException {
+        extractSharedPathFromPath(filePath.replace("\\", "/"));
+        return listFiles(IP, sharedFolder, sFilePath, user, pass, null);
+    }
+
+    public String listFiles(String IP, String sharedFolder, String path, String user, String pass, String domain) {
         String output="";
         sharedFolder = parsePath(sharedFolder);
         path = parsePath(path);
+        if (!path.trim().endsWith("/") && !"".equalsIgnoreCase(path.trim())) path+="/";
+        boolean isDirectory = false;
         SMBClient client = new SMBClient();
         try (Connection connection = client.connect(IP)) {
-            AuthenticationContext ac = new AuthenticationContext(user, pass.toCharArray(),"");
+            AuthenticationContext ac = new AuthenticationContext(user, pass.toCharArray(),domain);
             Session session = connection.authenticate(ac);
-
             // Connect to Share
             try (DiskShare share = (DiskShare) session.connectShare(sharedFolder)) {
-                for (FileIdBothDirectoryInformation f : share.list(path, "*.*")) {
-                    output+= "\n"+"File : " + f.getFileName();
+                for (FileIdBothDirectoryInformation f : share.list(path, "*")) {
+                    isDirectory = f.getFileAttributes()==FileAttributes.FILE_ATTRIBUTE_DIRECTORY.getValue();
+                    output+= f.getFileName() + (isDirectory? "/" : "") + "\n";
                 }
             } catch (SMBApiException e) {
                 output="Erro: Nao foi possivel localizar o diretorio "+sharedFolder+"/"+path;
-                e.printStackTrace();
             }
         } catch (IOException e) {
             output="Erro: Nao foi possivel listar os arquivos do diretorio: "+sharedFolder;
