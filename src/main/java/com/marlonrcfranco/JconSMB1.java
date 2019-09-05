@@ -114,7 +114,7 @@ public class JconSMB1 implements IJcon {
             smbFile = new SmbFile(path,auth);
             SmbFile[] aSmbFiles = smbFile.listFiles();
             for (SmbFile smbF : aSmbFiles) {
-                output+=smbF.getName()+(smbF.isDirectory()? "/":"")+"\n";
+                output+=smbF.getName()+"\n";
             }
         } catch (MalformedURLException e) {
             output="Erro: Nao foi possivel localizar o caminho \"" + path + "\"";

@@ -210,6 +210,7 @@ public class JconSMB23 implements IJcon{
         sharedFolder = parsePath(sharedFolder);
         path = parsePath(path);
         if (!path.endsWith("/")) path+="/";
+        boolean isDirectory = false;
         SMBClient client = new SMBClient();
         try (Connection connection = client.connect(IP)) {
             AuthenticationContext ac = new AuthenticationContext(user, pass.toCharArray(),domain);
@@ -217,7 +218,8 @@ public class JconSMB23 implements IJcon{
             // Connect to Share
             try (DiskShare share = (DiskShare) session.connectShare(sharedFolder)) {
                 for (FileIdBothDirectoryInformation f : share.list(path, "*")) {
-                    output+= f.getFileName() + "\n";
+                    isDirectory = f.getFileAttributes()==FileAttributes.FILE_ATTRIBUTE_DIRECTORY.getValue();
+                    output+= f.getFileName() + (isDirectory? "/" : "") + "\n";
                 }
             } catch (SMBApiException e) {
                 output="Erro: Nao foi possivel localizar o diretorio "+sharedFolder+"/"+path;
