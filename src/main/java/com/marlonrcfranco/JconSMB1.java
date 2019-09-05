@@ -62,6 +62,17 @@ public class JconSMB1 implements IJcon {
         SmbFile smbFile=null;
         SmbFileOutputStream smbfos=null;
         try {
+            String pathTmp = filePath;
+            int idx=1;
+            // if file is in folder(s), create them first
+            while(idx > 0) {
+                idx = pathTmp.lastIndexOf("/");
+                idx = idx<0? 0 : idx;
+                pathTmp=pathTmp.substring(idx);
+                String folderPath = "smb://"+IP+"/"+filePath.substring(0, idx);
+                smbFile = new SmbFile(folderPath,auth);
+                if(!smbFile.exists() && !"".equalsIgnoreCase(smbFile.getName().trim())) smbFile.mkdir();
+            }
             smbFile = new SmbFile(path,auth);
             smbfos = new SmbFileOutputStream(smbFile);
             smbfos.write(content);
@@ -82,6 +93,7 @@ public class JconSMB1 implements IJcon {
     @Override
     public String delete(String IP, String filePath, String user, String pass) throws IOException {
         String output="";
+        boolean isDirectory=false;
         filePath=filePath.replace("\\", "/");
         NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);
         String path="smb://"+IP+"/"+filePath;
@@ -89,8 +101,9 @@ public class JconSMB1 implements IJcon {
         try {
             smbFile = new SmbFile(path,auth);
             if (smbFile.exists()) {
+                isDirectory = smbFile.isDirectory();
                 smbFile.delete();
-                output = "File \""+smbFile.getName()+"\" deleted successfully.";
+                output = (isDirectory? "Directory":"File")+" \""+smbFile.getName()+"\" deleted successfully.";
             }else {
                 output = "Error: File \""+smbFile.getName()+"\" not found.";
             }
