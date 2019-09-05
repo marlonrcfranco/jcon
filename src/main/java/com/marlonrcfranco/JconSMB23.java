@@ -16,7 +16,6 @@ import com.hierynomus.smbj.share.DiskShare;
 import com.hierynomus.smbj.share.File;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.EnumSet;
@@ -107,6 +106,7 @@ public class JconSMB23 implements IJcon{
                 // if file is in folder(s), create them first
                 while(idx > 0) {
                     idx = path.lastIndexOf("/");
+                    idx = idx<0? 0 : idx;
                     path=path.substring(idx);
                     String folder = filePath.substring(0, idx);
                     try {
@@ -164,19 +164,6 @@ public class JconSMB23 implements IJcon{
             Session session = connection.authenticate(ac);
             // Connect to Share
             try (DiskShare share = (DiskShare) session.connectShare(sharedFolder)) {
-                String path = filePath;
-                int idx=1;
-                // if file is in folder(s), create them first
-                while(idx > 0) {
-                    idx = path.lastIndexOf("/");
-                    path=path.substring(idx);
-                    String folder = filePath.substring(0, idx);
-                    try {
-                        if(!share.folderExists(folder)) share.mkdir(folder);
-                    } catch (SMBApiException ex) {
-                        throw new IOException(ex);
-                    }
-                }
                 if(share.fileExists(filePath)){
                     share.rm(filePath);
                     output = "File \""+sharedFolder+"/"+filePath+"\" deleted successfully.";
@@ -209,7 +196,7 @@ public class JconSMB23 implements IJcon{
         String output="";
         sharedFolder = parsePath(sharedFolder);
         path = parsePath(path);
-        if (!path.endsWith("/")) path+="/";
+        if (!path.trim().endsWith("/") && !"".equalsIgnoreCase(path.trim())) path+="/";
         boolean isDirectory = false;
         SMBClient client = new SMBClient();
         try (Connection connection = client.connect(IP)) {
@@ -223,7 +210,6 @@ public class JconSMB23 implements IJcon{
                 }
             } catch (SMBApiException e) {
                 output="Erro: Nao foi possivel localizar o diretorio "+sharedFolder+"/"+path;
-                e.printStackTrace();
             }
         } catch (IOException e) {
             output="Erro: Nao foi possivel listar os arquivos do diretorio: "+sharedFolder;

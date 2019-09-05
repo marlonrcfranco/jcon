@@ -109,13 +109,26 @@ class JconSMB23Test {
         try {
             jSMBJ.write(IP,"/Marlon/Teste/fileTest123.xml",user,pass,"Test File 123 XML to be deleted.\n^\n^\n^\n7");
             assert !response.contains("Erro");
+            jSMBJ.write(IP,"/Marlon/fileTest123.xml",user,pass,"Test File 123 XML to be deleted.\n^\n^\n^\n7");
+            assert !response.contains("Erro");
 
             response = jSMBJ.listFiles(IP,"/Marlon/Teste/",user,pass);
             assert response.contains("fileTest123.xml");
             response = jSMBJ.listFiles(IP,"/Marlon/Teste",user,pass);
             assert response.contains("fileTest123.xml");
+            response = jSMBJ.listFiles(IP,"/Marlon/",user,pass);
+            assert response.contains("fileTest123.xml");
+            response = jSMBJ.listFiles(IP,"/Marlon",user,pass);
+            assert response.contains("fileTest123.xml");
+            response = jSMBJ.listFiles(IP,"Marlon/",user,pass);
+            assert response.contains("fileTest123.xml");
+            response = jSMBJ.listFiles(IP,"Marlon",user,pass);
+            assert response.contains("fileTest123.xml");
 
             response = jSMBJ.delete(IP,"/Marlon/Teste/fileTest123.xml",user,pass);
+            System.out.println(response);
+            assert !response.contains("Erro");
+            response = jSMBJ.delete(IP,"/Marlon/fileTest123.xml",user,pass);
             System.out.println(response);
             assert !response.contains("Erro");
         } catch (IOException e) {
