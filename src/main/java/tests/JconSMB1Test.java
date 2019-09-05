@@ -149,12 +149,36 @@ class JconSMB1Test {
             jSMB1.write(IP,"/Marlon/Teste/fileTest123.xml",user,pass,"Test File 123 XML to be deleted.\n^\n^\n^\n7");
             assert !response.contains("Erro");
             response = jSMB1.delete(IP,"/Marlon/Teste/fileTest123.xml",user,pass);
-            assert !response.contains("Erro");
             System.out.println(response);
+            assert !response.contains("Erro");
         } catch (IOException e) {
             assert false;
         }
     }
+
+    @Test
+    public void listFiles() {
+        System.out.println("*******\nlistFiles\n*******\n");
+        try {
+            jSMB1.write(IP,"/Marlon/Teste/fileTest123.xml",user,pass,"Test File 123 XML to be deleted.\n^\n^\n^\n7");
+            assert !response.contains("Erro");
+
+            response = jSMB1.listFiles(IP,"/Marlon/Teste/",user,pass);
+            System.out.println(response);
+            assert response.contains("fileTest123.xml");
+            response = jSMB1.listFiles(IP,"/Marlon/Teste",user,pass);
+            System.out.println(response);
+            assert response.contains("fileTest123.xml");
+
+            response = jSMB1.delete(IP,"/Marlon/Teste/fileTest123.xml",user,pass);
+            System.out.println(response);
+            assert !response.contains("Erro");
+
+        } catch (IOException e) {
+            assert false;
+        }
+    }
+
 
     private void showMessage() {
         if (response.contains("Erro")) {

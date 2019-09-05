@@ -106,6 +106,7 @@ public class JconSMB1 implements IJcon {
     public String listFiles(String IP, String filePath, String user, String pass) throws IOException {
         String output="";
         filePath=filePath.replace("\\", "/");
+        if (!filePath.endsWith("/")) filePath+="/";
         NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);
         String path="smb://"+IP+"/"+filePath;
         SmbFile smbFile=null;
@@ -113,7 +114,7 @@ public class JconSMB1 implements IJcon {
             smbFile = new SmbFile(path,auth);
             SmbFile[] aSmbFiles = smbFile.listFiles();
             for (SmbFile smbF : aSmbFiles) {
-                output+=smbF.getName() + "\n";
+                output+=smbF.getName()+(smbF.isDirectory()? "/":"")+"\n";
             }
         } catch (MalformedURLException e) {
             output="Erro: Nao foi possivel localizar o caminho \"" + path + "\"";

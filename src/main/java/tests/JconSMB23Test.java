@@ -96,8 +96,28 @@ class JconSMB23Test {
             jSMBJ.write(IP,"/Marlon/Teste/fileTest123.xml",user,pass,"Test File 123 XML to be deleted.\n^\n^\n^\n7");
             assert !response.contains("Erro");
             response = jSMBJ.delete(IP,"/Marlon/Teste/fileTest123.xml",user,pass);
-            assert !response.contains("Erro");
             System.out.println(response);
+            assert !response.contains("Erro");
+        } catch (IOException e) {
+            assert false;
+        }
+    }
+
+    @Test
+    public void listFiles() {
+        System.out.println("*******\nlistFiles\n*******\n");
+        try {
+            jSMBJ.write(IP,"/Marlon/Teste/fileTest123.xml",user,pass,"Test File 123 XML to be deleted.\n^\n^\n^\n7");
+            assert !response.contains("Erro");
+
+            response = jSMBJ.listFiles(IP,"/Marlon/Teste/",user,pass);
+            assert response.contains("fileTest123.xml");
+            response = jSMBJ.listFiles(IP,"/Marlon/Teste",user,pass);
+            assert response.contains("fileTest123.xml");
+
+            response = jSMBJ.delete(IP,"/Marlon/Teste/fileTest123.xml",user,pass);
+            System.out.println(response);
+            assert !response.contains("Erro");
         } catch (IOException e) {
             assert false;
         }
@@ -107,26 +127,4 @@ class JconSMB23Test {
     void copyFileTo() {
     }
 
-    @Test
-    void listFiles() {
-        response = jSMBJ.listFiles(IP,sharedFolder,"Teste/SubFolderTeste",user,pass,"");
-        System.out.println(response);
-        assert !response.contains("Erro");
-
-        response = jSMBJ.listFiles(IP,sharedFolder,"/Teste/SubFolderTeste",user,pass,"");
-        System.out.println(response);
-        assert !response.contains("Erro");
-
-        response = jSMBJ.listFiles(IP,sharedFolder,"////Teste/SubFolderTeste",user,pass,"");
-        System.out.println(response);
-        assert !response.contains("Erro");
-
-        response = jSMBJ.listFiles(IP,sharedFolder,"////",user,pass,"");
-        System.out.println(response);
-        assert !response.contains("Erro");
-
-        response = jSMBJ.listFiles(IP,sharedFolder,"\\Teste\\SubFolderTeste",user,pass,"");
-        System.out.println(response);
-        assert !response.contains("Erro");
-    }
 }

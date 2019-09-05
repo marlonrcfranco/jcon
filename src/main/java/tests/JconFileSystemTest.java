@@ -151,6 +151,28 @@ class JconFileSystemTest {
         }
     }
 
+    @Test
+    public void listFiles() {
+        System.out.println("*******\nlistFiles\n*******\n");
+        try {
+            jconFS.write("C:\\Users\\marlon.franco\\Documents\\teste10.xml","teste123.content.end ");
+            assert !response.contains("Erro");
+
+            response=jconFS.listFiles("C:\\Users\\marlon.franco\\Documents\\");
+            System.out.println(response);
+            assert !response.contains("Erro");
+            response=jconFS.listFiles("C:\\Users\\marlon.franco\\Documents");
+            System.out.println(response);
+            assert response.contains("teste10.xml");
+
+            response = jconFS.delete( "C:\\Users\\marlon.franco\\Documents\\teste10.xml");
+            assert !response.contains("Erro");
+            System.out.println(response);
+        } catch (IOException e) {
+            assert false;
+        }
+    }
+
     private void showMessage() {
         if (response.contains("Erro")) {
             System.out.println(response);

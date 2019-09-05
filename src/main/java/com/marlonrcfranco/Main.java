@@ -75,17 +75,17 @@ public class Main {
         String examples = "" +
                 "Examples:\n" +
                 "\n" +
-                "  l filesystem C:\\Users\\marlon.franco\\Documents\\teste7.xml\n" +
+                "  l filesystem C:\\Users\\marlon.franco\\Documents\\\n" +
                 "  w filesystem C:\\Users\\marlon.franco\\Documents\\teste7.xml,Teste conteudo 123 [FileSystem]\n" +
                 "  r filesystem C:\\Users\\marlon.franco\\Documents\\teste7.xml\n" +
                 "  d filesystem C:\\Users\\marlon.franco\\Documents\\teste7.xml\n" +
                 "\n" +
-                "  l smb1 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017\n" +
+                "  l smb1 Marlon\\Teste\\,192.168.35.17,Adapcon,1nfr4#2017\n" +
                 "  w smb1 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017,Teste conteudo 1234 [SMB1]\n" +
                 "  r smb1 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017\n" +
                 "  d smb1 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017\n" +
                 "\n" +
-                "  l smb23 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017\n" +
+                "  l smb23 Marlon\\Teste\\,192.168.35.17,Adapcon,1nfr4#2017\n" +
                 "  w smb23 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017,Teste conteudo 12345 [SMB23]\n" +
                 "  r smb23 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017\n" +
                 "  d smb23 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017\n" +
@@ -97,6 +97,10 @@ public class Main {
             input = scanner.nextLine();
             input = input.trim();
             switch (input) {
+                case "exit":
+                case "quit":
+                case "bye":
+                    break;
                 case "h":
                 case "help":
                     System.out.println(help);
