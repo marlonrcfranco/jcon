@@ -32,6 +32,10 @@ class JconFileSystemTest {
             response = jconFS.read("C:/Users/marlon.franco/Documents/teste2.xml");
             assert !response.contains("Erro");
 
+            response = jconFS.read("C:/Users/../Documents/teste2.xml");
+            showMessage();
+            assert !response.contains("Erro");
+
             /**
              * Error response
              */
@@ -44,10 +48,6 @@ class JconFileSystemTest {
             assert response.contains("Erro");
 
             response = jconFS.read("~/marlon.franco/Documents/teste2.xml");
-            showMessage();
-            assert response.contains("Erro");
-
-            response = jconFS.read("C:/Users/../Documents/teste2.xml");
             showMessage();
             assert response.contains("Erro");
 
@@ -67,22 +67,25 @@ class JconFileSystemTest {
             response = jconFS.write("C:/Users/marlon.franco/Documents/teste2.xml","TEste.123.#$#%#%#% texto de conteúdo.\n.\n-\n^\n| teste.");
             assert !response.contains("Erro");
 
+            response = jconFS.write("C:/Users/marlon.franco/Documents/diretorioInexistente/testeInexistente.xml","Conteudo do arquivo inexistente.");
+            showMessage();
+            assert !response.contains("Erro");
+            response = jconFS.delete("C:/Users/marlon.franco/Documents/diretorioInexistente/");
+            showMessage();
+            assert !response.contains("Erro");
+
+            response = jconFS.write("C:/Users/../Documents/teste2.xml","Conteudo do arquivo com caminho não encontrado...7");
+            showMessage();
+            assert !response.contains("Erro");
             /**
              * Error response
              */
-            response = jconFS.write("C:/Users/marlon.franco/Documents/diretorioInexistente/testeInexistente.xml","Conteudo do arquivo inexistente.");
-            showMessage();
-            assert response.contains("Erro");
-
             response = jconFS.write("/marlon.franco/Documents/teste2.xml","Conteudo do arquivo com caminho não encontrado.");
             showMessage();
             assert response.contains("Erro");
 
-            response = jconFS.write("~/marlon.franco/Documents/teste2.xml","Conteudo do arquivo com caminho não encontrado.");
-            showMessage();
-            assert response.contains("Erro");
 
-            response = jconFS.write("C:/Users/../Documents/teste2.xml","Conteudo do arquivo com caminho não encontrado.");
+            response = jconFS.write("~/marlon.franco/Documents/teste2.xml","Conteudo do arquivo com caminho não encontrado.");
             showMessage();
             assert response.contains("Erro");
 
@@ -105,19 +108,21 @@ class JconFileSystemTest {
             response = jconFS.copyFileTo( "C:/Users/marlon.franco/Documents/teste2.xml","C:/Users/marlon.franco/Documents/testeCopia2.xml");
             assert !response.contains("Erro");
 
+            response = jconFS.copyFileTo("C:/Users/../Documents/teste2.xml","C:/Users/marlon.franco/Documents/teste2Copia.xml");
+            showMessage();
+            assert !response.contains("Erro");
+
+            response = jconFS.copyFileTo("C:/Users/marlon.franco/Documents/teste.xml","C:/Users/../Documents/teste2Copia.xml");
+            showMessage();
+            assert !response.contains("Erro");
+
             /**
              * Error response
              */
-            response = jconFS.copyFileTo("C:/Users/marlon.franco/Documents/diretorioInexistente/testeInexistente.xml","C:/Users/marlon.franco/Documents/testeInexistenteCopia.xml");
-            showMessage();
-            assert response.contains("Erro");
             response = jconFS.copyFileTo("/marlon.franco/Documents/teste2.xml","C:/Users/marlon.franco/Documents/teste2Copia.xml");
             showMessage();
             assert response.contains("Erro");
             response = jconFS.copyFileTo("~/marlon.franco/Documents/teste2.xml","C:/Users/marlon.franco/Documents/teste2Copia.xml");
-            showMessage();
-            assert response.contains("Erro");
-            response = jconFS.copyFileTo("C:/Users/../Documents/teste2.xml","C:/Users/marlon.franco/Documents/teste2Copia.xml");
             showMessage();
             assert response.contains("Erro");
 
@@ -125,9 +130,6 @@ class JconFileSystemTest {
             showMessage();
             assert response.contains("Erro");
             response = jconFS.copyFileTo("C:/Users/marlon.franco/Documents/teste.xml","~/marlon.franco/Documents/teste2Copia.xml");
-            showMessage();
-            assert response.contains("Erro");
-            response = jconFS.copyFileTo("C:/Users/marlon.franco/Documents/teste.xml","C:/Users/../Documents/teste2Copia.xml");
             showMessage();
             assert response.contains("Erro");
 
@@ -144,6 +146,12 @@ class JconFileSystemTest {
             jconFS.write("C:\\Users\\marlon.franco\\Documents\\teste10.xml","teste123.content.end ");
             assert !response.contains("Erro");
             response = jconFS.delete( "C:\\Users\\marlon.franco\\Documents\\teste10.xml");
+            assert !response.contains("Erro");
+            System.out.println(response);
+
+            jconFS.write("C:\\Users\\marlon.franco\\Documents\\123\\","");
+            assert !response.contains("Erro");
+            response = jconFS.delete( "C:\\Users\\marlon.franco\\Documents\\123\\");
             assert !response.contains("Erro");
             System.out.println(response);
         } catch (IOException e) {

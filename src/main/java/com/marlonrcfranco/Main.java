@@ -120,19 +120,20 @@ public class Main {
                     System.out.println(examples);
                     break;
                 default:
-                    System.out.println("\""+input+"\" is not a recognized command.");
-            }
-            if (input.startsWith("read ") || input.startsWith("r ")) {
-                System.out.println("\n"+read(input)+"\n");
-            }
-            if (input.startsWith("write ") || input.startsWith("w ")) {
-                System.out.println("\n"+write(input)+"\n");
-            }
-            if (input.startsWith("delete ") || input.startsWith("d ")) {
-                System.out.println("\n"+delete(input)+"\n");
-            }
-            if (input.startsWith("list ") || input.startsWith("l ")) {
-                System.out.println("\n"+list(input)+"\n");
+                    if (input.startsWith("read ") || input.startsWith("r ")) {
+                        System.out.println("\n"+read(input)+"\n");
+                    }else
+                    if (input.startsWith("write ") || input.startsWith("w ")) {
+                        System.out.println("\n"+write(input)+"\n");
+                    }else
+                    if (input.startsWith("delete ") || input.startsWith("d ")) {
+                        System.out.println("\n"+delete(input)+"\n");
+                    }else
+                    if (input.startsWith("list ") || input.startsWith("l ")) {
+                        System.out.println("\n"+list(input)+"\n");
+                    }else {
+                        System.out.println("\""+input+"\" is not a recognized command.");
+                    }
             }
         }
     }

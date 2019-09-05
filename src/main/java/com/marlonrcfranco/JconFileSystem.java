@@ -61,10 +61,28 @@ public class JconFileSystem implements IJcon{
         byte[] output="".getBytes();
         filePath = filePath.replace("\\", "/");
         FileOutputStream file = null;
+        File folder = null;
         try {
-            file = new FileOutputStream(filePath);
-            file.write(content);
-            output=("Escrita concluída com sucesso").getBytes();
+            String path = filePath;
+            int idx=1;
+            // if file is in folder(s), create them first
+            while(idx > 0) {
+                idx = path.lastIndexOf("/");
+                idx = idx<0? 0 : idx;
+                path=path.substring(idx);
+                String folderPath = filePath.substring(0, idx);
+                folder = new File(folderPath);
+                if(!folder.exists() && !"".equalsIgnoreCase(folder.getName().trim())) folder.mkdir();
+            }
+            if (filePath.endsWith("/")) {
+                folder = new File(filePath);
+                folder.mkdir();
+                output=("Diretório criado com sucesso").getBytes();
+            }else {
+                file = new FileOutputStream(filePath);
+                file.write(content);
+                output=("Escrita concluída com sucesso").getBytes();
+            }
         } catch (FileNotFoundException e) {
             output=("Erro: Não foi possível localizar o caminho \""+filePath+"\"").getBytes();
         } catch (IOException e) {
@@ -83,12 +101,14 @@ public class JconFileSystem implements IJcon{
     @Override
     public String delete(String IP, String filePath, String user, String pass) throws IOException {
         String output="";
+        boolean isDirectory=false;
         filePath = filePath.replace("\\", "/");
         File file = null;
         file = new File(filePath);
         if (file.exists()) {
+            isDirectory = file.isDirectory();
             file.delete();
-            output = "File \""+file.getName()+"\" deleted successfully.";
+            output = (isDirectory? "Directory":"File")+" \""+file.getName()+"\" deleted successfully.";
         }else {
             output = "Error: File \""+file.getName()+"\" not found.";
         }
