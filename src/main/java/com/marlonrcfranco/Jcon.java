@@ -13,32 +13,13 @@ public class Jcon implements IJcon{
             System.out.println("Invalid type \""+type+"\". Type \"filesystem\" was chosen by default.");
             this.type = types.FILESYSTEM;
         }
-        Initialize();
+        this.jcon=JconFactory.getJcon(this.type);
     }
 
 	public Jcon(IJcon.types type) {
 	    this.type = type;
-	    Initialize();
+        this.jcon=JconFactory.getJcon(this.type);
 	}
-
-	private void Initialize() {
-        try {
-            if (type == IJcon.types.FILESYSTEM) {
-                this.jcon = new JconFileSystem();
-            }
-            else if (type == IJcon.types.SMB1) {
-                this.jcon = new JconSMB1();
-            }
-            else if (type == IJcon.types.SMB23) {
-                this.jcon = new JconSMB23();
-            }
-            else if (type == IJcon.types.NFS) {
-                // Not implemented yet
-            }
-        } catch(Exception e) {
-            this.jcon = null;
-        }
-    }
 
     @Override
     public String read(String IP, String filePath, String user, String pass) throws IOException{
