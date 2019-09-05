@@ -94,6 +94,10 @@ public class JconFileSystem implements IJcon{
         return output;
     }
 
+    public String listFiles(String filePath) throws IOException {
+        return listFiles("",filePath,"","");
+    }
+
     @Override
     public String listFiles(String IP, String filePath, String user, String pass) throws IOException {
         String output="";
