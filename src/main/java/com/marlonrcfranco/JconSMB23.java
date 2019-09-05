@@ -200,13 +200,18 @@ public class JconSMB23 implements IJcon{
         return null;
     }
 
-    public String listFiles(String IP, String sharedFolder, String path, String user, String pass) {
+    public String listFiles(String IP, String filePath, String user, String pass) throws IOException {
+        extractSharedPathFromPath(filePath.replace("\\", "/"));
+        return listFiles(IP, sharedFolder, sFilePath, user, pass, null);
+    }
+
+    public String listFiles(String IP, String sharedFolder, String path, String user, String pass, String domain) {
         String output="";
         sharedFolder = parsePath(sharedFolder);
         path = parsePath(path);
         SMBClient client = new SMBClient();
         try (Connection connection = client.connect(IP)) {
-            AuthenticationContext ac = new AuthenticationContext(user, pass.toCharArray(),"");
+            AuthenticationContext ac = new AuthenticationContext(user, pass.toCharArray(),domain);
             Session session = connection.authenticate(ac);
 
             // Connect to Share

@@ -47,6 +47,11 @@ public class Jcon implements IJcon{
     }
 
     @Override
+    public String listFiles(String IP, String filePath, String user, String pass) throws IOException {
+        return this.jcon.listFiles(IP,filePath,user,pass);
+    }
+
+    @Override
     public String copyFileTo(String sourceIP, String sourceFilePath, String destIP, String destFilePath, String user, String pass) throws IOException {
         return this.jcon.copyFileTo(sourceIP,sourceFilePath,destIP,destFilePath,user,pass);
     }

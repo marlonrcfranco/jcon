@@ -109,23 +109,23 @@ class JconSMB23Test {
 
     @Test
     void listFiles() {
-        response = jSMBJ.listFiles(IP,sharedFolder,"Teste/SubFolderTeste",user,pass);
+        response = jSMBJ.listFiles(IP,sharedFolder,"Teste/SubFolderTeste",user,pass,"");
         System.out.println(response);
         assert !response.contains("Erro");
 
-        response = jSMBJ.listFiles(IP,sharedFolder,"/Teste/SubFolderTeste",user,pass);
+        response = jSMBJ.listFiles(IP,sharedFolder,"/Teste/SubFolderTeste",user,pass,"");
         System.out.println(response);
         assert !response.contains("Erro");
 
-        response = jSMBJ.listFiles(IP,sharedFolder,"////Teste/SubFolderTeste",user,pass);
+        response = jSMBJ.listFiles(IP,sharedFolder,"////Teste/SubFolderTeste",user,pass,"");
         System.out.println(response);
         assert !response.contains("Erro");
 
-        response = jSMBJ.listFiles(IP,sharedFolder,"////",user,pass);
+        response = jSMBJ.listFiles(IP,sharedFolder,"////",user,pass,"");
         System.out.println(response);
         assert !response.contains("Erro");
 
-        response = jSMBJ.listFiles(IP,sharedFolder,"\\Teste\\SubFolderTeste",user,pass);
+        response = jSMBJ.listFiles(IP,sharedFolder,"\\Teste\\SubFolderTeste",user,pass,"");
         System.out.println(response);
         assert !response.contains("Erro");
     }

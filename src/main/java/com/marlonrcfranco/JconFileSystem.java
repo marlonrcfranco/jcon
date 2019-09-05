@@ -1,6 +1,12 @@
 package com.marlonrcfranco;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class JconFileSystem implements IJcon{
 
@@ -84,6 +90,21 @@ public class JconFileSystem implements IJcon{
             output = "File \""+file.getName()+"\" deleted successfully.";
         }else {
             output = "Error: File \""+file.getName()+"\" not found.";
+        }
+        return output;
+    }
+
+    @Override
+    public String listFiles(String IP, String filePath, String user, String pass) throws IOException {
+        String output="";
+        filePath = filePath.replace("\\", "/");
+        try (Stream<Path> walk = Files.walk(Paths.get("C:\\projects"))) {
+            List<String> result = walk.filter(Files::isRegularFile).map(x -> x.toString()).collect(Collectors.toList());
+            for (String s : result) {
+               output += s;
+            }
+        } catch (IOException e) {
+            output = "Error: Could not list the files in \""+filePath+"\".";
         }
         return output;
     }

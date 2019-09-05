@@ -68,20 +68,24 @@ public class Main {
                 "\n exit[quit][bye]              - Close the execution" +
                 "\n help[h]                      - Show this help" +
                 "\n info[i]                      - Show initial info" +
+                "\n list[l] <type> <p1,p2,...>   - List all files" +
                 "\n read[r] <type> <p1,p2,...>   - Read method (see connectors for more info)" +
                 "\n write[w] <type> <p1,p2,...>  - Write method (see connectors for more info)" +
                 "\n ";
         String examples = "" +
                 "Examples:\n" +
                 "\n" +
+                "  l filesystem C:\\Users\\marlon.franco\\Documents\\teste7.xml\n" +
                 "  w filesystem C:\\Users\\marlon.franco\\Documents\\teste7.xml,Teste conteudo 123 [FileSystem]\n" +
                 "  r filesystem C:\\Users\\marlon.franco\\Documents\\teste7.xml\n" +
                 "  d filesystem C:\\Users\\marlon.franco\\Documents\\teste7.xml\n" +
                 "\n" +
+                "  l smb1 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017\n" +
                 "  w smb1 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017,Teste conteudo 1234 [SMB1]\n" +
                 "  r smb1 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017\n" +
                 "  d smb1 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017\n" +
                 "\n" +
+                "  l smb23 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017\n" +
                 "  w smb23 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017,Teste conteudo 12345 [SMB23]\n" +
                 "  r smb23 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017\n" +
                 "  d smb23 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017\n" +
@@ -111,7 +115,8 @@ public class Main {
                 case "examples":
                     System.out.println(examples);
                     break;
-                default:break;
+                default:
+                    System.out.println("\""+input+"\" is not a recognized command.");
             }
             if (input.startsWith("read ") || input.startsWith("r ")) {
                 System.out.println("\n"+read(input)+"\n");
@@ -122,6 +127,9 @@ public class Main {
             if (input.startsWith("delete ") || input.startsWith("d ")) {
                 System.out.println("\n"+delete(input)+"\n");
             }
+            if (input.startsWith("list ") || input.startsWith("l ")) {
+                System.out.println("\n"+list(input)+"\n");
+            }
         }
     }
 
@@ -129,7 +137,7 @@ public class Main {
         String output="";
         HashMap<String,String> aInput = verifyInput(input,"read");
         if (!"".equalsIgnoreCase(aInput.get("error"))) return aInput.get("error");
-        Jcon jcon = new Jcon(IJcon.types.valueOf(aInput.get("type")));
+        Jcon jcon = new Jcon(aInput.get("type"));
         try {
             return jcon.read(aInput.get("IP"), aInput.get("basePath"),aInput.get("username"),aInput.get("password"));
         } catch (Exception e) {
@@ -141,7 +149,7 @@ public class Main {
         String output="";
         HashMap<String,String> aInput = verifyInput(input,"write");
         if (!"".equalsIgnoreCase(aInput.get("error"))) return aInput.get("error");
-        Jcon jcon = new Jcon(IJcon.types.valueOf(aInput.get("type")));
+        Jcon jcon = new Jcon(aInput.get("type"));
         try {
             return jcon.write(aInput.get("IP"), aInput.get("basePath"),aInput.get("username"),aInput.get("password"),aInput.get("content"));
         } catch (Exception e) {
@@ -153,9 +161,21 @@ public class Main {
         String output="";
         HashMap<String,String> aInput = verifyInput(input,"delete");
         if (!"".equalsIgnoreCase(aInput.get("error"))) return aInput.get("error");
-        Jcon jcon = new Jcon(IJcon.types.valueOf(aInput.get("type")));
+        Jcon jcon = new Jcon(aInput.get("type"));
         try {
             return jcon.delete(aInput.get("IP"), aInput.get("basePath"),aInput.get("username"),aInput.get("password"));
+        } catch (Exception e) {
+            return "";
+        }
+    }
+
+    private static String list(String input) {
+        String output="";
+        HashMap<String,String> aInput = verifyInput(input,"list");
+        if (!"".equalsIgnoreCase(aInput.get("error"))) return aInput.get("error");
+        Jcon jcon = new Jcon(aInput.get("type"));
+        try {
+            return jcon.listFiles(aInput.get("IP"), aInput.get("basePath"),aInput.get("username"),aInput.get("password"));
         } catch (Exception e) {
             return "";
         }
