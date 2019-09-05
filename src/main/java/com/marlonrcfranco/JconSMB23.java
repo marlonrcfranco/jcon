@@ -167,6 +167,9 @@ public class JconSMB23 implements IJcon{
                 if(share.fileExists(filePath)){
                     share.rm(filePath);
                     output = "File \""+sharedFolder+"/"+filePath+"\" deleted successfully.";
+                }else if (share.folderExists(filePath)){
+                    share.rmdir(filePath,true);
+                    output = "Directory \""+sharedFolder+"/"+filePath+"\" deleted successfully.";
                 }else {
                     output = "Error: File \""+sharedFolder+"/"+filePath+"\" not found.";
                 }
@@ -225,6 +228,7 @@ public class JconSMB23 implements IJcon{
     }
 
     private void extractSharedPathFromPath(String path) {
+        boolean isDirectory=path.endsWith("/");
         path=parsePath(path);
         sFilePath="";
         sharedFolder="";
@@ -233,6 +237,7 @@ public class JconSMB23 implements IJcon{
             if (i==0) sharedFolder=lPath[0];
             else sFilePath+="/"+lPath[i];
         }
+        if (isDirectory) sFilePath+="/";
     }
 
 }
