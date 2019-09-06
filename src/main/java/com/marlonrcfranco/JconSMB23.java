@@ -33,7 +33,7 @@ public class JconSMB23 implements IJcon{
                         "┌──────────────────────────┐\n" +
                         "│     .:: JconSMB23 ::.    │\n" +
                         "└──────────────────────────┘\n" +
-                        "  JconSMB23 supports SMB2 and SMB3 using JconSMBJ.\n" +
+                        "  JconSMB23 supports SMB2 and SMB3 using SMBJ.\n" +
                         "  https://github.com/hierynomus/smbj\n");
     }
 
@@ -139,10 +139,10 @@ public class JconSMB23 implements IJcon{
             } catch (SMBApiException e) {
                 output=("Erro: Verifique se o usuário e senha estão corretos, e se possui permissão de escrita para acessar o caminho \"" + sharedFolder+"/"+filePath + "\"").getBytes();
             } catch (IOException e) {
-                output=("Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath).getBytes();
+                output=("Erro: Nao foi possivel escrever no arquivo: "+sharedFolder+"/"+filePath).getBytes();
             }
         } catch (IOException e) {
-            output=("Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath).getBytes();
+            output=("Erro: Nao foi possivel escrever no arquivo: "+sharedFolder+"/"+filePath).getBytes();
         }
         return output;
     }
@@ -186,10 +186,12 @@ public class JconSMB23 implements IJcon{
 
     @Override
     public String copyFileTo(String sourceIP, String sourceFilePath, String destIP, String destFilePath, String user, String pass) throws IOException {
-
-        return null;
+        String output="";
+        output+= "Erro: Nao foi possivel copiar o arquivo de \"" + sourceFilePath + "\" para \"" + destFilePath + "\"; [motivo: nao implementado]";
+        return output;
     }
 
+    @Override
     public String listFiles(String IP, String filePath, String user, String pass) throws IOException {
         extractSharedPathFromPath(filePath.replace("\\", "/"));
         return listFiles(IP, sharedFolder, sFilePath, user, pass, null);

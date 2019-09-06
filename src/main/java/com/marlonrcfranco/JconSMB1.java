@@ -87,7 +87,7 @@ public class JconSMB1 implements IJcon {
         }catch (SmbException e) {
             output=("Erro: Verifique se o usuário e senha estão corretos, e se possui permissão de escrita para acessar o caminho \"" + path + "\"").getBytes();
         } catch (IOException e) {
-            output=("Erro: Não foi possível ler o arquivo \""+path+"\"").getBytes();
+            output=("Erro: Não foi possível escrever no arquivo \""+path+"\"").getBytes();
         }
         finally {
             if (smbfos != null) smbfos.close();

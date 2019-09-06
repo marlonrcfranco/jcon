@@ -28,6 +28,11 @@
             <artifactId>junit-jupiter-api</artifactId>
             <version>5.5.1</version>
         </dependency>
+        <dependency>
+            <groupId>com.emc.ecs</groupId>
+            <artifactId>nfs-client</artifactId>
+            <version>1.0.3</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

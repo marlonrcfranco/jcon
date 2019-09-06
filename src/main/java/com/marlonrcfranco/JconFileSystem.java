@@ -86,7 +86,7 @@ public class JconFileSystem implements IJcon{
         } catch (FileNotFoundException e) {
             output=("Erro: Não foi possível localizar o caminho \""+filePath+"\"").getBytes();
         } catch (IOException e) {
-            output=("Erro: Não foi possível ler o arquivo \""+filePath+"\"").getBytes();
+            output=("Erro: Não foi possível escrever no arquivo \""+filePath+"\"").getBytes();
         }
         finally {
             if (file != null) file.close();
