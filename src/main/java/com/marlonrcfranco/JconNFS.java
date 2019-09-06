@@ -44,7 +44,7 @@ public class JconNFS implements IJcon{
         NfsFileInputStream in = null;
         try {
             nfs3 = new Nfs3(IP+":"+sharedFolder, new CredentialUnix(0, 0, null), 3);
-            file = new Nfs3File(nfs3, "/");
+            file = new Nfs3File(nfs3, filePath);
             in = new NfsFileInputStream(file);
             output = Util.toByteArray(in);
         } catch (IOException e) {
@@ -65,18 +65,17 @@ public class JconNFS implements IJcon{
         extractSharedPathFromPath(filePath.replace("\\", "/"));
         byte[] output="".getBytes();
         sharedFolder = parsePath(sharedFolder);
-        sFilePath = parsePath(sFilePath);
+        filePath = parsePath(sFilePath);
         Nfs3 nfs3 = null;
         Nfs3File file = null;
         NfsFileOutputStream out = null;
         try {
             nfs3 = new Nfs3(IP+":"+sharedFolder, new CredentialUnix(0, 0, null), 3);
-            file = new Nfs3File(nfs3, "/");
             String path = filePath;
             int idx=1;
             // if file is in folder(s), create them first
             while(idx > 0) {
-                idx = path.lastIndexOf("/");
+                idx = path.lastIndexOf(path);
                 idx = idx<0? 0 : idx;
                 path=path.substring(idx);
                 String folderPath = filePath.substring(0, idx);
@@ -88,6 +87,7 @@ public class JconNFS implements IJcon{
                 if(!folder.exists()) folder.mkdir();
                 output=("Diretório criado com sucesso").getBytes();
             }else {
+                file = new Nfs3File(nfs3, filePath);
                 out = new NfsFileOutputStream(file);
                 out.write(content);
                 output=("Escrita concluída com sucesso").getBytes();
@@ -116,7 +116,7 @@ public class JconNFS implements IJcon{
         Nfs3File file = null;
         try {
             nfs3 = new Nfs3(IP+":"+sharedFolder, new CredentialUnix(0, 0, null), 3);
-            file = new Nfs3File(nfs3, "/");
+            file = new Nfs3File(nfs3, filePath);
             if (file.exists()) {
                 isDirectory = file.isDirectory();
                 file.delete();
@@ -145,7 +145,7 @@ public class JconNFS implements IJcon{
         Nfs3File file = null;
         try {
             nfs3 = new Nfs3(IP+":"+sharedFolder, new CredentialUnix(0, 0, null), 3);
-            file = new Nfs3File(nfs3, "/");
+            file = new Nfs3File(nfs3, path);
             List<Nfs3File> listFiles =  file.listFiles();
             for (Nfs3File f : listFiles) {
                 output+= f.getName() + (f.isDirectory()? "/" : "") + "\n";
