@@ -37,7 +37,6 @@ public class JconNFS implements IJcon{
 
     public byte[] readBytes(String IP, String sharedFolder, String filePath, String user, String pass, String domain) throws IOException {
         byte[] output="".getBytes();
-        //AccessMask = FILE_READ_DATA
         sharedFolder = parsePath(sharedFolder);
         filePath = parsePath(filePath);
         Nfs3 nfs3 = null;
@@ -65,7 +64,6 @@ public class JconNFS implements IJcon{
     public byte[] writeBytes(String IP, String filePath, String user, String pass, byte[] content) throws IOException {
         extractSharedPathFromPath(filePath.replace("\\", "/"));
         byte[] output="".getBytes();
-        //AccessMask = FILE_READ_DATA
         sharedFolder = parsePath(sharedFolder);
         sFilePath = parsePath(sFilePath);
         Nfs3 nfs3 = null;
