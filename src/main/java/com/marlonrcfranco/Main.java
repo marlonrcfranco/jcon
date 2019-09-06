@@ -57,7 +57,7 @@ public class Main {
                 " ║               │ (works for versions after Windows 10)  │(basePath is a remote shared folder)║\n" +
                 " ║───────────────┼────────────────────────────────────────┼────────────────────────────────────║\n" +
                 " ║ nfs           │ Access files in remote filesystem      │ basePath,ip,username,password      ║\n" +
-                " ║               │ using NFS protocol. [NOT IMPLEMENTED]  │                                    ║\n" +
+                " ║               │ using NFS protocol.                    │                                    ║\n" +
                 " ║               │ (Linux, Unix based OS)                 │(basePath is a remote shared folder)║\n" +
                 " ╚═════════════════════════════════════════════════════════════════════════════════════════════╝\n" +
                 " \n";
