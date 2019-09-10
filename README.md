@@ -8,6 +8,14 @@ Java connector to remote filesystem
 - **NFS** [remote] *(at this version, works using the same as FileSystem)*
 
 ****
+### How to use
+##### Build the project by yourself
+
+or 
+
+##### Download the .jar: 
+
+****
 
 ### Examples:
 ```java
