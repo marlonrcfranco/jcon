@@ -1,6 +1,5 @@
 package com.marlonrcfranco;
 
-
 import com.hierynomus.msdtyp.AccessMask;
 import com.hierynomus.msfscc.FileAttributes;
 import com.hierynomus.msfscc.fileinformation.FileIdBothDirectoryInformation;
@@ -33,7 +32,7 @@ public class JconSMB23 implements IJcon{
                         "┌──────────────────────────┐\n" +
                         "│     .:: JconSMB23 ::.    │\n" +
                         "└──────────────────────────┘\n" +
-                        "  JconSMB23 supports SMB2 and SMB3 using JconSMBJ.\n" +
+                        "  JconSMB23 supports SMB2 and SMB3 using SMBJ.\n" +
                         "  https://github.com/hierynomus/smbj\n");
     }
 
@@ -68,12 +67,15 @@ public class JconSMB23 implements IJcon{
                 output = Util.toByteArray(remoteFile.getInputStream());
                 remoteFile.close();
             } catch (SMBApiException e) {
-                output=("Erro: Nao foi possivel localizar o caminho "+sharedFolder+"/"+filePath).getBytes();
+                output=("Erro: Nao foi possivel localizar o caminho "+sharedFolder+"/"+filePath
+                        +((e.getMessage() != null)?" ("+e.getMessage()+")":"")).getBytes();
             } catch (IOException e) {
-                output=("Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath).getBytes();
+                output=("Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath
+                        +((e.getMessage() != null)?" ("+e.getMessage()+")":"")).getBytes();
             }
         } catch (IOException e) {
-            output=("Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath).getBytes();
+            output=("Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath
+                    +((e.getMessage() != null)?" ("+e.getMessage()+")":"")).getBytes();
         }
         return output;
     }
@@ -137,12 +139,15 @@ public class JconSMB23 implements IJcon{
                 os.close();
                 output=("Escrita concluída com sucesso").getBytes();
             } catch (SMBApiException e) {
-                output=("Erro: Verifique se o usuário e senha estão corretos, e se possui permissão de escrita para acessar o caminho \"" + sharedFolder+"/"+filePath + "\"").getBytes();
+                output=("Erro: Verifique se o usuário e senha estão corretos, e se possui permissão para acessar o caminho \"" + sharedFolder+"/"+filePath + "\""
+                        +((e.getMessage() != null)?" ("+e.getMessage()+")":"")).getBytes();
             } catch (IOException e) {
-                output=("Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath).getBytes();
+                output=("Erro: Nao foi possivel escrever no arquivo: "+sharedFolder+"/"+filePath
+                        +((e.getMessage() != null)?" ("+e.getMessage()+")":"")).getBytes();
             }
         } catch (IOException e) {
-            output=("Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath).getBytes();
+            output=("Erro: Nao foi possivel escrever no arquivo: "+sharedFolder+"/"+filePath
+                    +((e.getMessage() != null)?" ("+e.getMessage()+")":"")).getBytes();
         }
         return output;
     }
@@ -167,26 +172,34 @@ public class JconSMB23 implements IJcon{
                 if(share.fileExists(filePath)){
                     share.rm(filePath);
                     output = "File \""+sharedFolder+"/"+filePath+"\" deleted successfully.";
+                }else if (share.folderExists(filePath)){
+                    share.rmdir(filePath,true);
+                    output = "Directory \""+sharedFolder+"/"+filePath+"\" deleted successfully.";
                 }else {
                     output = "Error: File \""+sharedFolder+"/"+filePath+"\" not found.";
                 }
             } catch (SMBApiException e) {
                 output="Erro: Verifique se o usuário e senha estão corretos, e se possui permissão de escrita para acessar o caminho \"" + sharedFolder+"/"+filePath + "\"";
+                if (e.getMessage() != null) output+=" ("+e.getMessage()+")";
             } catch (IOException e) {
                 output="Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath;
+                if (e.getMessage() != null) output+=" ("+e.getMessage()+")";
             }
         } catch (IOException e) {
             output="Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath;
+            if (e.getMessage() != null) output+=" ("+e.getMessage()+")";
         }
         return output;
     }
 
     @Override
     public String copyFileTo(String sourceIP, String sourceFilePath, String destIP, String destFilePath, String user, String pass) throws IOException {
-
-        return null;
+        String output="";
+        output+= "Erro: Nao foi possivel copiar o arquivo de \"" + sourceFilePath + "\" para \"" + destFilePath + "\"; [motivo: nao implementado]";
+        return output;
     }
 
+    @Override
     public String listFiles(String IP, String filePath, String user, String pass) throws IOException {
         extractSharedPathFromPath(filePath.replace("\\", "/"));
         return listFiles(IP, sharedFolder, sFilePath, user, pass, null);
@@ -209,10 +222,12 @@ public class JconSMB23 implements IJcon{
                     output+= f.getFileName() + (isDirectory? "/" : "") + "\n";
                 }
             } catch (SMBApiException e) {
-                output="Erro: Nao foi possivel localizar o diretorio "+sharedFolder+"/"+path;
+                output="Erro: Nao foi possivel localizar o diretorio "+sharedFolder+(!"".equalsIgnoreCase((sharedFolder+path).trim())? "/" : "")+path;
+                if (e.getMessage() != null) output+=" ("+e.getMessage()+")";
             }
         } catch (IOException e) {
             output="Erro: Nao foi possivel listar os arquivos do diretorio: "+sharedFolder;
+            if (e.getMessage() != null) output+=" ("+e.getMessage()+")";
         }
         return output;
     }
@@ -225,6 +240,7 @@ public class JconSMB23 implements IJcon{
     }
 
     private void extractSharedPathFromPath(String path) {
+        boolean isDirectory=path.endsWith("/");
         path=parsePath(path);
         sFilePath="";
         sharedFolder="";
@@ -233,6 +249,7 @@ public class JconSMB23 implements IJcon{
             if (i==0) sharedFolder=lPath[0];
             else sFilePath+="/"+lPath[i];
         }
+        if (isDirectory) sFilePath+="/";
     }
 
 }

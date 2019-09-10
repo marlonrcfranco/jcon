@@ -146,9 +146,15 @@ class JconSMB1Test {
     public void delete() {
         System.out.println("*******\nDelete\n*******\n");
         try {
-            jSMB1.write(IP,"/Marlon/Teste/fileTest123.xml",user,pass,"Test File 123 XML to be deleted.\n^\n^\n^\n7");
+            response = jSMB1.write(IP,"/Marlon/Teste/fileTest123.xml",user,pass,"Test File 123 XML to be deleted.\n^\n^\n^\n7");
             assert !response.contains("Erro");
             response = jSMB1.delete(IP,"/Marlon/Teste/fileTest123.xml",user,pass);
+            System.out.println(response);
+            assert !response.contains("Erro");
+
+            response = jSMB1.write(IP,"/Marlon/Teste/newFolder/fileTest123.xml",user,pass,"Test File 123 XML to be deleted.\n^\n^\n^\n7");
+            assert !response.contains("Erro");
+            response = jSMB1.delete(IP,"/Marlon/Teste/newFolder/",user,pass);
             System.out.println(response);
             assert !response.contains("Erro");
         } catch (IOException e) {
@@ -160,6 +166,7 @@ class JconSMB1Test {
     public void listFiles() {
         System.out.println("*******\nlistFiles\n*******\n");
         try {
+
             jSMB1.write(IP,"/Marlon/Teste/fileTest123.xml",user,pass,"Test File 123 XML to be deleted.\n^\n^\n^\n7");
             assert !response.contains("Erro");
 

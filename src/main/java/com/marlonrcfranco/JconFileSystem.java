@@ -1,13 +1,6 @@
 package com.marlonrcfranco;
 
 import java.io.*;
-import java.nio.file.AccessDeniedException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class JconFileSystem implements IJcon{
 
@@ -37,9 +30,11 @@ public class JconFileSystem implements IJcon{
             file = new FileInputStream(filePath);
             output = Util.toByteArray(file);
         } catch (FileNotFoundException e) {
-            output= ("Erro: Não foi possível localizar o arquivo \""+filePath+"\"").getBytes();
+            output= ("Erro: Não foi possível localizar o arquivo \""+filePath+"\""
+                    +((e.getMessage() != null)?" ("+e.getMessage()+")":"")).getBytes();
         } catch (IOException e) {
-            output= ("Erro: Não foi possível ler o arquivo \""+filePath+"\"").getBytes();
+            output= ("Erro: Não foi possível ler o arquivo \""+filePath+"\""
+                    +((e.getMessage() != null)?" ("+e.getMessage()+")":"")).getBytes();
         }
         finally {
             if (file != null) file.close();
@@ -84,9 +79,12 @@ public class JconFileSystem implements IJcon{
                 output=("Escrita concluída com sucesso").getBytes();
             }
         } catch (FileNotFoundException e) {
-            output=("Erro: Não foi possível localizar o caminho \""+filePath+"\"").getBytes();
+            output=("Erro: Não foi possível localizar o caminho \""+filePath+"\""
+                    +((e.getMessage() != null)?" ("+e.getMessage()+")":"")).getBytes();
         } catch (IOException e) {
-            output=("Erro: Não foi possível ler o arquivo \""+filePath+"\"").getBytes();
+            output=("Erro: Não foi possível escrever no arquivo \""+filePath+"\""
+                    +((e.getMessage() != null)?" ("+e.getMessage()+")":"")).getBytes();
+
         }
         finally {
             if (file != null) file.close();
@@ -102,17 +100,36 @@ public class JconFileSystem implements IJcon{
     public String delete(String IP, String filePath, String user, String pass) throws IOException {
         String output="";
         boolean isDirectory=false;
+        boolean isDeleted=false;
         filePath = filePath.replace("\\", "/");
         File file = null;
         file = new File(filePath);
         if (file.exists()) {
             isDirectory = file.isDirectory();
-            file.delete();
-            output = (isDirectory? "Directory":"File")+" \""+file.getName()+"\" deleted successfully.";
+            if (isDirectory) {
+                isDeleted=deleteDirectory(file);
+            }else {
+                isDeleted=file.delete();
+            }
+            if(isDeleted){
+                output = (isDirectory? "Directory":"File")+" \""+file.getName()+"\" deleted successfully.";
+            }else {
+                output = "Error: Could not delete the "+(isDirectory? "directory":"file")+" \""+file.getName()+"\"";
+            }
         }else {
             output = "Error: File \""+file.getName()+"\" not found.";
         }
         return output;
+    }
+
+    boolean deleteDirectory(File directoryToBeDeleted) {
+        File[] allContents = directoryToBeDeleted.listFiles();
+        if (allContents != null) {
+            for (File file : allContents) {
+                deleteDirectory(file);
+            }
+        }
+        return directoryToBeDeleted.delete();
     }
 
     public String listFiles(String filePath) throws IOException {
@@ -133,6 +150,7 @@ public class JconFileSystem implements IJcon{
             }
         } catch (Exception e) {
             output = "Error: Could not list the files in \""+filePath+"\".";
+            if (e.getMessage() != null) output+=" ("+e.getMessage()+")";
         }
         return output;
     }
@@ -167,8 +185,10 @@ public class JconFileSystem implements IJcon{
             }
         } catch (FileNotFoundException e) {
             output+= "Erro: Nao foi possivel localizar o caminho de destino \"" + destFilePath + "\";";
+            if (e.getMessage() != null) output+=" ("+e.getMessage()+")";
         } catch (IOException e) {
             output+= "Erro: Nao foi possivel copiar o arquivo de \"" + sourceFilePath + "\" para \"" + destFilePath + "\";";
+            if (e.getMessage() != null) output+=" ("+e.getMessage()+")";
         }
         finally {
             if (inputStream!=null) inputStream.close();
@@ -176,7 +196,5 @@ public class JconFileSystem implements IJcon{
         }
         return output;
     }
-
-
 
 }

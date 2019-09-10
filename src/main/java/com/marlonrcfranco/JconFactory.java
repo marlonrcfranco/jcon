@@ -27,7 +27,7 @@ public class JconFactory {
             } else if (type == IJcon.types.SMB23) {
                 return new JconSMB23();
             } else if (type == IJcon.types.NFS) {
-                // Not implemented yet
+                return new JconFileSystem();
             }
         } catch (Exception e) {
         }
