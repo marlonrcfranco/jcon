@@ -13,7 +13,7 @@ Java connector to remote filesystem
 
 or 
 
-##### Download the .jar: 
+##### [Download the .jar](https://github.com/marlonrcfranco/jcon/blob/master/target/jcon.jar)
 
 ****
 
