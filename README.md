@@ -10,10 +10,12 @@ Java connector to remote filesystem
 ****
 
 ### Examples:
+```java
+import com.marlonrcfranco.Jcon;
+```
 
 #### Read the contents of a file:
 ```java
-import com.marlonrcfranco.Jcon;
 
 Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
 
@@ -24,3 +26,17 @@ String sContent = jcon.read("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt"
 byte[] bContent = jcon.readBytes("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password");
 ```
 
+#### Write contents to a file:
+```java
+
+Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
+
+/** Write the content as a String */
+String sContent = "some string";
+jcon.write("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password",sContent);
+
+/** Write the content as byte[] (recommended for PDF and image files)*/
+byte[] bContent = "some string".getBytes();
+jcon.writeBytes("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password",bContent);
+
+```
