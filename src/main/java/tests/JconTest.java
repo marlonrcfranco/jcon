@@ -93,7 +93,7 @@ class JconTest {
             // read to check if it was written correctly
             ImageContent2 = (new Jcon("smb23").readBytes(ip,basePath+"/Teste/imageCopy.png",user,password));
             assert Arrays.equals(ImageContent, ImageContent2);
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }

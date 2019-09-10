@@ -120,16 +120,16 @@ public class Main {
                     System.out.println(examples);
                     break;
                 default:
-                    if (input.startsWith("read ") || input.startsWith("r ")) {
+                    if (input.startsWith("read ") || input.startsWith("r ") || "r".equalsIgnoreCase(input)) {
                         System.out.println("\n"+read(input)+"\n");
                     }else
-                    if (input.startsWith("write ") || input.startsWith("w ")) {
+                    if (input.startsWith("write ") || input.startsWith("w ") || "w".equalsIgnoreCase(input)) {
                         System.out.println("\n"+write(input)+"\n");
                     }else
-                    if (input.startsWith("delete ") || input.startsWith("d ")) {
+                    if (input.startsWith("delete ") || input.startsWith("d ") || "d".equalsIgnoreCase(input)) {
                         System.out.println("\n"+delete(input)+"\n");
                     }else
-                    if (input.startsWith("list ") || input.startsWith("l ")) {
+                    if (input.startsWith("list ") || input.startsWith("l ") || "l".equalsIgnoreCase(input)) {
                         System.out.println("\n"+list(input)+"\n");
                     }else {
                         System.out.println("\""+input+"\" is not a recognized command.");
@@ -219,7 +219,7 @@ public class Main {
         }
         response.put("cmd",cmd);
         response.put("type", type.toUpperCase().trim());
-        if (type.equalsIgnoreCase(IJcon.types.FILESYSTEM.toString())) {
+        if (type.equalsIgnoreCase(IJcon.types.FILESYSTEM.toString()) || type.equalsIgnoreCase(IJcon.types.NFS.toString())) {
             if (params.length < 1) {
                 response.put("error","Invalid syntax for " + operation + ".\n  Type \"" + type + "\" expects at least 1 parameter (basePath) separated by commas.\n    Type \"con\" for more info about available connectors.");
                 return response;

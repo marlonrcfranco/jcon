@@ -114,6 +114,7 @@ class JconSMB23Test {
     public void listFiles() {
         System.out.println("*******\nlistFiles\n*******\n");
         try {
+
             jSMBJ.write(IP,"/Marlon/Teste/fileTest123.xml",user,pass,"Test File 123 XML to be deleted.\n^\n^\n^\n7");
             assert !response.contains("Erro");
             jSMBJ.write(IP,"/Marlon/fileTest123.xml",user,pass,"Test File 123 XML to be deleted.\n^\n^\n^\n7");

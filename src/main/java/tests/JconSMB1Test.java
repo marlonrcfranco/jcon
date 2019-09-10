@@ -166,6 +166,7 @@ class JconSMB1Test {
     public void listFiles() {
         System.out.println("*******\nlistFiles\n*******\n");
         try {
+
             jSMB1.write(IP,"/Marlon/Teste/fileTest123.xml",user,pass,"Test File 123 XML to be deleted.\n^\n^\n^\n7");
             assert !response.contains("Erro");
 

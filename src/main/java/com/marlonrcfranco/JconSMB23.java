@@ -1,6 +1,5 @@
 package com.marlonrcfranco;
 
-
 import com.hierynomus.msdtyp.AccessMask;
 import com.hierynomus.msfscc.FileAttributes;
 import com.hierynomus.msfscc.fileinformation.FileIdBothDirectoryInformation;
@@ -68,12 +67,15 @@ public class JconSMB23 implements IJcon{
                 output = Util.toByteArray(remoteFile.getInputStream());
                 remoteFile.close();
             } catch (SMBApiException e) {
-                output=("Erro: Nao foi possivel localizar o caminho "+sharedFolder+"/"+filePath).getBytes();
+                output=("Erro: Nao foi possivel localizar o caminho "+sharedFolder+"/"+filePath
+                        +((e.getMessage() != null)?" ("+e.getMessage()+")":"")).getBytes();
             } catch (IOException e) {
-                output=("Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath).getBytes();
+                output=("Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath
+                        +((e.getMessage() != null)?" ("+e.getMessage()+")":"")).getBytes();
             }
         } catch (IOException e) {
-            output=("Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath).getBytes();
+            output=("Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath
+                    +((e.getMessage() != null)?" ("+e.getMessage()+")":"")).getBytes();
         }
         return output;
     }
@@ -137,12 +139,15 @@ public class JconSMB23 implements IJcon{
                 os.close();
                 output=("Escrita concluída com sucesso").getBytes();
             } catch (SMBApiException e) {
-                output=("Erro: Verifique se o usuário e senha estão corretos, e se possui permissão de escrita para acessar o caminho \"" + sharedFolder+"/"+filePath + "\"").getBytes();
+                output=("Erro: Verifique se o usuário e senha estão corretos, e se possui permissão para acessar o caminho \"" + sharedFolder+"/"+filePath + "\""
+                        +((e.getMessage() != null)?" ("+e.getMessage()+")":"")).getBytes();
             } catch (IOException e) {
-                output=("Erro: Nao foi possivel escrever no arquivo: "+sharedFolder+"/"+filePath).getBytes();
+                output=("Erro: Nao foi possivel escrever no arquivo: "+sharedFolder+"/"+filePath
+                        +((e.getMessage() != null)?" ("+e.getMessage()+")":"")).getBytes();
             }
         } catch (IOException e) {
-            output=("Erro: Nao foi possivel escrever no arquivo: "+sharedFolder+"/"+filePath).getBytes();
+            output=("Erro: Nao foi possivel escrever no arquivo: "+sharedFolder+"/"+filePath
+                    +((e.getMessage() != null)?" ("+e.getMessage()+")":"")).getBytes();
         }
         return output;
     }
@@ -175,11 +180,14 @@ public class JconSMB23 implements IJcon{
                 }
             } catch (SMBApiException e) {
                 output="Erro: Verifique se o usuário e senha estão corretos, e se possui permissão de escrita para acessar o caminho \"" + sharedFolder+"/"+filePath + "\"";
+                if (e.getMessage() != null) output+=" ("+e.getMessage()+")";
             } catch (IOException e) {
                 output="Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath;
+                if (e.getMessage() != null) output+=" ("+e.getMessage()+")";
             }
         } catch (IOException e) {
             output="Erro: Nao foi possivel ler o arquivo: "+sharedFolder+"/"+filePath;
+            if (e.getMessage() != null) output+=" ("+e.getMessage()+")";
         }
         return output;
     }
@@ -214,10 +222,12 @@ public class JconSMB23 implements IJcon{
                     output+= f.getFileName() + (isDirectory? "/" : "") + "\n";
                 }
             } catch (SMBApiException e) {
-                output="Erro: Nao foi possivel localizar o diretorio "+sharedFolder+"/"+path;
+                output="Erro: Nao foi possivel localizar o diretorio "+sharedFolder+(!"".equalsIgnoreCase((sharedFolder+path).trim())? "/" : "")+path;
+                if (e.getMessage() != null) output+=" ("+e.getMessage()+")";
             }
         } catch (IOException e) {
             output="Erro: Nao foi possivel listar os arquivos do diretorio: "+sharedFolder;
+            if (e.getMessage() != null) output+=" ("+e.getMessage()+")";
         }
         return output;
     }
