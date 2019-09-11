@@ -142,7 +142,7 @@ public class JconFileSystem implements IJcon{
         try {
             ArrayList<File> listFiles = listFilesAsList(IP, filePath, user, pass);
             for (File file : listFiles) {
-                output += file + "\n";
+                output += file.getName() + (file.isDirectory()? "/" : "") + "\n";
             }
         } catch (Exception e) {
             output += "Error: Could not list the files in \""+filePath+"\".";
