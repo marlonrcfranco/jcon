@@ -29,7 +29,7 @@ public class Main {
                 "\n║                ║ ╠═══╦═══╣ ╚╗ ║║               ║" +
                 "\n║            ╔═╗ ║ ║ ╔═╣╔═╗║╔╗╚╗║║               ║" +
                 "\n║            ║ ╚═╝ ║ ╚═╣╚═╝║║╚╗╚╝║               ║" +
-                "\n║            ╚═════╩═══╩═══╩╝ ╚══╝ v0.1          ║" +
+                "\n║            ╚═════╩═══╩═══╩╝ ╚══╝ v"+Util.getVersion()+"          ║" +
                 "\n║               @marlonrcfranco                  ║" +
                 "\n║     https://github.com/marlonrcfranco/jcon     ║" +
                 "\n║                                                ║" +

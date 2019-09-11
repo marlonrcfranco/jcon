@@ -4,7 +4,9 @@ import com.marlonrcfranco.JconFileSystem;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 class JconFileSystemTest {
 
@@ -173,10 +175,15 @@ class JconFileSystemTest {
             System.out.println(response);
             assert response.contains("teste10.xml");
 
+            ArrayList<File> list = jconFS.listFilesAsList("","C:\\Users\\marlon.franco\\Documents","","");
+            assert list.size()==response.split("\\n").length;
+
             response = jconFS.delete( "C:\\Users\\marlon.franco\\Documents\\teste10.xml");
             assert !response.contains("Erro");
             System.out.println(response);
         } catch (IOException e) {
+            assert false;
+        } catch (Exception e) {
             assert false;
         }
     }

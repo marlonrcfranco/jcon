@@ -7,6 +7,7 @@ import com.emc.ecs.nfsclient.nfs.nfs3.Nfs3;
 import com.emc.ecs.nfsclient.rpc.CredentialUnix;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class JconNFS implements IJcon{
@@ -134,6 +135,11 @@ public class JconNFS implements IJcon{
     public String listFiles(String IP, String filePath, String user, String pass) throws IOException {
         extractSharedPathFromPath(filePath.replace("\\", "/"));
         return listFiles(IP, sharedFolder, sFilePath, user, pass);
+    }
+
+    @Override
+    public ArrayList<String> listFilesAsList(String IP, String filePath, String user, String pass) throws IOException {
+        return null;
     }
 
     public String listFiles(String IP, String sharedFolder, String path, String user, String pass) {

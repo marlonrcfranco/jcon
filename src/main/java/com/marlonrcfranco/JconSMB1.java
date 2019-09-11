@@ -5,6 +5,7 @@ import jcifs.smb.*;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 public class JconSMB1 implements IJcon {
 
@@ -133,21 +134,33 @@ public class JconSMB1 implements IJcon {
         String output="";
         filePath=filePath.replace("\\", "/");
         if (!filePath.endsWith("/") && !"".equalsIgnoreCase(filePath.trim())) filePath+="/";
-        NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);
         String path="smb://"+IP+"/"+filePath;
-        SmbFile smbFile=null;
         try {
-            smbFile = new SmbFile(path,auth);
-            SmbFile[] aSmbFiles = smbFile.listFiles();
+            ArrayList<SmbFile> aSmbFiles = listFilesAsList(IP, filePath, user, pass);
             for (SmbFile smbF : aSmbFiles) {
                 output+=smbF.getName()+"\n";
             }
         } catch (MalformedURLException e) {
             output="Erro: Nao foi possivel localizar o caminho \"" + path + "\"";
             if (e.getMessage() != null) output+=" ("+e.getMessage()+")";
-        }catch (SmbException e) {
+        }catch (Exception e) {
             output="Erro: Verifique se o usuário e senha estão corretos, e se possui permissão para acessar o caminho \"" + path + "\"";
             if (e.getMessage() != null) output+=" ("+e.getMessage()+")";
+        }
+        return output;
+    }
+
+    @Override
+    public ArrayList<SmbFile> listFilesAsList(String IP, String filePath, String user, String pass) throws Exception {
+        ArrayList<SmbFile> output = new ArrayList<>();
+        filePath=filePath.replace("\\", "/");
+        if (!filePath.endsWith("/") && !"".equalsIgnoreCase(filePath.trim())) filePath+="/";
+        String path="smb://"+IP+"/"+filePath;
+        NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("",user, pass);
+        SmbFile smbFile = new SmbFile(path,auth);
+        SmbFile[] aSmbFiles = smbFile.listFiles();
+        for (SmbFile smbF : aSmbFiles) {
+            output.add(smbF);
         }
         return output;
     }
