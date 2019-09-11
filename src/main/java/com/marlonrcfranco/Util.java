@@ -19,4 +19,8 @@ public class Util {
         }
         return os.toByteArray();
     }
+
+    public static String getVersion() {
+        return "1.0";
+    }
 }
