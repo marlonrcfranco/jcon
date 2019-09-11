@@ -65,12 +65,12 @@ jcon.delete("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "P
 Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
 
 /** Returns a String with the name of all the files an directories separated by "\n" */
-String list = jcon.listFiles("192.168.XXX.XXX", "SharedFolder/subfolder/", "Username", "Password");
+String sList = jcon.listFiles("192.168.XXX.XXX", "SharedFolder/subfolder/", "Username", "Password");
 
 /** Returns an ArrayList of objects according to the protocol. 
 E.g. for filesystem protocol, it will return ArrayList<java.io.File>; 
      for smb1 protocol, it will return ArrayList<jcifs.smb.SmbFile>, 
      and so on. */
-ArrayList<SmbFile> list = jcon.listFilesAsList("192.168.XXX.XXX", "SharedFolder/subfolder/", "Username", "Password");
+ArrayList<SmbFile> aList = jcon.listFilesAsList("192.168.XXX.XXX", "SharedFolder/subfolder/", "Username", "Password");
 
 ```
