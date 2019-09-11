@@ -16,6 +16,7 @@ import com.hierynomus.smbj.share.File;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashSet;
@@ -202,33 +203,50 @@ public class JconSMB23 implements IJcon{
     @Override
     public String listFiles(String IP, String filePath, String user, String pass) throws IOException {
         extractSharedPathFromPath(filePath.replace("\\", "/"));
-        return listFiles(IP, sharedFolder, sFilePath, user, pass, null);
+        String output="";
+        boolean isDirectory = false;
+        sharedFolder = parsePath(sharedFolder);
+        String path = parsePath(sFilePath);
+        if (!path.trim().endsWith("/") && !"".equalsIgnoreCase(path.trim())) path+="/";
+        try {
+            ArrayList<FileIdBothDirectoryInformation> list = listFilesAsList(IP, sharedFolder, sFilePath, user, pass, null);
+            for (FileIdBothDirectoryInformation f : list) {
+                isDirectory = f.getFileAttributes()==FileAttributes.FILE_ATTRIBUTE_DIRECTORY.getValue();
+                output+= f.getFileName() + (isDirectory? "/" : "") + "\n";
+            }
+        } catch (IOException e) {
+             output="Erro: Nao foi possivel listar os arquivos do diretorio: "+sharedFolder;
+             if (e.getMessage() != null) output+=" ("+e.getMessage()+")";
+        } catch (Exception e) {
+            output="Erro: Nao foi possivel localizar o diretorio "+sharedFolder+(!"".equalsIgnoreCase((sharedFolder+path).trim())? "/" : "")+path;
+            if (e.getMessage() != null) output+=" ("+e.getMessage()+")";
+        }
+        return output;
     }
 
-    public String listFiles(String IP, String sharedFolder, String path, String user, String pass, String domain) {
-        String output="";
+    @Override
+    public ArrayList<FileIdBothDirectoryInformation> listFilesAsList(String IP, String filePath, String user, String pass) throws Exception {
+        extractSharedPathFromPath(filePath.replace("\\", "/"));
+        return listFilesAsList(IP, sharedFolder, sFilePath, user, pass, null);
+    }
+
+    public ArrayList<FileIdBothDirectoryInformation> listFilesAsList(String IP, String sharedFolder, String path, String user, String pass, String domain) throws Exception {
+        ArrayList<FileIdBothDirectoryInformation> output = new ArrayList<>();
         sharedFolder = parsePath(sharedFolder);
         path = parsePath(path);
         if (!path.trim().endsWith("/") && !"".equalsIgnoreCase(path.trim())) path+="/";
-        boolean isDirectory = false;
         SMBClient client = new SMBClient();
-        try (Connection connection = client.connect(IP)) {
-            AuthenticationContext ac = new AuthenticationContext(user, pass.toCharArray(),domain);
-            Session session = connection.authenticate(ac);
-            // Connect to Share
-            try (DiskShare share = (DiskShare) session.connectShare(sharedFolder)) {
-                for (FileIdBothDirectoryInformation f : share.list(path, "*")) {
-                    isDirectory = f.getFileAttributes()==FileAttributes.FILE_ATTRIBUTE_DIRECTORY.getValue();
-                    output+= f.getFileName() + (isDirectory? "/" : "") + "\n";
-                }
-            } catch (SMBApiException e) {
-                output="Erro: Nao foi possivel localizar o diretorio "+sharedFolder+(!"".equalsIgnoreCase((sharedFolder+path).trim())? "/" : "")+path;
-                if (e.getMessage() != null) output+=" ("+e.getMessage()+")";
-            }
-        } catch (IOException e) {
-            output="Erro: Nao foi possivel listar os arquivos do diretorio: "+sharedFolder;
-            if (e.getMessage() != null) output+=" ("+e.getMessage()+")";
+        Connection connection = client.connect(IP);
+        AuthenticationContext ac = new AuthenticationContext(user, pass.toCharArray(),domain);
+        Session session = connection.authenticate(ac);
+        // Connect to Share
+        DiskShare share = (DiskShare) session.connectShare(sharedFolder);
+        for (FileIdBothDirectoryInformation f : share.list(path, "*")) {
+            output.add(f);
         }
+        if (share!=null) share.close();
+        if (session!=null) session.close();
+        if (connection!=null) connection.close();
         return output;
     }
 

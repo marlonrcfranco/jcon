@@ -1,10 +1,12 @@
 package tests;
 
 import com.marlonrcfranco.JconSMB1;
+import jcifs.smb.SmbFile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 class JconSMB1Test {
 
@@ -177,11 +179,16 @@ class JconSMB1Test {
             System.out.println(response);
             assert response.contains("fileTest123.xml");
 
+            ArrayList<SmbFile> list = jSMB1.listFilesAsList(IP,"/Marlon/Teste",user,pass);
+            assert list.size()==response.split("\\n").length;
+
             response = jSMB1.delete(IP,"/Marlon/Teste/fileTest123.xml",user,pass);
             System.out.println(response);
             assert !response.contains("Erro");
 
         } catch (IOException e) {
+            assert false;
+        } catch (Exception e) {
             assert false;
         }
     }

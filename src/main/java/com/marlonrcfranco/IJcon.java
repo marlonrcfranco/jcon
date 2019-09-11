@@ -1,6 +1,7 @@
 package com.marlonrcfranco;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public interface IJcon {
 
@@ -85,7 +86,7 @@ public interface IJcon {
      * @throws IOException
      */
     public String listFiles(String IP, String filePath, String user, String pass) throws IOException;
-
+    public ArrayList listFilesAsList(String IP, String filePath, String user, String pass) throws Exception;
     /**
      * public String copyFileTo(String sourceIP, String sourceFilePath, String destIP, String destFilePath, String user, String pass)
      *

@@ -1,6 +1,7 @@
 package com.marlonrcfranco;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Jcon implements IJcon{
 	private IJcon jcon;
@@ -49,6 +50,11 @@ public class Jcon implements IJcon{
     @Override
     public String listFiles(String IP, String filePath, String user, String pass) throws IOException {
         return this.jcon.listFiles(IP,filePath,user,pass);
+    }
+
+    @Override
+    public ArrayList<String> listFilesAsList(String IP, String filePath, String user, String pass) throws Exception {
+        return null;
     }
 
     @Override

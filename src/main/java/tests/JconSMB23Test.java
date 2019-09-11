@@ -1,10 +1,13 @@
 package tests;
 
+import com.hierynomus.msfscc.fileinformation.FileIdBothDirectoryInformation;
 import com.marlonrcfranco.JconSMB23;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
+import java.util.ArrayList;
 
 class JconSMB23Test {
 
@@ -133,6 +136,9 @@ class JconSMB23Test {
             response = jSMBJ.listFiles(IP,"Marlon",user,pass);
             assert response.contains("fileTest123.xml");
 
+            ArrayList<FileIdBothDirectoryInformation> list = jSMBJ.listFilesAsList(IP,"Marlon",user,pass);
+            assert list.size()==response.split("\\n").length;
+
             response = jSMBJ.delete(IP,"/Marlon/Teste/fileTest123.xml",user,pass);
             System.out.println(response);
             assert !response.contains("Erro");
@@ -141,6 +147,8 @@ class JconSMB23Test {
             assert !response.contains("Erro");
         } catch (IOException e) {
             assert false;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

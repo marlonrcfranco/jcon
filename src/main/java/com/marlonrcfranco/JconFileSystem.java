@@ -1,6 +1,7 @@
 package com.marlonrcfranco;
 
 import java.io.*;
+import java.util.ArrayList;
 
 public class JconFileSystem implements IJcon{
 
@@ -84,7 +85,6 @@ public class JconFileSystem implements IJcon{
         } catch (IOException e) {
             output=("Erro: Não foi possível escrever no arquivo \""+filePath+"\""
                     +((e.getMessage() != null)?" ("+e.getMessage()+")":"")).getBytes();
-
         }
         finally {
             if (file != null) file.close();
@@ -139,18 +139,27 @@ public class JconFileSystem implements IJcon{
     @Override
     public String listFiles(String IP, String filePath, String user, String pass) throws IOException {
         String output="";
-        filePath = filePath.replace("\\", "/");
-        if (!filePath.endsWith("/")) filePath+="/";
-        File curDir = null;
         try {
-            curDir = new File(filePath);
-            File[] filesList = curDir.listFiles();
-            for(File f : filesList){
-                output += f.getName()+(f.isDirectory()? "/":"")+"\n";
+            ArrayList<File> listFiles = listFilesAsList(IP, filePath, user, pass);
+            for (File file : listFiles) {
+                output += file + "\n";
             }
         } catch (Exception e) {
-            output = "Error: Could not list the files in \""+filePath+"\".";
+            output += "Error: Could not list the files in \""+filePath+"\".";
             if (e.getMessage() != null) output+=" ("+e.getMessage()+")";
+        }
+        return output;
+    }
+
+    @Override
+    public ArrayList<File> listFilesAsList(String IP, String filePath, String user, String pass) throws Exception {
+        ArrayList<File> output = new ArrayList<>();
+        filePath = filePath.replace("\\", "/");
+        if (!filePath.endsWith("/")) filePath+="/";
+        File curDir = new File(filePath);
+        File[] filesList = curDir.listFiles();
+        for(File f : filesList){
+            output.add(f);
         }
         return output;
     }
