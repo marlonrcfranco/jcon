@@ -35,12 +35,42 @@ byte[] bContent = jcon.readBytes("192.168.XXX.XXX", "SharedFolder/subfolder/test
 
 Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
 
-/** Write the content as a String */
+/** Writes the content as a String */
 String sContent = "some string";
-jcon.write("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password",sContent);
+jcon.write("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password", sContent);
 
-/** Write the content as byte[] (recommended for PDF and image files)*/
+/** Writes the content as byte[] (recommended for PDF and image files)*/
 byte[] bContent = "some string".getBytes();
-jcon.writeBytes("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password",bContent);
+jcon.writeBytes("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password", bContent);
+
+```
+
+#### Delete a file or directory:
+```java
+
+Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
+
+/** Deletes the directory "SharedFolder/subfolder/" and everything inside it */
+jcon.delete("192.168.XXX.XXX", "SharedFolder/subfolder/", "Username", "Password");
+
+/** Deletes only the file "test.txt" in "SharedFolder/subfolder/" */
+jcon.delete("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password");
+
+```
+
+
+#### List all files and directories in a given path:
+```java
+
+Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
+
+/** Returns a String with the name of all the files an directories separated by "\n" */
+String list = jcon.listFiles("192.168.XXX.XXX", "SharedFolder/subfolder/", "Username", "Password");
+
+/** Returns an ArrayList of objects according to the protocol. 
+E.g. for filesystem protocol, it will return ArrayList<java.io.File>; 
+     for smb1 protocol, it will return ArrayList<jcifs.smb.SmbFile>, 
+     and so on. */
+ArrayList<SmbFile> list = jcon.listFilesAsList("192.168.XXX.XXX", "SharedFolder/subfolder/", "Username", "Password");
 
 ```
