@@ -9,7 +9,7 @@ Java connector to remote filesystem
 
 ****
 ### How to use
-**Build the project by yourself** or **[Download the jar](https://github.com/marlonrcfranco/jcon/blob/master/target/jcon.jar?raw=true)**
+**Build the project by yourself** or **[Download the jar](../master/target/jcon.jar?raw=true "Click to download the jar")**
 
 ****
 
