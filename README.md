@@ -1,3 +1,9 @@
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/marlonrcfranco/jcon)
+![GitHub repo size](https://img.shields.io/github/repo-size/marlonrcfranco/jcon)
+![GitHub top language](https://img.shields.io/github/languages/top/marlonrcfranco/jcon)
+![GitHub](https://img.shields.io/github/license/marlonrcfranco/jcon)
+![GitHub stars](https://img.shields.io/github/stars/marlonrcfranco/jcon?style=social)
+
 # jcon
 Java connector to remote filesystem
 ****
