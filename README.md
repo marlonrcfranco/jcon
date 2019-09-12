@@ -8,10 +8,10 @@
 Java connector to remote filesystem
 ****
 #### Supported protocols:
-- **FileSystem** ![](https://img.shields.io/badge/filesystem-local-green) *(using native java.io)*
-- **SMB1** ![](https://img.shields.io/badge/smb1-remote-blue) *(using jCIFS <https://www.jcifs.org/>)*
-- **SMB2/3** ![](https://img.shields.io/badge/smb23-remote-blue) *(using smbj [:octocat: hierynomus/smbj](https://github.com/hierynomus/smbj))*
-- **NFS** ![](https://img.shields.io/badge/nfs-remote-blue) *(at this version, works using the same as FileSystem)*
+- ![](https://img.shields.io/badge/filesystem-local-green) **FileSystem** *(using native java.io)*
+- ![](https://img.shields.io/badge/smb1-remote-blue) **SMB1** *(using jCIFS <https://www.jcifs.org/>)*
+- ![](https://img.shields.io/badge/smb23-remote-blue) **SMB2/3** *(using smbj [:octocat: hierynomus/smbj](https://github.com/hierynomus/smbj))*
+- ![](https://img.shields.io/badge/nfs-remote-blue) **NFS** *(at this version, works using the same as FileSystem)*
 
 ****
 ### How to use
