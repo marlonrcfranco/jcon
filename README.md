@@ -4,7 +4,7 @@ Java connector to remote filesystem
 #### Supported protocols:
 - **FileSystem** [local] *(using native java.io)*
 - **SMB1** [remote] *(using jCIFS <https://www.jcifs.org/>)*
-- **SMB2/3** [remote] *(using smbj <https://github.com/hierynomus/smbj>)*
+- **SMB2/3** [remote] *(using smbj [:octocat: hierynomus/smbj](https://github.com/hierynomus/smbj))*
 - **NFS** [remote] *(at this version, works using the same as FileSystem)*
 
 ****
@@ -18,7 +18,7 @@ Java connector to remote filesystem
 import com.marlonrcfranco.Jcon;
 ```
 
-#### Read the contents of a file:
+#### Read the contents of a file: :page_with_curl:
 ```java
 
 Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
@@ -30,7 +30,7 @@ String sContent = jcon.read("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt"
 byte[] bContent = jcon.readBytes("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password");
 ```
 
-#### Write contents to a file:
+#### Write contents to a file: :pencil2:
 ```java
 
 Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
@@ -45,7 +45,7 @@ jcon.writeBytes("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username"
 
 ```
 
-#### Delete a file or directory:
+#### Delete a file or directory: :boom:
 ```java
 
 Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
@@ -59,7 +59,7 @@ jcon.delete("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "P
 ```
 
 
-#### List all files and directories in a given path:
+#### List all files and directories in a given path: :open_file_folder:
 ```java
 
 Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
