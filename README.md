@@ -15,7 +15,7 @@ Java connector to remote filesystem
 
 ****
 ### How to use
-**Build the project by yourself** or **[Download the jar](../master/target/jcon.jar?raw=true "Click to download the jar")**
+**Build the project by yourself** or [![GitHub Releases](https://img.shields.io/github/downloads/marlonrcfranco/jcon/v1.0/total)](https://github.com/marlonrcfranco/jcon/releases/download/v1.0/jcon.jar "Click to download the .jar")
 
 ****
 
