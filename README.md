@@ -1,8 +1,8 @@
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/marlonrcfranco/jcon)
-![GitHub repo size](https://img.shields.io/github/repo-size/marlonrcfranco/jcon)
-![GitHub top language](https://img.shields.io/github/languages/top/marlonrcfranco/jcon)
-![GitHub](https://img.shields.io/github/license/marlonrcfranco/jcon)
-![GitHub stars](https://img.shields.io/github/stars/marlonrcfranco/jcon?style=social)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/marlonrcfranco/jcon)](https://github.com/marlonrcfranco/jcon/releases)
+[![GitHub repo size](https://img.shields.io/github/repo-size/marlonrcfranco/jcon)](https://github.com/marlonrcfranco/jcon)
+[![GitHub top language](https://img.shields.io/github/languages/top/marlonrcfranco/jcon)](https://github.com/marlonrcfranco/jcon)
+[![GitHub](https://img.shields.io/github/license/marlonrcfranco/jcon)](https://github.com/marlonrcfranco/jcon/blob/master/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/marlonrcfranco/jcon?style=social)](https://github.com/marlonrcfranco/jcon/stargazers)
 
 # jcon
 Java connector to remote filesystem
