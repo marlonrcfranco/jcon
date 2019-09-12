@@ -8,10 +8,10 @@
 Java connector to remote filesystem
 ****
 #### Supported protocols:
-- [![](https://img.shields.io/badge/filesystem-local-green)](../master/src/main/java/com/marlonrcfranco/JconFileSystem.java) (using native java.io)
-- [![](https://img.shields.io/badge/smb1-remote-blue)](../master/src/main/java/com/marlonrcfranco/JconSMB1.java) (using jCIFS <https://www.jcifs.org/>)
-- [![](https://img.shields.io/badge/smb23-remote-blue)](../master/src/main/java/com/marlonrcfranco/JconSMB23.java) (using smbj [:octocat: hierynomus/smbj](https://github.com/hierynomus/smbj))
-- [![](https://img.shields.io/badge/nfs-remote-blue)](../master/src/main/java/com/marlonrcfranco/JconNFS.java) (at this version, works using the same as FileSystem)
+- [![](https://img.shields.io/badge/filesystem-local-green)](../master/src/main/java/com/marlonrcfranco/JconFileSystem.java) (using native [java.io](https://docs.oracle.com/javase/7/docs/api/java/io/package-summary.html))
+- [![](https://img.shields.io/badge/smb1-remote-blue)](../master/src/main/java/com/marlonrcfranco/JconSMB1.java) (using [jCIFS](https://www.jcifs.org/))
+- [![](https://img.shields.io/badge/smb23-remote-blue)](../master/src/main/java/com/marlonrcfranco/JconSMB23.java) (using [smbj :octocat:](https://github.com/hierynomus/smbj))
+- [![](https://img.shields.io/badge/nfs-remote-blue)](../master/src/main/java/com/marlonrcfranco/JconNFS.java) (at this version, works using native [java.io](https://docs.oracle.com/javase/7/docs/api/java/io/package-summary.html))
 
 ****
 ### How to use
