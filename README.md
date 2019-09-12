@@ -24,7 +24,7 @@ Java connector to remote filesystem
 import com.marlonrcfranco.Jcon;
 ```
 
-#### Read the contents of a file: :page_with_curl:
+#### Read the contents from a file: :page_with_curl:
 ```java
 
 Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
