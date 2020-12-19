@@ -32,34 +32,100 @@ It will appear as follows:
 The interface provides easy access to remotely `list`, `read`, `write` or `delete` files and directories. 
 
 
-#### help[h]
+#### > help[h]
 If you need some help, just type `help` or `h`
 
 <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon02.png">
 
 
-#### connectors[c]
+#### > connectors[c]
 For a quick info about the supported protocols, just type `connectors` or `c`
 
 <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon03.png">
 
 
-#### list[l]
+#### > list[l]
 List all the files and sub-directories in a remote path. 
 ```
  list[l] <connector> <path>,<IP>,<username>,<password>
 ```
 For example:
+Using the `smb23` connector to list files ins a remote machine that uses **SMB2** or **SMB3** protocols
 ```
  l smb23 \shared\my_directory,10.0.0.7,marlon,pass100%S3cuR3
 ```
-
 <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon04.png">
+
+Using the `smb1` connector to list files ins a remote machine that uses **SMB1** protocol
+```
+ l smb1 \shared\my_directory,10.0.0.7,marlon,pass100%S3cuR3
+```
+<img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon04.png">
+
 
 **Obs:** at version v1.0, when using the connector `filesystem`, you don't need to provide any parameter besides the path.
 Example:
 ```
  l fylesystem C:\User\marlon\Documents
+```
+
+#### > read[r]
+Read from a given file and print its content on terminal.
+It can read from  **any file format** (.pdf, .txt, .jpg, .png, ...)
+
+```
+ read[r] <connector> <full_file_path>,<IP>,<username>,<password>
+```
+For example:
+```
+ r smb23 \shared\my_directory\my_file.txt,10.0.0.7,marlon,pass100%S3cuR3
+```
+
+<img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon07.png">
+
+**Obs:** at version v1.0, when using the connector `filesystem`, you don't need to provide any parameter besides the path.
+Example:
+```
+ r fylesystem C:\User\marlon\Documents\my_file.html
+```
+
+#### > write[w]
+Write to a given file whatever content you provide as the last parameter.
+It can write to **any file format** (.pdf, .txt, .jpg, .png, ...) and the content can be specified in binary.
+
+```
+ write[w] <connector> <full_file_path>,<IP>,<username>,<password>,<content>
+```
+For example:
+```
+ w smb23 \shared\my_directory\my_file.csv,10.0.0.7,marlon,pass100%S3cuR3,It's my content right here, (no matter if it is in between " or not)
+```
+
+<img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon05.png">
+
+**Obs:** at version v1.0, when using the connector `filesystem`, you don't need to provide any parameter besides the path.
+Example:
+```
+ w fylesystem C:\User\marlon\Documents\photo.png
+```
+
+#### > delete[d]
+Delete a given file.
+
+```
+ delete[d] <connector> <full_file_path>,<IP>,<username>,<password>
+```
+For example:
+```
+ d smb23 \shared\my_directory\my_file.csv,10.0.0.7,marlon,pass100%S3cuR3
+```
+
+<img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon08.png">
+
+**Obs:** at version v1.0, when using the connector `filesystem`, you don't need to provide any parameter besides the path.
+Example:
+```
+ d fylesystem C:\User\marlon\Documents\photo.png
 ```
 
 ---
