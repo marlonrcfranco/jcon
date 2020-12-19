@@ -60,7 +60,7 @@ Using the `smb1` connector to list files ins a remote machine that uses **SMB1**
 ```
  l smb1 \shared\my_directory,10.0.0.7,marlon,pass100%S3cuR3
 ```
-<img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon04.png">
+<img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon09.png">
 
 
 **Obs:** at version v1.0, when using the connector `filesystem`, you don't need to provide any parameter besides the path.
