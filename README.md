@@ -21,9 +21,10 @@ Java connector to remote filesystem
 ## How to use it
 
 * [Via console command](#via_cmd)
+  * [help](#c_help)
 * [Via Java](#via_java)
 
-### <a name="via_cmd">Via console command:</a>
+### <a name="via_cmd"></a>Via console command:
 If you have Java installed, simply open a new terminal (Unix) or cmd (Windows) and type:
 ```bash
 java -jar jcon.jar
@@ -35,21 +36,21 @@ It will appear as follows:
 The interface provides easy access to remotely `list`, `read`, `write` or `delete` files and directories. 
 
 ****
-#### :thinking: > help[h]
+#### <a name="c_help"></a>:thinking: > help[h]
 If you need some help, just type `help` or `h`
 
 <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon02.png">
 
 
 ****
-#### :electric_plug: > connectors[c]
+#### <a name="c_connectors"></a>:electric_plug: > connectors[c]
 For a quick info about the supported protocols, just type `connectors` or `c`
 
 <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon03.png">
 
 
 ****
-#### :open_file_folder: > list[l]
+#### <a name="c_list"></a>:open_file_folder: > list[l]
 List all the files and sub-directories in a remote path. 
 ```
  list[l] <connector> <path>,<IP>,<username>,<password>
@@ -75,7 +76,7 @@ Example:
 ```
 
 ****
-#### :page_with_curl: > read[r]
+#### <a name="c_read"></a>:page_with_curl: > read[r]
 Read from a given file and print its content on terminal.
 It can read from  **any file format** (.pdf, .txt, .jpg, .png, ...)
 
@@ -96,7 +97,7 @@ Example:
 ```
 
 ****
-#### :pencil2: > write[w]
+#### <a name="c_write"></a>:pencil2: > write[w]
 Write to a given file whatever content you provide as the last parameter.
 It can write to **any file format** (.pdf, .txt, .jpg, .png, ...) and the content can be specified in binary.
 
@@ -117,7 +118,7 @@ Example:
 ```
 
 ****
-#### :boom: > delete[d]
+#### <a name="c_delete"></a>:boom: > delete[d]
 Delete a given file.
 
 ```
@@ -144,48 +145,7 @@ You can add jcon.jar to your project's classpath, import and use the Jcon class.
 import com.marlonrcfranco.Jcon;
 ```
 
-#### Read contents from a file: :page_with_curl:
-```java
-
-Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
-
-/** Reads the content as a String */
-String sContent = jcon.read("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password");
-
-/** Reads the content as byte[] (recommended for PDF and image files) */
-byte[] bContent = jcon.readBytes("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password");
-```
-
-#### Write contents to a file: :pencil2:
-```java
-
-Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
-
-/** Writes the content as a String */
-String sContent = "some string";
-jcon.write("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password", sContent);
-
-/** Writes the content as byte[] (recommended for PDF and image files)*/
-byte[] bContent = "some string".getBytes();
-jcon.writeBytes("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password", bContent);
-
-```
-
-#### Delete a file or directory: :boom:
-```java
-
-Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
-
-/** Deletes the directory "SharedFolder/subfolder/" and everything inside it */
-jcon.delete("192.168.XXX.XXX", "SharedFolder/subfolder/", "Username", "Password");
-
-/** Deletes only the file "test.txt" in "SharedFolder/subfolder/" */
-jcon.delete("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password");
-
-```
-
-
-#### List all files and directories in a given path: :open_file_folder:
+#### <a name="j_list"></a>List all files and directories in a given path: :open_file_folder:
 ```java
 
 Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
@@ -200,6 +160,47 @@ E.g. for filesystem protocol, it will return ArrayList<java.io.File>;
 ArrayList<SmbFile> aList = jcon.listFilesAsList("192.168.XXX.XXX", "SharedFolder/subfolder/", "Username", "Password");
 
 ```
+
+#### <a name="j_read"></a>Read contents from a file: :page_with_curl:
+```java
+
+Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
+
+/** Reads the content as a String */
+String sContent = jcon.read("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password");
+
+/** Reads the content as byte[] (recommended for PDF and image files) */
+byte[] bContent = jcon.readBytes("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password");
+```
+
+#### <a name="j_write"></a>Write contents to a file: :pencil2:
+```java
+
+Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
+
+/** Writes the content as a String */
+String sContent = "some string";
+jcon.write("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password", sContent);
+
+/** Writes the content as byte[] (recommended for PDF and image files)*/
+byte[] bContent = "some string".getBytes();
+jcon.writeBytes("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password", bContent);
+
+```
+
+#### <a name="j_delete"></a>Delete a file or directory: :boom:
+```java
+
+Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
+
+/** Deletes the directory "SharedFolder/subfolder/" and everything inside it */
+jcon.delete("192.168.XXX.XXX", "SharedFolder/subfolder/", "Username", "Password");
+
+/** Deletes only the file "test.txt" in "SharedFolder/subfolder/" */
+jcon.delete("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password");
+
+```
+
 
 
 
