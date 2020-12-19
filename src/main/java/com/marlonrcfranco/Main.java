@@ -54,7 +54,7 @@ public class Main {
                 "\n help[h]                      - Show this help" +
                 "\n info[i]                      - Show initial info" +
                 "\n list[l] <type> <p1,p2,...>   - List all files" +
-                "\n read[r] <type> <p1,p2,...>   -   l filesystem C:\\Users\\marlon\\Documents\\\n" +Read method (see connectors for more info)" +
+                "\n read[r] <type> <p1,p2,...>   - Read method (see connectors for more info)" +
                 "\n write[w] <type> <p1,p2,...>  - Write method (see connectors for more info)" +
                 "\n ";
         String examples = "" +
