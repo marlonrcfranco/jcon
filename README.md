@@ -153,10 +153,9 @@ Example:
  d fylesystem C:\User\marlon\Documents\photo.png
 ```
 
-<a name="via_java">
+<a name="via_java"></a>
 ****
-
-### Via java code:</a>
+### Via java code:
 You can add jcon.jar to your project's classpath, import and use the Jcon class.
 ```java
 import com.marlonrcfranco.Jcon;
@@ -226,6 +225,7 @@ jcon.delete("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "P
 
 ```
 
+****
 
 
 
