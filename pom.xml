@@ -29,6 +29,14 @@
 	   <id>marlonrcfranco</id>
         </developer>
     </developers>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>Jcon: java connector to remote filesystem</name>
+            <url>https://maven.pkg.github.com/marlonrcfranco/jcon</url> 
+        </repository>
+    </distributionManagement>
     
     <dependencies>
         <dependency>
