@@ -20,9 +20,10 @@ Java connector to remote filesystem
 ****
 ## How to use it
 
-[create an anchor](#pookie)
+[Via console command](#via_cmd)
+[Via java code](#via_java)
 
-### <a name="pookie">Via console command:</a>
+### <a name="via_cmd">Via console command:</a>
 If you have Java installed, simply open a new terminal (Unix) or cmd (Windows) and type:
 ```bash
 java -jar jcon.jar
@@ -137,7 +138,7 @@ Example:
 
 ---
 
-### Via java code:
+### <a name="via_java">Via java code:</a>
 You can add jcon.jar to your project's classpath, import and use the Jcon class.
 ```java
 import com.marlonrcfranco.Jcon;
