@@ -136,6 +136,7 @@ Example:
 ---
 
 ### Via java code:
+You can add jcon.jar to your project's classpath, import and use the Jcon class.
 ```java
 import com.marlonrcfranco.Jcon;
 ```
