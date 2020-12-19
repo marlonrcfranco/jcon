@@ -69,26 +69,26 @@ public class Main {
                 "\n help[h]                      - Show this help" +
                 "\n info[i]                      - Show initial info" +
                 "\n list[l] <type> <p1,p2,...>   - List all files" +
-                "\n read[r] <type> <p1,p2,...>   - Read method (see connectors for more info)" +
+                "\n read[r] <type> <p1,p2,...>   -   l filesystem C:\\Users\\marlon\\Documents\\\n" +Read method (see connectors for more info)" +
                 "\n write[w] <type> <p1,p2,...>  - Write method (see connectors for more info)" +
                 "\n ";
         String examples = "" +
                 "Examples:\n" +
                 "\n" +
-                "  l filesystem C:\\Users\\marlon.franco\\Documents\\\n" +
-                "  w filesystem C:\\Users\\marlon.franco\\Documents\\teste7.xml,Teste conteudo 123 [FileSystem]\n" +
-                "  r filesystem C:\\Users\\marlon.franco\\Documents\\teste7.xml\n" +
-                "  d filesystem C:\\Users\\marlon.franco\\Documents\\teste7.xml\n" +
+                "  l filesystem <local_directory>\n" +
+                "  w filesystem <local_file_path>,<content>\n" +
+                "  r filesystem <local_file_path>\n" +
+                "  d filesystem <local_file_path>\n" +
                 "\n" +
-                "  l smb1 Marlon\\Teste\\,192.168.35.17,Adapcon,1nfr4#2017\n" +
-                "  w smb1 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017,Teste conteudo 1234 [SMB1]\n" +
-                "  r smb1 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017\n" +
-                "  d smb1 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017\n" +
+                "  l smb1 <remote_directory>,<IP>,<username>,<password>\n" +
+                "  w smb1 <remote_file_path>,<IP>,<username>,<password>,<content>\n" +
+                "  r smb1 <remote_file_path>,<IP>,<username>,<password>\n" +
+                "  d smb1 <remote_file_path>,<IP>,<username>,<password>\n" +
                 "\n" +
-                "  l smb23 Marlon\\Teste\\,192.168.35.17,Adapcon,1nfr4#2017\n" +
-                "  w smb23 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017,Teste conteudo 12345 [SMB23]\n" +
-                "  r smb23 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017\n" +
-                "  d smb23 Marlon\\Teste\\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017\n" +
+                "  l smb23 <remote_directory>,<IP>,<username>,<password>\n" +
+                "  w smb23 <remote_file_path>,<IP>,<username>,<password>,<content>\n" +
+                "  r smb23 <remote_file_path>,<IP>,<username>,<password>\n" +
+                "  d smb23 <remote_file_path>,<IP>,<username>,<password>\n" +
                 "";
         System.out.println(info);
         while((!"exit".equalsIgnoreCase(input) && !"quit".equalsIgnoreCase(input) && !"bye".equalsIgnoreCase(input)) || "".equalsIgnoreCase(input)) {
