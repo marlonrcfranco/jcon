@@ -156,7 +156,7 @@ Example:
 <a name="via_java"></a>
 ****
 ### Via java code:
-You can add jcon.jar to your project's classpath, import and use the Jcon class.
+You can add [![jcon.jar](https://img.shields.io/badge/jcon-.jar-blie)](https://github.com/marlonrcfranco/jcon/releases/download/v1.0/jcon.jar "Click to download the .jar") to your project's classpath, then import and instantiate the `Jcon` class.
 ```java
 import com.marlonrcfranco.Jcon;
 ```
