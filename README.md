@@ -15,7 +15,16 @@ Java connector to remote filesystem
 
 ****
 ## How to get it
-**Build the project by yourself** or [![GitHub Releases](https://img.shields.io/github/downloads/marlonrcfranco/jcon/v1.0/total)](https://github.com/marlonrcfranco/jcon/releases/download/v1.0/jcon.jar "Click to download the .jar")
+**Add the dependency to the pom.xml of your maven project** 
+```xml
+<dependency>
+  <groupId>com.marlonrcfranco</groupId>
+  <artifactId>jcon</artifactId>
+  <version>1.0</version>
+</dependency>
+```
+
+**Or direct download the jcon.jar clicking here: [![GitHub Releases](https://img.shields.io/github/downloads/marlonrcfranco/jcon/v1.0/total)](https://github.com/marlonrcfranco/jcon/releases/download/v1.0/jcon.jar "Click to download the .jar")**
 
 ****
 ## How to use it
