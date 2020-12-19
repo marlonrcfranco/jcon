@@ -6,22 +6,7 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        /**
-         * Examples:
-         *
-         *  w filesystem C:\Users\marlon.franco\Documents\teste7.xml,Teste conteudo 123 [FileSystem]
-         *  r filesystem C:\Users\marlon.franco\Documents\teste7.xml
-         *  d filesystem C:\Users\marlon.franco\Documents\teste7.xml
-         *
-         *  w smb1 Marlon\Teste\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017,Teste conteudo 1234 [SMB1]
-         *  r smb1 Marlon\Teste\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017
-         *  d smb1 Marlon\Teste\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017
-         *
-         *  w smb23 Marlon\Teste\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017,Teste conteudo 12345 [SMB23]
-         *  r smb23 Marlon\Teste\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017
-         *  d smb23 Marlon\Teste\Teste777.txt,192.168.35.17,Adapcon,1nfr4#2017
-         *
-         */
+        
         String input="";
         String info = "\n" +
                 "\n╔════════════════════════════════════════════════╗" +
