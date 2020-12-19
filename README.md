@@ -14,12 +14,20 @@ Java connector to remote filesystem
 - [![](https://img.shields.io/badge/nfs-remote-blue)](../master/src/main/java/com/marlonrcfranco/JconNFS.java) (at this version, it uses native [java.io](https://docs.oracle.com/javase/7/docs/api/java/io/package-summary.html))
 
 ****
-### How to use
+## How to get it
 **Build the project by yourself** or [![GitHub Releases](https://img.shields.io/github/downloads/marlonrcfranco/jcon/v1.0/total)](https://github.com/marlonrcfranco/jcon/releases/download/v1.0/jcon.jar "Click to download the .jar")
 
 ****
+## How to use it
 
-### Examples:
+### Via console command:
+```bash
+$ java -jar jcon.jar
+```
+
+
+
+### Via java code:
 ```java
 import com.marlonrcfranco.Jcon;
 ```
@@ -80,3 +88,7 @@ E.g. for filesystem protocol, it will return ArrayList<java.io.File>;
 ArrayList<SmbFile> aList = jcon.listFilesAsList("192.168.XXX.XXX", "SharedFolder/subfolder/", "Username", "Password");
 
 ```
+
+
+
+
