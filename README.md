@@ -21,12 +21,12 @@ Java connector to remote filesystem
 ## How to use it
 
 * [Via console command](#via_cmd)
-  * [help\[h\]](#c_help)
-  * [connectors\[c\]](#c_connectors)
-  * [list\[l\]](#c_list)
-  * [read\[r\]](#c_read)
-  * [write\[w\]](#c_write)
-  * [delete\[d\]](#c_delete)
+  * [\[h\] help](#c_help)
+  * [\[c\] connectors](#c_connectors)
+  * [\[l\] list](#c_list)
+  * [\[r\] read](#c_read)
+  * [\[w\] write](#c_write)
+  * [\[d\] delete](#c_delete)
 * [Via Java](#via_java)
   * [List all files and directories in a given path](#j_list)
   * [Read contents from a file](#j_read)
