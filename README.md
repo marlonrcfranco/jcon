@@ -33,7 +33,10 @@ Java connector to remote filesystem
   * [Write contents to a file](#j_write)
   * [Delete a file or directory](#j_delete)
 
-### <a name="via_cmd"></a>Via console command:
+<a name="via_cmd"></a>
+**** 
+
+### Via console command:
 If you have Java installed, simply open a new terminal (Unix) or cmd (Windows) and type:
 ```bash
 java -jar jcon.jar
@@ -44,22 +47,23 @@ It will appear as follows:
 
 The interface provides easy access to remotely `list`, `read`, `write` or `delete` files and directories. 
 
+<a name="c_help"></a>
 ****
-#### <a name="c_help"></a>:thinking: > help[h]
+#### :thinking: > help[h]
 If you need some help, just type `help` or `h`
 
 <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon02.png">
 
-
+<a name="c_connectors"></a>
 ****
-#### <a name="c_connectors"></a>:electric_plug: > connectors[c]
+#### :electric_plug: > connectors[c]
 For a quick info about the supported protocols, just type `connectors` or `c`
 
 <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon03.png">
 
-
+<a name="c_list"></a>
 ****
-#### <a name="c_list"></a>:open_file_folder: > list[l]
+#### :open_file_folder: > list[l]
 List all the files and sub-directories in a remote path. 
 ```
  list[l] <connector> <path>,<IP>,<username>,<password>
@@ -84,8 +88,9 @@ Example:
  l fylesystem C:\User\marlon\Documents
 ```
 
+<a name="c_read"></a>
 ****
-#### <a name="c_read"></a>:page_with_curl: > read[r]
+#### :page_with_curl: > read[r]
 Read from a given file and print its content on terminal.
 It can read from  **any file format** (.pdf, .txt, .jpg, .png, ...)
 
@@ -105,8 +110,9 @@ Example:
  r fylesystem C:\User\marlon\Documents\my_file.html
 ```
 
+<a name="c_write"></a>
 ****
-#### <a name="c_write"></a>:pencil2: > write[w]
+#### :pencil2: > write[w]
 Write to a given file whatever content you provide as the last parameter.
 It can write to **any file format** (.pdf, .txt, .jpg, .png, ...) and the content can be specified in binary.
 
@@ -126,8 +132,9 @@ Example:
  w fylesystem C:\User\marlon\Documents\photo.png
 ```
 
+<a name="c_delete"></a>
 ****
-#### <a name="c_delete"></a>:boom: > delete[d]
+#### :boom: > delete[d]
 Delete a given file.
 
 ```
@@ -146,15 +153,18 @@ Example:
  d fylesystem C:\User\marlon\Documents\photo.png
 ```
 
----
+<a name="via_java">
+****
 
-### <a name="via_java">Via java code:</a>
+### Via java code:</a>
 You can add jcon.jar to your project's classpath, import and use the Jcon class.
 ```java
 import com.marlonrcfranco.Jcon;
 ```
 
-#### <a name="j_list"></a>List all files and directories in a given path: :open_file_folder:
+<a name="j_list"></a>
+****
+#### List all files and directories in a given path: :open_file_folder:
 ```java
 
 Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
@@ -170,7 +180,9 @@ ArrayList<SmbFile> aList = jcon.listFilesAsList("192.168.XXX.XXX", "SharedFolder
 
 ```
 
-#### <a name="j_read"></a>Read contents from a file: :page_with_curl:
+<a name="j_read"></a>
+****
+#### Read contents from a file: :page_with_curl:
 ```java
 
 Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
@@ -182,7 +194,9 @@ String sContent = jcon.read("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt"
 byte[] bContent = jcon.readBytes("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password");
 ```
 
-#### <a name="j_write"></a>Write contents to a file: :pencil2:
+<a name="j_write"></a>
+****
+#### Write contents to a file: :pencil2:
 ```java
 
 Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
@@ -197,7 +211,9 @@ jcon.writeBytes("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username"
 
 ```
 
-#### <a name="j_delete"></a>Delete a file or directory: :boom:
+<a name="j_delete"></a>
+****
+#### Delete a file or directory: :boom:
 ```java
 
 Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
