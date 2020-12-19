@@ -20,7 +20,9 @@ Java connector to remote filesystem
 ****
 ## How to use it
 
-### Via console command:
+[create an anchor](#pookie)
+
+### <a name="pookie">Via console command:</a>
 If you have Java installed, simply open a new terminal (Unix) or cmd (Windows) and type:
 ```bash
 java -jar jcon.jar
