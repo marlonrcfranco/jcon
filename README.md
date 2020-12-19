@@ -21,10 +21,25 @@ Java connector to remote filesystem
 ## How to use it
 
 ### Via console command:
+If you have Java installed, simply open a new terminal (Unix) or cmd (Windows) and type:
 ```bash
-$ java -jar jcon.jar
+java -jar jcon.jar
 ```
+It will appear as follows:
 
+<img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon01.png">
+
+The interface provides easy access to remotely `list`, `read`, `write` or `delete` files and directories. 
+
+#### help[h]
+If you need some help, just type `help` or `h`
+
+<img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon02.png">
+
+#### connectors[c]
+For a quick info about the supported protocols, just type `connectors` or `c`
+
+<img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon03.png">
 
 
 ### Via java code:
