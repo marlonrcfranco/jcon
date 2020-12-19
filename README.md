@@ -29,7 +29,7 @@ Java connector to remote filesystem
   * [\[d\] delete](#c_delete)
 * [Via Java](#via_java)
   * [List all files and directories in a given path](#j_list)
-  * [Read contents from a file](#j_read)
+  * [Read contents of a file](#j_read)
   * [Write contents to a file](#j_write)
   * [Delete a file or directory](#j_delete)
 
@@ -91,7 +91,7 @@ Example:
 <a name="c_read"></a>
 ****
 #### :page_with_curl: > read[r]
-Read from a given file and print its content on terminal.
+Read a given file and print its content on terminal.
 It can read from  **any file format** (.pdf, .txt, .jpg, .png, ...)
 
 ```
@@ -181,7 +181,7 @@ ArrayList<SmbFile> aList = jcon.listFilesAsList("192.168.XXX.XXX", "SharedFolder
 
 <a name="j_read"></a>
 ****
-#### Read contents from a file: :page_with_curl:
+#### Read contents of a file: :page_with_curl:
 ```java
 
 Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
