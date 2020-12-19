@@ -21,8 +21,17 @@ Java connector to remote filesystem
 ## How to use it
 
 * [Via console command](#via_cmd)
-  * [help](#c_help)
+  * [help\[h\]](#c_help)
+  * [connectors\[c\]](#c_connectors)
+  * [list\[l\]](#c_list)
+  * [read\[r\]](#c_read)
+  * [write\[w\]](#c_write)
+  * [delete\[d\]](#c_delete)
 * [Via Java](#via_java)
+  * [List all files and directories in a given path](#j_list)
+  * [Read contents from a file](#j_read)
+  * [Write contents to a file](#j_write)
+  * [Delete a file or directory](#j_delete)
 
 ### <a name="via_cmd"></a>Via console command:
 If you have Java installed, simply open a new terminal (Unix) or cmd (Windows) and type:
