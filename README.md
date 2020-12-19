@@ -31,20 +31,22 @@ It will appear as follows:
 
 The interface provides easy access to remotely `list`, `read`, `write` or `delete` files and directories. 
 
-
-#### > help[h]
+****
+#### :thinking: > help[h]
 If you need some help, just type `help` or `h`
 
 <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon02.png">
 
 
-#### > connectors[c]
+****
+#### :electric_plug: > connectors[c]
 For a quick info about the supported protocols, just type `connectors` or `c`
 
 <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon03.png">
 
 
-#### > list[l]
+****
+#### :open_file_folder: > list[l]
 List all the files and sub-directories in a remote path. 
 ```
  list[l] <connector> <path>,<IP>,<username>,<password>
@@ -69,7 +71,8 @@ Example:
  l fylesystem C:\User\marlon\Documents
 ```
 
-#### > read[r]
+****
+#### :page_with_curl: > read[r]
 Read from a given file and print its content on terminal.
 It can read from  **any file format** (.pdf, .txt, .jpg, .png, ...)
 
@@ -89,7 +92,8 @@ Example:
  r fylesystem C:\User\marlon\Documents\my_file.html
 ```
 
-#### > write[w]
+****
+#### :pencil2: > write[w]
 Write to a given file whatever content you provide as the last parameter.
 It can write to **any file format** (.pdf, .txt, .jpg, .png, ...) and the content can be specified in binary.
 
@@ -109,7 +113,8 @@ Example:
  w fylesystem C:\User\marlon\Documents\photo.png
 ```
 
-#### > delete[d]
+****
+#### :boom: > delete[d]
 Delete a given file.
 
 ```
