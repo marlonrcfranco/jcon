@@ -20,8 +20,8 @@ Java connector to remote filesystem
 ****
 ## How to use it
 
-* <img src="https://img.shields.io/badge/-Java-007396?style=flat-square&logo=java"> [Via console command](#via_cmd)
-* [Via java code](#via_java)
+* [Via console command](#via_cmd)
+* [Via Java](#via_java)
 
 ### <a name="via_cmd">Via console command:</a>
 If you have Java installed, simply open a new terminal (Unix) or cmd (Windows) and type:
