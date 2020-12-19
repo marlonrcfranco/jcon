@@ -122,7 +122,7 @@ It can write to **any file format** (.pdf, .txt, .jpg, .png, ...) and the conten
 ```
 For example:
 ```
- w smb23 \shared\my_directory\my_file.csv,10.0.0.7,marlon,pass100%S3cuR3,It's my content right here, (no matter if it is in between " or not)
+ w smb23 \shared\my_directory\my_file.csv,10.0.0.7,marlon,pass100%S3cuR3,This is my content right here, (no matter if it is in between " or not)
 ```
 
 <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon05.png">
