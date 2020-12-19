@@ -31,16 +31,38 @@ It will appear as follows:
 
 The interface provides easy access to remotely `list`, `read`, `write` or `delete` files and directories. 
 
+
 #### help[h]
 If you need some help, just type `help` or `h`
 
 <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon02.png">
+
 
 #### connectors[c]
 For a quick info about the supported protocols, just type `connectors` or `c`
 
 <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon03.png">
 
+
+#### list[l]
+List all the files and sub-directories in a remote path. 
+```
+ list[l] <connector> <path>,<IP>,<username>,<password>
+```
+For example:
+```
+ l smb23 \shared\my_directory,10.0.0.7,marlon,pass100%S3cuR3
+```
+
+<img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon04.png">
+
+**Obs:** at version v1.0, when using the connector `filesystem`, you don't need to provide any parameter besides the path.
+Example:
+```
+ l fylesystem C:\User\marlon\Documents
+```
+
+---
 
 ### Via java code:
 ```java
