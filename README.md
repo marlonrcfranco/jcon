@@ -30,6 +30,11 @@ Java connector to remote filesystem
 ****
 ## How to use it
 
+* [Via Java](#via_java)
+  * [List all files and directories in a given path](#j_list)
+  * [Read contents of a file](#j_read)
+  * [Write contents to a file](#j_write)
+  * [Delete a file or directory](#j_delete)
 * [Via console command](#via_cmd)
   * [\[h\] help](#c_help)
   * [\[c\] connectors](#c_connectors)
@@ -37,11 +42,81 @@ Java connector to remote filesystem
   * [\[r\] read](#c_read)
   * [\[w\] write](#c_write)
   * [\[d\] delete](#c_delete)
-* [Via Java](#via_java)
-  * [List all files and directories in a given path](#j_list)
-  * [Read contents of a file](#j_read)
-  * [Write contents to a file](#j_write)
-  * [Delete a file or directory](#j_delete)
+
+<a name="via_java"></a>
+****
+
+### Via java code:
+You can import and instantiate the `Jcon` class.
+```java
+import com.marlonrcfranco.Jcon;
+```
+
+<a name="j_list"></a>
+****
+#### List all files and directories in a given path: :open_file_folder:
+```java
+
+Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
+
+/** Returns a String with the name of all the files an directories separated by "\n" */
+String sList = jcon.listFiles("192.168.XXX.XXX", "SharedFolder/subfolder/", "Username", "Password");
+
+/** Returns an ArrayList of objects according to the protocol. 
+E.g. for filesystem protocol, it will return ArrayList<java.io.File>; 
+     for smb1 protocol, it will return ArrayList<jcifs.smb.SmbFile>, 
+     and so on. */
+ArrayList<SmbFile> aList = jcon.listFilesAsList("192.168.XXX.XXX", "SharedFolder/subfolder/", "Username", "Password");
+
+```
+
+<a name="j_read"></a>
+****
+#### Read contents of a file: :page_with_curl:
+```java
+
+Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
+
+/** Reads the content as a String */
+String sContent = jcon.read("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password");
+
+/** Reads the content as byte[] (recommended for PDF and image files) */
+byte[] bContent = jcon.readBytes("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password");
+```
+
+<a name="j_write"></a>
+****
+#### Write contents to a file: :pencil2:
+```java
+
+Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
+
+/** Writes the content as a String */
+String sContent = "some string";
+jcon.write("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password", sContent);
+
+/** Writes the content as byte[] (recommended for PDF and image files)*/
+byte[] bContent = "some string".getBytes();
+jcon.writeBytes("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password", bContent);
+
+```
+
+<a name="j_delete"></a>
+****
+#### Delete a file or directory: :boom:
+```java
+
+Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
+
+/** Deletes the directory "SharedFolder/subfolder/" and everything inside it */
+jcon.delete("192.168.XXX.XXX", "SharedFolder/subfolder/", "Username", "Password");
+
+/** Deletes only the file "test.txt" in "SharedFolder/subfolder/" */
+jcon.delete("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password");
+
+```
+
+****
 
 <a name="via_cmd"></a>
 **** 
@@ -163,80 +238,6 @@ Example:
 ```
  d fylesystem C:\User\marlon\Documents\photo.png
 ```
-
-<a name="via_java"></a>
-****
-### Via java code:
-You can add [![jcon.jar](https://img.shields.io/badge/jcon-.jar-blie)](https://github.com/marlonrcfranco/jcon/releases/download/v1.0/jcon.jar "Click to download the .jar") to your project's classpath, then import and instantiate the `Jcon` class.
-```java
-import com.marlonrcfranco.Jcon;
-```
-
-<a name="j_list"></a>
-****
-#### List all files and directories in a given path: :open_file_folder:
-```java
-
-Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
-
-/** Returns a String with the name of all the files an directories separated by "\n" */
-String sList = jcon.listFiles("192.168.XXX.XXX", "SharedFolder/subfolder/", "Username", "Password");
-
-/** Returns an ArrayList of objects according to the protocol. 
-E.g. for filesystem protocol, it will return ArrayList<java.io.File>; 
-     for smb1 protocol, it will return ArrayList<jcifs.smb.SmbFile>, 
-     and so on. */
-ArrayList<SmbFile> aList = jcon.listFilesAsList("192.168.XXX.XXX", "SharedFolder/subfolder/", "Username", "Password");
-
-```
-
-<a name="j_read"></a>
-****
-#### Read contents of a file: :page_with_curl:
-```java
-
-Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
-
-/** Reads the content as a String */
-String sContent = jcon.read("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password");
-
-/** Reads the content as byte[] (recommended for PDF and image files) */
-byte[] bContent = jcon.readBytes("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password");
-```
-
-<a name="j_write"></a>
-****
-#### Write contents to a file: :pencil2:
-```java
-
-Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
-
-/** Writes the content as a String */
-String sContent = "some string";
-jcon.write("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password", sContent);
-
-/** Writes the content as byte[] (recommended for PDF and image files)*/
-byte[] bContent = "some string".getBytes();
-jcon.writeBytes("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password", bContent);
-
-```
-
-<a name="j_delete"></a>
-****
-#### Delete a file or directory: :boom:
-```java
-
-Jcon jcon = new Jcon("smb1"); // "smb1", "smb23", "nfs" or "filesystem"
-
-/** Deletes the directory "SharedFolder/subfolder/" and everything inside it */
-jcon.delete("192.168.XXX.XXX", "SharedFolder/subfolder/", "Username", "Password");
-
-/** Deletes only the file "test.txt" in "SharedFolder/subfolder/" */
-jcon.delete("192.168.XXX.XXX", "SharedFolder/subfolder/test.txt", "Username", "Password");
-
-```
-
-****
 
 
 
