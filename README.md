@@ -1,5 +1,5 @@
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/marlonrcfranco/jcon)](https://github.com/marlonrcfranco/jcon/releases)
-![Build Status](https://github.com/marlonrcfranco/jcon/workflows/Java%20CI%20with%20Maven/badge.svg)
+[![Build Status](https://github.com/marlonrcfranco/jcon/workflows/Java%20CI%20with%20Maven/badge.svg)](https://github.com/marlonrcfranco/jcon/actions?query=workflow%3A%22Java+CI+with+Maven%22)
 [![GitHub repo size](https://img.shields.io/github/repo-size/marlonrcfranco/jcon)](https://github.com/marlonrcfranco/jcon)
 [![GitHub top language](https://img.shields.io/github/languages/top/marlonrcfranco/jcon)](https://github.com/marlonrcfranco/jcon)
 [![GitHub](https://img.shields.io/github/license/marlonrcfranco/jcon)](https://github.com/marlonrcfranco/jcon/blob/master/LICENSE)
