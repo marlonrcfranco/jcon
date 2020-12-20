@@ -58,21 +58,21 @@ The interface provides easy access to remotely `list`, `read`, `write` or `delet
 
 <a name="c_help"></a>
 ****
-#### :thinking: > help[h]
+#### help[h] :thinking: 
 If you need some help, just type `help` or `h`
 
 <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon02.png">
 
 <a name="c_connectors"></a>
 ****
-#### :electric_plug: > connectors[c]
+#### connectors[c] :electric_plug: 
 For a quick info about the supported protocols, just type `connectors` or `c`
 
 <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon03.png">
 
 <a name="c_list"></a>
 ****
-#### :open_file_folder: > list[l]
+#### list[l] :open_file_folder:
 List all the files and sub-directories in a remote path. 
 ```
  list[l] <connector> <path>,<IP>,<username>,<password>
@@ -100,7 +100,7 @@ Example:
 
 <a name="c_read"></a>
 ****
-#### :page_with_curl: > read[r]
+#### read[r] :page_with_curl:
 Read a given file and print its content on terminal.
 It can read from  **any file format** (.pdf, .txt, .jpg, .png, ...)
 
@@ -122,7 +122,7 @@ Example:
 
 <a name="c_write"></a>
 ****
-#### :pencil2: > write[w]
+#### write[w] :pencil2:
 Write to a given file whatever content you provide as the last parameter.
 It can write to **any file format** (.pdf, .txt, .jpg, .png, ...) and the content can be specified in binary.
 
@@ -144,7 +144,7 @@ Example:
 
 <a name="c_delete"></a>
 ****
-#### :boom: > delete[d]
+#### delete[d] :boom:
 Delete a given file.
 
 ```
