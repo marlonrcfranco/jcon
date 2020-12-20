@@ -128,7 +128,9 @@ java -jar jcon.jar
 ```
 It will appear as follows:
 
-<img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon01.png">
+<p align="center">
+    <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon01.png">
+</p>
 
 The interface provides easy access to remotely `list`, `read`, `write` or `delete` files and directories. 
 
@@ -137,14 +139,18 @@ The interface provides easy access to remotely `list`, `read`, `write` or `delet
 #### help[h] :thinking: 
 If you need some help, just type `help` or `h`
 
-<img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon02.png">
+<p align="center">
+    <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon02.png">
+</p>
 
 <a name="c_connectors"></a>
 ****
 #### connectors[c] :electric_plug: 
 For a quick info about the supported protocols, just type `connectors` or `c`
 
-<img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon03.png">
+<p align="center">
+    <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon03.png">
+</p>
 
 <a name="c_list"></a>
 ****
@@ -158,21 +164,26 @@ Using the `smb23` connector to list files ins a remote machine that uses **SMB2*
 ```
  l smb23 \shared\my_directory,10.0.0.7,marlon,pass100%S3cuR3
 ```
-<img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon04.png">
+<p align="center">
+    <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon04.png">
+</p>
 
 Using the `smb1` connector to list files ins a remote machine that uses **SMB1** protocol
 ```
  l smb1 \shared\my_directory,10.0.0.7,marlon,pass100%S3cuR3
 ```
-<img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon09.png">
-
+<p align="center">
+    <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon09.png">
+</p>
 
 **Obs:** at version v1.0, when using the connector `filesystem`, you don't need to provide any parameter besides the path.
 Example:
 ```
  l fylesystem C:\User\marlon\Documents
 ```
-<img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon10.png">
+<p align="center">
+    <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon10.png">
+</p>
 
 <a name="c_read"></a>
 ****
@@ -188,7 +199,9 @@ For example:
  r smb23 \shared\my_directory\my_file.txt,10.0.0.7,marlon,pass100%S3cuR3
 ```
 
-<img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon07.png">
+<p align="center">
+    <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon07.png">
+</p>
 
 **Obs:** at version v1.0, when using the connector `filesystem`, you don't need to provide any parameter besides the path.
 Example:
@@ -210,7 +223,9 @@ For example:
  w smb23 \shared\my_directory\my_file.csv,10.0.0.7,marlon,pass100%S3cuR3,This is my content right here, (no matter if it is in between " or not)
 ```
 
-<img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon05.png">
+<p align="center">
+    <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon05.png">
+</p>
 
 **Obs:** at version v1.0, when using the connector `filesystem`, you don't need to provide any parameter besides the path.
 Example:
@@ -231,7 +246,9 @@ For example:
  d smb23 \shared\my_directory\my_file.csv,10.0.0.7,marlon,pass100%S3cuR3
 ```
 
-<img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon08.png">
+<p align="center">
+    <img src="https://raw.githubusercontent.com/marlonrcfranco/jcon/master/img/jcon08.png">
+</p>
 
 **Obs:** at version v1.0, when using the connector `filesystem`, you don't need to provide any parameter besides the path.
 Example:
@@ -239,6 +256,6 @@ Example:
  d fylesystem C:\User\marlon\Documents\photo.png
 ```
 
-
+****
 
 
