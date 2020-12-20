@@ -20,7 +20,7 @@ Java connector to remote filesystem
 <dependency>
   <groupId>com.marlonrcfranco</groupId>
   <artifactId>jcon</artifactId>
-  <version>1.0</version>
+  <version>1.0-SNAPSHOT</version>
 </dependency>
 ```
 
